@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.sphereon.sdk</groupId>
-  <artifactId>com.sphereon.sdk.pdf.stamper-java8-okhttp-gson</artifactId>
+  <groupId>{{groupId}}</groupId>
+  <artifactId>{{artifactId}}</artifactId>
   <packaging>jar</packaging>
-  <name>com.sphereon.sdk.pdf.stamper-java8-okhttp-gson</name>
-  <version>0.1.0-SNAPSHOT</version>
-  <url>https://github.com/swagger-api/swagger-codegen</url>
-  <description>Swagger Java</description>
+  <name>{{artifactId}}</name>
+  <version>{{artifactVersion}}</version>
+  <url>{{artifactUrl}}</url>
+  <description>{{artifactDescription}}</description>
   <scm>
-    <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
-    <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
-    <url>https://github.com/swagger-api/swagger-codegen</url>
+    <connection>{{scmConnection}}</connection>
+    <developerConnection>{{scmDeveloperConnection}}</developerConnection>
+    <url>{{scmUrl}}</url>
   </scm>
   <prerequisites>
     <maven>2.2.0</maven>
@@ -19,18 +19,18 @@
 
   <licenses>
     <license>
-      <name>Unlicense</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <name>{{licenseName}}</name>
+      <url>{{licenseUrl}}</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <developers>
     <developer>
-      <name>Swagger</name>
-      <email>apiteam@swagger.io</email>
-      <organization>Swagger</organization>
-      <organizationUrl>http://swagger.io</organizationUrl>
+      <name>{{developerName}}</name>
+      <email>{{developerEmail}}</email>
+      <organization>{{developerOrganization}}</organization>
+      <organizationUrl>{{developerOrganizationUrl}}</organizationUrl>
     </developer>
   </developers>
 
@@ -195,6 +195,44 @@
       <artifactId>gson</artifactId>
       <version>${gson-version}</version>
     </dependency>
+    {{^java8}}
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>${jodatime-version}</version>
+    </dependency>
+    {{/java8}}
+    {{#useBeanValidation}}
+    <!-- Bean Validation API support -->
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+        <scope>provided</scope>
+    </dependency>
+    {{/useBeanValidation}}
+    {{#performBeanValidation}}
+    <!-- Bean Validation Impl. used to perform BeanValidation -->
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>5.4.1.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.el</groupId>
+        <artifactId>el-api</artifactId>
+        <version>2.2</version>
+    </dependency>
+    {{/performBeanValidation}}
+    {{#parcelableModel}}
+    <!-- Needed for Parcelable support-->
+    <dependency>
+      <groupId>com.google.android</groupId>
+      <artifactId>android</artifactId>
+      <version>4.1.1.4</version>
+      <scope>provided</scope>
+    </dependency>
+    {{/parcelableModel}}
     <!-- test dependencies -->
     <dependency>
       <groupId>junit</groupId>
@@ -210,7 +248,7 @@
 	</dependency>
   </dependencies>
   <properties>
-    <java.version>1.8</java.version>
+    <java.version>{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <swagger-core-version>1.5.15</swagger-core-version>

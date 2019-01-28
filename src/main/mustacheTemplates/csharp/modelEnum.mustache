@@ -1,0 +1,17 @@
+    /// <summary>
+    /// {{^description}}Defines {{{name}}}{{/description}}{{#description}}{{description}}{{/description}}
+    /// </summary>
+    {{#description}}
+    /// <value>{{description}}</value>
+    {{/description}}
+    [JsonConverter(typeof(StringEnumConverter))]
+    {{>visibility}} enum {{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{classname}}{{/datatypeWithEnum}}
+    {
+        {{#allowableValues}}{{#enumVars}}
+        /// <summary>
+        /// Enum {{name}} for {{{value}}}
+        /// </summary>
+        [EnumMember(Value = {{#isString}}"{{/isString}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{{value}}}{{#isString}}"{{/isString}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}})]
+        {{name}}{{#isInteger}} = {{{value}}}{{/isInteger}}{{^-last}},
+        {{/-last}}{{/enumVars}}{{/allowableValues}}
+    }

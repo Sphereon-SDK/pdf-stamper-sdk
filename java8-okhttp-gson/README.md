@@ -91,7 +91,7 @@ public class ConfigApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://localhost:56794/pdf/stamp/0.1*
+All URIs are relative to *https://localhost:60091/pdf/stamp/0.2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -109,7 +109,7 @@ Class | Method | HTTP request | Description
 *JobsApi* | [**getJob**](docs/JobsApi.md#getJob) | **GET** /jobs/{jobid} | Job definition and state
 *JobsApi* | [**getJobs**](docs/JobsApi.md#getJobs) | **GET** /jobs | Get all jobs
 *JobsApi* | [**getStream**](docs/JobsApi.md#getStream) | **GET** /jobs/{jobid}/streams/result | Get the current result stream
-*JobsApi* | [**submitJob**](docs/JobsApi.md#submitJob) | **PUT** /jobs/{jobid} | Submit PDF job for processing
+*JobsApi* | [**submitJob**](docs/JobsApi.md#submitJob) | **PUT** /jobs/{jobid} | Submit PDF stamper job for processing
 
 
 ## Documentation for Models
