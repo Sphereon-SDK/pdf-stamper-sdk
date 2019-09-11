@@ -2,7 +2,7 @@ lazy val root = (project in file(".")).
   settings(
     organization := "com.sphereon.sdk",
     name := "com.sphereon.sdk.pdf.stamper-java8-okhttp-gson",
-    version := "0.1.0-SNAPSHOT",
+    version := "0.2.1-SNAPSHOT",
     scalaVersion := "2.11.4",
     scalacOptions ++= Seq("-feature"),
     javacOptions in compile ++= Seq("-Xlint:deprecation"),
@@ -13,6 +13,7 @@ lazy val root = (project in file(".")).
       "com.squareup.okhttp" % "okhttp" % "2.7.5",
       "com.squareup.okhttp" % "logging-interceptor" % "2.7.5",
       "com.google.code.gson" % "gson" % "2.8.1",
+      "io.gsonfire" % "gson-fire" % "1.8.0" % "compile",
       "junit" % "junit" % "4.12" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )

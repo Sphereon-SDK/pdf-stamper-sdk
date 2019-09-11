@@ -28,7 +28,7 @@ Add this dependency to your project's POM:
 <dependency>
     <groupId>com.sphereon.sdk</groupId>
     <artifactId>com.sphereon.sdk.pdf.stamper-java8-okhttp-gson</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.sphereon.sdk:com.sphereon.sdk.pdf.stamper-java8-okhttp-gson:0.1.0-SNAPSHOT"
+compile "com.sphereon.sdk:com.sphereon.sdk.pdf.stamper-java8-okhttp-gson:0.2.1-SNAPSHOT"
 ```
 
 ### Others
@@ -49,7 +49,7 @@ At first generate the JAR by executing:
 
 Then manually install the following JARs:
 
-* target/com.sphereon.sdk.pdf.stamper-java8-okhttp-gson-0.1.0-SNAPSHOT.jar
+* target/com.sphereon.sdk.pdf.stamper-java8-okhttp-gson-0.2.1-SNAPSHOT.jar
 * target/lib/*.jar
 
 ## Getting Started
@@ -91,7 +91,7 @@ public class ConfigApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://localhost:60091/pdf/stamp/0.2*
+All URIs are relative to *https://gw.api.cloud.sphereon.com/pdf/stamp/0.2*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------

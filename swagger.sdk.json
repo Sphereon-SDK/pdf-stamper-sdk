@@ -1307,8 +1307,8 @@
       "url": "https://sphereon.com",
       "email": "dev@sphereon.com"
     },
-    "description": "The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.\r\n\r\nThe flow is generally as follows:\r\n1. Make a configuration containing the stamp information\r\n2. Create a job specifying the desired configuration\r\n3. Add one or more PDF files to the job\r\n4. Start the job for processing\r\n5. Retrieve the processed files\r\n\r\nFull API Documentation: https://docs.sphereon.com/api/pdf/stamp/0.2/html\r\nInteractive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com",
-    "termsOfService": "https://docs.sphereon.com/api/pdf/stamp/0.2/html",
+    "description": "The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.\r\n\r\nThe flow is generally as follows:\r\n1. Make a configuration containing the stamp information\r\n2. Create a job specifying the desired configuration\r\n3. Add one or more PDF files to the job\r\n4. Start the job for processing\r\n5. Retrieve the processed files\r\n\r\nFull API Documentation: https://docs.sphereon.com/api/pdf-stamp/0.2\r\nInteractive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com",
+    "termsOfService": "https://docs.sphereon.com/api/pdf-stamp/0.2",
     "title": "PDF stamper",
     "version": "0.2"
   },
