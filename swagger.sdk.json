@@ -158,7 +158,7 @@
         "security": [{"oauth2schema": ["global"]}],
         "deprecated": false,
         "produces": ["application/json;charset=UTF-8"],
-        "description": "Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. The settings supplied with the job in the request body are used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.",
+        "description": "Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. If the optional settings are supplied with the job in the request body, they are being used, otherwise the settings created during job creation are being used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.",
         "operationId": "submitJob",
         "responses": {
           "200": {
@@ -180,7 +180,7 @@
             "in": "body",
             "name": "job",
             "description": "jobSettings",
-            "required": true
+            "required": false
           },
           {
             "in": "path",
@@ -449,7 +449,10 @@
       "summary": "Get the current result stream",
       "security": [{"oauth2schema": ["global"]}],
       "deprecated": false,
-      "produces": ["application/octet-stream"],
+      "produces": [
+        "application/octet-stream",
+        "application/json;charset=UTF-8"
+      ],
       "description": "Get the PDF stamper as binary stream/file.\r\nOur API generation does not allow changing the media type based on the Accepted header unfortunately.\r\nThis means we use a separate path postfix with the value '/stream'.\r\nThis API only returns the PDF when the response status is DONE.",
       "operationId": "getStream",
       "responses": {
@@ -491,7 +494,7 @@
   "host": "gw.api.cloud.sphereon.com",
   "schemes": ["https"],
   "securityDefinitions": {"oauth2schema": {
-    "tokenUrl": "https://null/token",
+    "tokenUrl": "https://gw.api.cloud.sphereon.com/token",
     "scopes": {"global": "accessEverything"},
     "type": "oauth2",
     "flow": "application"
@@ -641,6 +644,10 @@
       "description": "Container with the PDF stamper configuration",
       "type": "object",
       "title": "PdfStamperConfigContainer",
+      "required": [
+        "configId",
+        "pdfStamperConfig"
+      ],
       "properties": {
         "registeredResources": {
           "type": "array",
@@ -648,14 +655,26 @@
         },
         "creationTime": {
           "format": "date-time",
-          "description": "The creation date/time of this job in ISO 8601 format",
+          "description": "The creation date/time of the initial configuration in ISO 8601 format",
           "readOnly": true,
           "type": "string"
         },
-        "configId": {"type": "string"},
+        "blockchainConfig": {
+          "description": "Optional blockchain proof configuration",
+          "$ref": "#/definitions/BlockchainConfig"
+        },
+        "configId": {
+          "description": "The configuration id",
+          "readOnly": true,
+          "type": "string"
+        },
+        "name": {
+          "description": "An optional configuration name",
+          "type": "string"
+        },
         "updateTime": {
           "format": "date-time",
-          "description": "The last update date/time of this job in ISO 8601 format",
+          "description": "The last update date/time of this configuration in ISO 8601 format",
           "readOnly": true,
           "type": "string"
         },
@@ -822,7 +841,7 @@
           "$ref": "#/definitions/Lifecycle"
         },
         "storageLocation": {
-          "description": "Input Storage location. This where input files will be stored when addInput is called",
+          "description": "Input Storage location. This is where input files will be stored when addInput is called",
           "$ref": "#/definitions/StorageLocation"
         }
       }
@@ -883,7 +902,7 @@
           "type": "string"
         },
         "statusMessage": {
-          "description": "A status message, which can be informational, warning or error. AA message here does not indicate an error perse",
+          "description": "A status message, which can be informational, warning or error. AA message here does not indicate an error per se",
           "readOnly": true,
           "type": "string"
         },
@@ -923,6 +942,11 @@
             "text": {
               "description": "The text that will be displayed",
               "type": "string"
+            },
+            "lineSpacing": {
+              "format": "float",
+              "description": "Linespacing ratio. The default is 0.5 (meaning half a line height). The spacing is only applicable to newlines within a single text component",
+              "type": "number"
             }
           }
         }
@@ -1017,7 +1041,10 @@
         "type": {
           "description": "Determine when to delete the job and associated files.\r\nRETRIEVAL means delete directly after retrieving the PDF file. When the file has not been retrieved before the action time, it will be deleted regardless.\r\nTime means, delete on specific time, regardless of whether it has been processed",
           "type": "string",
-          "enum": ["RETRIEVAL"]
+          "enum": [
+            "RETRIEVAL",
+            "TIME"
+          ]
         }
       }
     },
@@ -1106,6 +1133,14 @@
           "description": "The lifecycle of result files",
           "$ref": "#/definitions/Lifecycle"
         },
+        "storageMode": {
+          "description": "Storage mode. Can be a configured storage location on the storage API, or replacing the input files (streamlocations).",
+          "type": "string",
+          "enum": [
+            "STORAGE_LOCATION",
+            "REPLACE_INPUT"
+          ]
+        },
         "storageLocation": {
           "description": "Result Storage location",
           "$ref": "#/definitions/StorageLocation"
@@ -1167,11 +1202,34 @@
         "items": {"$ref": "#/definitions/Error"}
       }}
     },
+    "BlockchainConfig": {
+      "description": "The optional Blockchain configuration",
+      "type": "object",
+      "title": "BlockchainConfig",
+      "required": ["proofConfigName"],
+      "properties": {
+        "blockchainAnchors": {
+          "description": "The states at which to create a blockchain anchor. This can be the original file (before stamp)the stamped file, or both",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "BEFORE_STAMP",
+              "AFTER_STAMP"
+            ]
+          }
+        },
+        "proofConfigName": {
+          "description": "The blockchain proof configuration name to use",
+          "type": "string"
+        }
+      }
+    },
     "BarcodeComponent": {
       "allOf": [
         {"$ref": "#/definitions/StampComponent"},
         {
-          "description": "An barcode component to stamp a barcode on a pdf",
+          "description": "A barcode component to stamp a barcode on a pdf",
           "type": "object",
           "title": "BarcodeComponent",
           "required": [
@@ -1236,7 +1294,7 @@
           }
         }
       ],
-      "description": "An barcode component to stamp a barcode on a pdf",
+      "description": "A barcode component to stamp a barcode on a pdf",
       "title": "BarcodeComponent"
     },
     "Border": {
@@ -1307,8 +1365,8 @@
       "url": "https://sphereon.com",
       "email": "dev@sphereon.com"
     },
-    "description": "The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.\r\n\r\nThe flow is generally as follows:\r\n1. Make a configuration containing the stamp information\r\n2. Create a job specifying the desired configuration\r\n3. Add one or more PDF files to the job\r\n4. Start the job for processing\r\n5. Retrieve the processed files\r\n\r\nFull API Documentation: https://docs.sphereon.com/api/pdf/stamp/0.2/html\r\nInteractive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com",
-    "termsOfService": "https://docs.sphereon.com/api/pdf/stamp/0.2/html",
+    "description": "The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.\r\n\r\nThe flow is generally as follows:\r\n1. Make a configuration containing the stamp information\r\n2. Create a job specifying the desired configuration\r\n3. Add one or more PDF files to the job\r\n4. Start the job for processing\r\n5. Retrieve the processed files\r\n\r\nFull API Documentation: https://docs.sphereon.com/api/pdf-stamper/0.2\r\nInteractive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com",
+    "termsOfService": "https://docs.sphereon.com/api/pdf-stamper/0.2",
     "title": "PDF stamper",
     "version": "0.2"
   },

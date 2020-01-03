@@ -5,7 +5,7 @@
     <artifactId>com.sphereon.sdk.pdf.stamper-java8-okhttp-gson</artifactId>
     <packaging>jar</packaging>
     <name>com.sphereon.sdk.pdf.stamper-java8-okhttp-gson</name>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <description>Swagger Java</description>
     <scm>

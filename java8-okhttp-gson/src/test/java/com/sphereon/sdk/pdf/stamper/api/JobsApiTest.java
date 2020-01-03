@@ -180,7 +180,7 @@ public class JobsApiTest {
     public void submitJobTest() throws ApiException {
         PdfStamperJobSettings job = null;
         String jobid = null;
-        PdfStamperJobContainer response = api.submitJob(job, jobid);
+        PdfStamperJobContainer response = api.submitJob(jobid, job);
 
         // TODO: test validations
     }

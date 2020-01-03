@@ -331,7 +331,7 @@ public class PdfStamperApiTest {
         jobSettings.addUseConfigurationItem(configId);
         jobSettings.setVariables(variables);
 
-        PdfStamperJobContainer response = jobsApi.submitJob(jobSettings, jobId);
+        PdfStamperJobContainer response = jobsApi.submitJob(jobId, jobSettings);
 
         Assert.assertNotNull(response);
         Assert.assertEquals(PdfStamperJobContainer.JobStatusEnum.PROCESSING, response.getJobStatus());

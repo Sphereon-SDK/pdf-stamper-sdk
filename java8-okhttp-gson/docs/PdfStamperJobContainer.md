@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **jobStatus** | [**JobStatusEnum**](#JobStatusEnum) | The status of the job |  [optional]
 **creationTime** | [**OffsetDateTime**](OffsetDateTime.md) | The creation date/time of this job in ISO 8601 format |  [optional]
 **updateTime** | [**OffsetDateTime**](OffsetDateTime.md) | The last update date/time of this job in ISO 8601 format |  [optional]
-**statusMessage** | **String** | A status message, which can be informational, warning or error. AA message here does not indicate an error perse |  [optional]
+**statusMessage** | **String** | A status message, which can be informational, warning or error. AA message here does not indicate an error per se |  [optional]
 **queueTime** | [**OffsetDateTime**](OffsetDateTime.md) | The PDF Stamper queue date/time of this job in ISO 8601 format |  [optional]
 
 

@@ -443,15 +443,15 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/octet-stream
+ - **Accept**: application/octet-stream, application/json;charset=UTF-8
 
 <a name="submitJob"></a>
 # **submitJob**
-> PdfStamperJobContainer submitJob(job, jobid)
+> PdfStamperJobContainer submitJob(jobid, job)
 
 Submit PDF stamper job for processing
 
-Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. The settings supplied with the job in the request body are used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
+Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. If the optional settings are supplied with the job in the request body, they are being used, otherwise the settings created during job creation are being used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
 
 ### Example
 ```java
@@ -469,10 +469,10 @@ OAuth oauth2schema = (OAuth) defaultClient.getAuthentication("oauth2schema");
 oauth2schema.setAccessToken("YOUR ACCESS TOKEN");
 
 JobsApi apiInstance = new JobsApi();
-PdfStamperJobSettings job = new PdfStamperJobSettings(); // PdfStamperJobSettings | jobSettings
 String jobid = "jobid_example"; // String | jobid
+PdfStamperJobSettings job = new PdfStamperJobSettings(); // PdfStamperJobSettings | jobSettings
 try {
-    PdfStamperJobContainer result = apiInstance.submitJob(job, jobid);
+    PdfStamperJobContainer result = apiInstance.submitJob(jobid, job);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling JobsApi#submitJob");
@@ -484,8 +484,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **job** | [**PdfStamperJobSettings**](PdfStamperJobSettings.md)| jobSettings |
  **jobid** | **String**| jobid |
+ **job** | [**PdfStamperJobSettings**](PdfStamperJobSettings.md)| jobSettings | [optional]
 
 ### Return type
 

@@ -1,6 +1,6 @@
 /*
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf/stamp/0.2/html  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/0.2  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 0.2
  * Contact: dev@sphereon.com
@@ -19,6 +19,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.sphereon.sdk.pdf.stamper.model.BlockchainConfig;
 import com.sphereon.sdk.pdf.stamper.model.PdfStamperConfig;
 import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
 import io.swagger.annotations.ApiModel;
@@ -32,7 +33,7 @@ import java.util.List;
  * Container with the PDF stamper configuration
  */
 @ApiModel(description = "Container with the PDF stamper configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-08-28T10:42:07.737+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-03T17:44:37.086+01:00")
 public class PdfStamperConfigContainer {
   @SerializedName("registeredResources")
   private List<StreamLocation> registeredResources = null;
@@ -40,8 +41,14 @@ public class PdfStamperConfigContainer {
   @SerializedName("creationTime")
   private OffsetDateTime creationTime = null;
 
+  @SerializedName("blockchainConfig")
+  private BlockchainConfig blockchainConfig = null;
+
   @SerializedName("configId")
   private String configId = null;
+
+  @SerializedName("name")
+  private String name = null;
 
   @SerializedName("updateTime")
   private OffsetDateTime updateTime = null;
@@ -137,37 +144,64 @@ public class PdfStamperConfigContainer {
   }
 
    /**
-   * The creation date/time of this job in ISO 8601 format
+   * The creation date/time of the initial configuration in ISO 8601 format
    * @return creationTime
   **/
-  @ApiModelProperty(value = "The creation date/time of this job in ISO 8601 format")
+  @ApiModelProperty(value = "The creation date/time of the initial configuration in ISO 8601 format")
   public OffsetDateTime getCreationTime() {
     return creationTime;
   }
 
-  public PdfStamperConfigContainer configId(String configId) {
-    this.configId = configId;
+  public PdfStamperConfigContainer blockchainConfig(BlockchainConfig blockchainConfig) {
+    this.blockchainConfig = blockchainConfig;
     return this;
   }
 
    /**
-   * Get configId
+   * Optional blockchain proof configuration
+   * @return blockchainConfig
+  **/
+  @ApiModelProperty(value = "Optional blockchain proof configuration")
+  public BlockchainConfig getBlockchainConfig() {
+    return blockchainConfig;
+  }
+
+  public void setBlockchainConfig(BlockchainConfig blockchainConfig) {
+    this.blockchainConfig = blockchainConfig;
+  }
+
+   /**
+   * The configuration id
    * @return configId
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "The configuration id")
   public String getConfigId() {
     return configId;
   }
 
-  public void setConfigId(String configId) {
-    this.configId = configId;
+  public PdfStamperConfigContainer name(String name) {
+    this.name = name;
+    return this;
   }
 
    /**
-   * The last update date/time of this job in ISO 8601 format
+   * An optional configuration name
+   * @return name
+  **/
+  @ApiModelProperty(value = "An optional configuration name")
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+   /**
+   * The last update date/time of this configuration in ISO 8601 format
    * @return updateTime
   **/
-  @ApiModelProperty(value = "The last update date/time of this job in ISO 8601 format")
+  @ApiModelProperty(value = "The last update date/time of this configuration in ISO 8601 format")
   public OffsetDateTime getUpdateTime() {
     return updateTime;
   }
@@ -190,7 +224,7 @@ public class PdfStamperConfigContainer {
    * The PDF stamper configuration
    * @return pdfStamperConfig
   **/
-  @ApiModelProperty(value = "The PDF stamper configuration")
+  @ApiModelProperty(required = true, value = "The PDF stamper configuration")
   public PdfStamperConfig getPdfStamperConfig() {
     return pdfStamperConfig;
   }
@@ -220,7 +254,9 @@ public class PdfStamperConfigContainer {
     PdfStamperConfigContainer pdfStamperConfigContainer = (PdfStamperConfigContainer) o;
     return Objects.equals(this.registeredResources, pdfStamperConfigContainer.registeredResources) &&
         Objects.equals(this.creationTime, pdfStamperConfigContainer.creationTime) &&
+        Objects.equals(this.blockchainConfig, pdfStamperConfigContainer.blockchainConfig) &&
         Objects.equals(this.configId, pdfStamperConfigContainer.configId) &&
+        Objects.equals(this.name, pdfStamperConfigContainer.name) &&
         Objects.equals(this.updateTime, pdfStamperConfigContainer.updateTime) &&
         Objects.equals(this.configStatus, pdfStamperConfigContainer.configStatus) &&
         Objects.equals(this.pdfStamperConfig, pdfStamperConfigContainer.pdfStamperConfig) &&
@@ -229,7 +265,7 @@ public class PdfStamperConfigContainer {
 
   @Override
   public int hashCode() {
-    return Objects.hash(registeredResources, creationTime, configId, updateTime, configStatus, pdfStamperConfig, statusMessage);
+    return Objects.hash(registeredResources, creationTime, blockchainConfig, configId, name, updateTime, configStatus, pdfStamperConfig, statusMessage);
   }
 
 
@@ -240,7 +276,9 @@ public class PdfStamperConfigContainer {
     
     sb.append("    registeredResources: ").append(toIndentedString(registeredResources)).append("\n");
     sb.append("    creationTime: ").append(toIndentedString(creationTime)).append("\n");
+    sb.append("    blockchainConfig: ").append(toIndentedString(blockchainConfig)).append("\n");
     sb.append("    configId: ").append(toIndentedString(configId)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    updateTime: ").append(toIndentedString(updateTime)).append("\n");
     sb.append("    configStatus: ").append(toIndentedString(configStatus)).append("\n");
     sb.append("    pdfStamperConfig: ").append(toIndentedString(pdfStamperConfig)).append("\n");

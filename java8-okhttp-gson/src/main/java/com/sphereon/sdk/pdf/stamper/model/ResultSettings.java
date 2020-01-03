@@ -1,6 +1,6 @@
 /*
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf/stamp/0.2/html  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/0.2  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 0.2
  * Contact: dev@sphereon.com
@@ -29,10 +29,60 @@ import java.io.IOException;
  * Result settings
  */
 @ApiModel(description = "Result settings")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-08-28T10:42:07.737+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-03T17:44:37.086+01:00")
 public class ResultSettings {
   @SerializedName("lifecycle")
   private Lifecycle lifecycle = null;
+
+  /**
+   * Storage mode. Can be a configured storage location on the storage API, or replacing the input files (streamlocations).
+   */
+  @JsonAdapter(StorageModeEnum.Adapter.class)
+  public enum StorageModeEnum {
+    STORAGE_LOCATION("STORAGE_LOCATION"),
+    
+    REPLACE_INPUT("REPLACE_INPUT");
+
+    private String value;
+
+    StorageModeEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static StorageModeEnum fromValue(String text) {
+      for (StorageModeEnum b : StorageModeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<StorageModeEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final StorageModeEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public StorageModeEnum read(final JsonReader jsonReader) throws IOException {
+        String value = jsonReader.nextString();
+        return StorageModeEnum.fromValue(String.valueOf(value));
+      }
+    }
+  }
+
+  @SerializedName("storageMode")
+  private StorageModeEnum storageMode = null;
 
   @SerializedName("storageLocation")
   private StorageLocation storageLocation = null;
@@ -53,6 +103,24 @@ public class ResultSettings {
 
   public void setLifecycle(Lifecycle lifecycle) {
     this.lifecycle = lifecycle;
+  }
+
+  public ResultSettings storageMode(StorageModeEnum storageMode) {
+    this.storageMode = storageMode;
+    return this;
+  }
+
+   /**
+   * Storage mode. Can be a configured storage location on the storage API, or replacing the input files (streamlocations).
+   * @return storageMode
+  **/
+  @ApiModelProperty(value = "Storage mode. Can be a configured storage location on the storage API, or replacing the input files (streamlocations).")
+  public StorageModeEnum getStorageMode() {
+    return storageMode;
+  }
+
+  public void setStorageMode(StorageModeEnum storageMode) {
+    this.storageMode = storageMode;
   }
 
   public ResultSettings storageLocation(StorageLocation storageLocation) {
@@ -84,12 +152,13 @@ public class ResultSettings {
     }
     ResultSettings resultSettings = (ResultSettings) o;
     return Objects.equals(this.lifecycle, resultSettings.lifecycle) &&
+        Objects.equals(this.storageMode, resultSettings.storageMode) &&
         Objects.equals(this.storageLocation, resultSettings.storageLocation);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(lifecycle, storageLocation);
+    return Objects.hash(lifecycle, storageMode, storageLocation);
   }
 
 
@@ -99,6 +168,7 @@ public class ResultSettings {
     sb.append("class ResultSettings {\n");
     
     sb.append("    lifecycle: ").append(toIndentedString(lifecycle)).append("\n");
+    sb.append("    storageMode: ").append(toIndentedString(storageMode)).append("\n");
     sb.append("    storageLocation: ").append(toIndentedString(storageLocation)).append("\n");
     sb.append("}");
     return sb.toString();

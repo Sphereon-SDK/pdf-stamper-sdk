@@ -1,6 +1,6 @@
 /*
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf/stamp/0.2/html  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/0.2  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 0.2
  * Contact: dev@sphereon.com
@@ -967,7 +967,7 @@ public class JobsApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/octet-stream"
+            "application/octet-stream", "application/json;charset=UTF-8"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
@@ -1069,14 +1069,14 @@ public class JobsApi {
     }
     /**
      * Build call for submitJob
-     * @param job jobSettings (required)
      * @param jobid jobid (required)
+     * @param job jobSettings (optional)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call submitJobCall(PdfStamperJobSettings job, String jobid, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call submitJobCall(String jobid, PdfStamperJobSettings job, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = job;
 
         // create path and map variables
@@ -1119,12 +1119,7 @@ public class JobsApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call submitJobValidateBeforeCall(PdfStamperJobSettings job, String jobid, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'job' is set
-        if (job == null) {
-            throw new ApiException("Missing the required parameter 'job' when calling submitJob(Async)");
-        }
+    private com.squareup.okhttp.Call submitJobValidateBeforeCall(String jobid, PdfStamperJobSettings job, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'jobid' is set
         if (jobid == null) {
@@ -1132,48 +1127,48 @@ public class JobsApi {
         }
         
 
-        com.squareup.okhttp.Call call = submitJobCall(job, jobid, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = submitJobCall(jobid, job, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
      * Submit PDF stamper job for processing
-     * Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. The settings supplied with the job in the request body are used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
-     * @param job jobSettings (required)
+     * Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. If the optional settings are supplied with the job in the request body, they are being used, otherwise the settings created during job creation are being used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
      * @param jobid jobid (required)
+     * @param job jobSettings (optional)
      * @return PdfStamperJobContainer
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public PdfStamperJobContainer submitJob(PdfStamperJobSettings job, String jobid) throws ApiException {
-        ApiResponse<PdfStamperJobContainer> resp = submitJobWithHttpInfo(job, jobid);
+    public PdfStamperJobContainer submitJob(String jobid, PdfStamperJobSettings job) throws ApiException {
+        ApiResponse<PdfStamperJobContainer> resp = submitJobWithHttpInfo(jobid, job);
         return resp.getData();
     }
 
     /**
      * Submit PDF stamper job for processing
-     * Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. The settings supplied with the job in the request body are used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
-     * @param job jobSettings (required)
+     * Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. If the optional settings are supplied with the job in the request body, they are being used, otherwise the settings created during job creation are being used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
      * @param jobid jobid (required)
+     * @param job jobSettings (optional)
      * @return ApiResponse&lt;PdfStamperJobContainer&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<PdfStamperJobContainer> submitJobWithHttpInfo(PdfStamperJobSettings job, String jobid) throws ApiException {
-        com.squareup.okhttp.Call call = submitJobValidateBeforeCall(job, jobid, null, null);
+    public ApiResponse<PdfStamperJobContainer> submitJobWithHttpInfo(String jobid, PdfStamperJobSettings job) throws ApiException {
+        com.squareup.okhttp.Call call = submitJobValidateBeforeCall(jobid, job, null, null);
         Type localVarReturnType = new TypeToken<PdfStamperJobContainer>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Submit PDF stamper job for processing (asynchronously)
-     * Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. The settings supplied with the job in the request body are used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
-     * @param job jobSettings (required)
+     * Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. If the optional settings are supplied with the job in the request body, they are being used, otherwise the settings created during job creation are being used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
      * @param jobid jobid (required)
+     * @param job jobSettings (optional)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call submitJobAsync(PdfStamperJobSettings job, String jobid, final ApiCallback<PdfStamperJobContainer> callback) throws ApiException {
+    public com.squareup.okhttp.Call submitJobAsync(String jobid, PdfStamperJobSettings job, final ApiCallback<PdfStamperJobContainer> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -1194,7 +1189,7 @@ public class JobsApi {
             };
         }
 
-        com.squareup.okhttp.Call call = submitJobValidateBeforeCall(job, jobid, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = submitJobValidateBeforeCall(jobid, job, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<PdfStamperJobContainer>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

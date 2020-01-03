@@ -1,6 +1,6 @@
 /*
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf/stamp/0.2/html  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/0.2  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 0.2
  * Contact: dev@sphereon.com
@@ -33,7 +33,7 @@ import java.util.List;
  * An text component to stamp text on a pdf
  */
 @ApiModel(description = "An text component to stamp text on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-08-28T10:42:07.737+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-01-03T17:44:37.086+01:00")
 public class TextComponent extends StampComponent {
   @SerializedName("nonStrokingColor")
   private Color nonStrokingColor = null;
@@ -46,6 +46,9 @@ public class TextComponent extends StampComponent {
 
   @SerializedName("text")
   private String text = null;
+
+  @SerializedName("lineSpacing")
+  private Float lineSpacing = null;
 
   public TextComponent nonStrokingColor(Color nonStrokingColor) {
     this.nonStrokingColor = nonStrokingColor;
@@ -119,6 +122,24 @@ public class TextComponent extends StampComponent {
     this.text = text;
   }
 
+  public TextComponent lineSpacing(Float lineSpacing) {
+    this.lineSpacing = lineSpacing;
+    return this;
+  }
+
+   /**
+   * Linespacing ratio. The default is 0.5 (meaning half a line height). The spacing is only applicable to newlines within a single text component
+   * @return lineSpacing
+  **/
+  @ApiModelProperty(value = "Linespacing ratio. The default is 0.5 (meaning half a line height). The spacing is only applicable to newlines within a single text component")
+  public Float getLineSpacing() {
+    return lineSpacing;
+  }
+
+  public void setLineSpacing(Float lineSpacing) {
+    this.lineSpacing = lineSpacing;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -133,12 +154,13 @@ public class TextComponent extends StampComponent {
         Objects.equals(this.fontName, textComponent.fontName) &&
         Objects.equals(this.fontSize, textComponent.fontSize) &&
         Objects.equals(this.text, textComponent.text) &&
+        Objects.equals(this.lineSpacing, textComponent.lineSpacing) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(nonStrokingColor, fontName, fontSize, text, super.hashCode());
+    return Objects.hash(nonStrokingColor, fontName, fontSize, text, lineSpacing, super.hashCode());
   }
 
 
@@ -151,6 +173,7 @@ public class TextComponent extends StampComponent {
     sb.append("    fontName: ").append(toIndentedString(fontName)).append("\n");
     sb.append("    fontSize: ").append(toIndentedString(fontSize)).append("\n");
     sb.append("    text: ").append(toIndentedString(text)).append("\n");
+    sb.append("    lineSpacing: ").append(toIndentedString(lineSpacing)).append("\n");
     sb.append("}");
     return sb.toString();
   }
