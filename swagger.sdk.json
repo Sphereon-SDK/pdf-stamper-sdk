@@ -1,207 +1,72 @@
 {
-  "basePath": "/pdf/stamp/0.2",
+  "basePath": "/pdf/stamp/1.0",
   "paths": {
-    "/jobs/{jobid}/streams/content": {"post": {
-      "summary": "Upload a base64 encoded file",
+    "/jobs/{jobId}/streams/result": {"get": {
+      "summary": "Get the current/first result stream",
       "security": [{"oauth2schema": ["global"]}],
       "deprecated": false,
-      "produces": ["application/json;charset=UTF-8"],
-      "description": "Upload an image, office or pdf for conversion to PDF, embedded in a json as a base64 encoded string",
-      "operationId": "addContent",
+      "produces": [
+        "application/octet-stream",
+        "application/json;charset=UTF-8"
+      ],
+      "description": "Get the PDF stamper as binary stream/file.\r\nOur API generation does not allow changing the media type based on the Accepted header unfortunately.\r\nThis means we use a separate path postfix with the value '/stream'.\r\nThis API only returns the PDF when the response status is DONE.",
+      "operationId": "getFirstStream",
       "responses": {
         "200": {
-          "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
-          "description": "File content uploaded. The JSON Job response will be returned in the body."
+          "schema": {
+            "format": "byte",
+            "type": "string"
+          },
+          "description": "PDF successfully created and returned"
+        },
+        "202": {
+          "schema": {
+            "format": "int32",
+            "maximum": 127,
+            "type": "integer",
+            "minimum": -128
+          },
+          "description": "PDF not yet created. Job is still executing. Will return the JSON job instead of the PDF"
         },
         "400": {
           "schema": {"$ref": "#/definitions/ErrorResponse"},
-          "description": "Job could not be stored/processed"
+          "description": "PDF could not be created."
         },
         "404": {
           "schema": {"$ref": "#/definitions/ErrorResponse"},
-          "description": "Invalid job id."
+          "description": "Invalid job id. No response body is supplied"
         }
       },
-      "parameters": [
-        {
-          "schema": {"$ref": "#/definitions/FileContentRequest"},
-          "in": "body",
-          "name": "fileContent",
-          "description": "File content",
-          "required": true
-        },
-        {
-          "in": "path",
-          "name": "jobid",
-          "description": "jobid",
-          "type": "string",
-          "required": true
-        }
-      ],
-      "tags": ["Jobs"],
-      "consumes": ["application/json;charset=UTF-8"]
-    }},
-    "/config/{configId}/streams/multipart": {"post": {
-      "summary": "Upload resource",
-      "security": [{"oauth2schema": ["global"]}],
-      "deprecated": false,
-      "produces": ["application/json;charset=UTF-8"],
-      "description": "Upload a resource needed by a configuration.",
-      "operationId": "uploadResource",
-      "responses": {"200": {
-        "schema": {"$ref": "#/definitions/StreamLocation"},
-        "description": "A StreamLocation object"
-      }},
-      "parameters": [
-        {
-          "in": "path",
-          "name": "configId",
-          "description": "configId",
-          "type": "string",
-          "required": true
-        },
-        {
-          "in": "formData",
-          "name": "stream",
-          "description": "The resource data",
-          "type": "file",
-          "required": true
-        }
-      ],
-      "tags": ["Config"],
-      "consumes": ["multipart/form-data"]
-    }},
-    "/config": {"post": {
-      "summary": "Create PDF stamper configuration",
-      "security": [{"oauth2schema": ["global"]}],
-      "deprecated": false,
-      "produces": ["application/json;charset=UTF-8"],
-      "description": "Create / initialize a new PDF stamper configuration.",
-      "operationId": "createConfiguration",
-      "responses": {"201": {
-        "schema": {"$ref": "#/definitions/PdfStamperConfigContainer"},
-        "description": "PDF Stamp configuration has been successfully created."
-      }},
       "parameters": [{
-        "schema": {"$ref": "#/definitions/PdfStamperConfig"},
-        "in": "body",
-        "name": "pdfStamperConfiguration",
-        "description": "The PDF stamper configuration",
+        "in": "path",
+        "name": "jobId",
+        "description": "jobId",
+        "type": "string",
         "required": true
       }],
-      "tags": ["Config"],
-      "consumes": ["application/json;charset=UTF-8"]
+      "tags": ["Jobs"]
     }},
-    "/jobs/{jobid}": {
-      "get": {
-        "summary": "Job definition and state",
-        "security": [{"oauth2schema": ["global"]}],
-        "deprecated": false,
-        "produces": ["application/json;charset=UTF-8"],
-        "description": "Get the PDF stamper job definition and current state. Please note that you can differentiate based on http response status.",
-        "operationId": "getJob",
-        "responses": {
-          "200": {
-            "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
-            "description": "PDF job returned and Job is done or in error"
-          },
-          "202": {
-            "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
-            "description": "PDF job returned and Job is still processing"
-          },
-          "404": {
-            "schema": {"$ref": "#/definitions/ErrorResponse"},
-            "description": "Invalid job id"
-          }
-        },
-        "parameters": [{
-          "in": "path",
-          "name": "jobid",
-          "description": "jobid",
-          "type": "string",
-          "required": true
-        }],
-        "tags": ["Jobs"]
-      },
-      "delete": {
-        "summary": "Delete a job manually",
-        "security": [{"oauth2schema": ["global"]}],
-        "deprecated": false,
-        "produces": ["application/json;charset=UTF-8"],
-        "description": "Delete the PDF stamper job and all related files depending on the lifecycle.",
-        "operationId": "deleteJob",
-        "responses": {
-          "200": {
-            "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
-            "description": "PDF job returned and Job is done or in error"
-          },
-          "400": {
-            "schema": {"$ref": "#/definitions/ErrorResponse"},
-            "description": "Could not delete all parts"
-          },
-          "404": {
-            "schema": {"$ref": "#/definitions/ErrorResponse"},
-            "description": "Invalid job id"
-          }
-        },
-        "parameters": [{
-          "in": "path",
-          "name": "jobid",
-          "description": "jobid",
-          "type": "string",
-          "required": true
-        }],
-        "tags": ["Jobs"]
-      },
-      "put": {
-        "summary": "Submit PDF stamper job for processing",
-        "security": [{"oauth2schema": ["global"]}],
-        "deprecated": false,
-        "produces": ["application/json;charset=UTF-8"],
-        "description": "Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. If the optional settings are supplied with the job in the request body, they are being used, otherwise the settings created during job creation are being used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.",
-        "operationId": "submitJob",
-        "responses": {
-          "200": {
-            "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
-            "description": "Conversion job submitted"
-          },
-          "400": {
-            "schema": {"$ref": "#/definitions/ErrorResponse"},
-            "description": "Resubmitted job not allowed because the job is currently processing or already processed and had status DONE"
-          },
-          "404": {
-            "schema": {"$ref": "#/definitions/ErrorResponse"},
-            "description": "Invalid job id"
-          }
-        },
-        "parameters": [
-          {
-            "schema": {"$ref": "#/definitions/PdfStamperJobSettings"},
-            "in": "body",
-            "name": "job",
-            "description": "jobSettings",
-            "required": false
-          },
-          {
-            "in": "path",
-            "name": "jobid",
-            "description": "jobid",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "tags": ["Jobs"],
-        "consumes": ["application/json;charset=UTF-8"]
-      }
-    },
-    "/config/{configId}/streams": {"delete": {
-      "summary": "Delete resources",
+    "/sync/streams/content": {"post": {
+      "summary": "Execute a synchronous stamp job with a content request/response.",
       "security": [{"oauth2schema": ["global"]}],
       "deprecated": false,
-      "produces": ["*/*"],
-      "description": "Delete resources referenced by a configuration.",
-      "operationId": "deleteResources",
-      "responses": {"200": {"description": "The resources were deleted successfully"}},
+      "produces": ["application/json;charset=UTF-8"],
+      "description": "Execute a synchronous stamp job using the given configId. Header parameters will be parsed for additional template variables.",
+      "operationId": "syncJobContent",
+      "responses": {
+        "200": {
+          "schema": {"$ref": "#/definitions/ContentResponse"},
+          "description": "The PDF stamper job ran successfully"
+        },
+        "400": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "The PDF stamper job failed"
+        },
+        "404": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "Invalid config id"
+        }
+      },
       "parameters": [
         {
           "in": "path",
@@ -211,17 +76,15 @@
           "required": true
         },
         {
-          "schema": {
-            "type": "array",
-            "items": {"$ref": "#/definitions/StreamLocation"}
-          },
+          "schema": {"$ref": "#/definitions/ContentRequest"},
           "in": "body",
-          "name": "streamLocations",
-          "description": "The resource locations in storage",
+          "name": "contentRequest",
+          "description": "File content",
           "required": true
         }
       ],
-      "tags": ["Config"]
+      "tags": ["Synchronous"],
+      "consumes": ["application/json;charset=UTF-8"]
     }},
     "/config/{configId}": {
       "get": {
@@ -232,7 +95,7 @@
         "description": "Retrieve a PDF stamper configuration.",
         "operationId": "getConfiguration",
         "responses": {"200": {
-          "schema": {"$ref": "#/definitions/PdfStamperConfigContainer"},
+          "schema": {"$ref": "#/definitions/StamperConfigResponse"},
           "description": "A PdfStamperConfigContainer object"
         }},
         "parameters": [{
@@ -252,7 +115,7 @@
         "description": "Delete a PDF stamper configuration.",
         "operationId": "deleteConfiguration",
         "responses": {"200": {
-          "schema": {"$ref": "#/definitions/PdfStamperConfigContainer"},
+          "schema": {"$ref": "#/definitions/StamperConfigResponse"},
           "description": "A PdfStamperConfigContainer object"
         }},
         "parameters": [{
@@ -272,7 +135,7 @@
         "description": "Update an existing PDF stamper configuration.",
         "operationId": "updateConfiguration",
         "responses": {"200": {
-          "schema": {"$ref": "#/definitions/PdfStamperConfigContainer"},
+          "schema": {"$ref": "#/definitions/StamperConfigResponse"},
           "description": "A PdfStamperConfigContainer object"
         }},
         "parameters": [
@@ -284,9 +147,9 @@
             "required": true
           },
           {
-            "schema": {"$ref": "#/definitions/PdfStamperConfig"},
+            "schema": {"$ref": "#/definitions/StamperConfig"},
             "in": "body",
-            "name": "pdfStamperConfiguration",
+            "name": "stampConfiguration",
             "description": "The PDF stamper configuration",
             "required": true
           }
@@ -295,46 +158,6 @@
         "consumes": ["application/json;charset=UTF-8"]
       }
     },
-    "/jobs/{jobid}/streams/multipart": {"post": {
-      "summary": "Upload a file",
-      "security": [{"oauth2schema": ["global"]}],
-      "deprecated": false,
-      "produces": ["application/json;charset=UTF-8"],
-      "description": "Upload a pdf to stamp one or more configurations. Please note that you can upload multiple files.",
-      "operationId": "addInputFile",
-      "responses": {
-        "200": {
-          "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
-          "description": "File uploaded. The JSON Job response will be returned in the body."
-        },
-        "400": {
-          "schema": {"$ref": "#/definitions/ErrorResponse"},
-          "description": "Job could not be stored/processed"
-        },
-        "404": {
-          "schema": {"$ref": "#/definitions/ErrorResponse"},
-          "description": "Invalid job id."
-        }
-      },
-      "parameters": [
-        {
-          "in": "path",
-          "name": "jobid",
-          "description": "jobid",
-          "type": "string",
-          "required": true
-        },
-        {
-          "in": "formData",
-          "name": "stream",
-          "description": "The (additional) binary image or PDF (file/inputstream) to convert to PDF",
-          "type": "file",
-          "required": true
-        }
-      ],
-      "tags": ["Jobs"],
-      "consumes": ["multipart/form-data"]
-    }},
     "/jobs": {
       "post": {
         "summary": "Create PDF stamper job",
@@ -344,14 +167,14 @@
         "description": "Create a job using the given settings.",
         "operationId": "createJob",
         "responses": {"201": {
-          "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
+          "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
           "description": "PDF stamper job created but not started yet"
         }},
         "parameters": [{
-          "schema": {"$ref": "#/definitions/PdfStamperJobSettings"},
+          "schema": {"$ref": "#/definitions/PdfStamperJobRequest"},
           "in": "body",
-          "name": "jobSettings",
-          "description": "jobSettings",
+          "name": "jobRequest",
+          "description": "jobRequest",
           "required": true
         }],
         "tags": ["Jobs"],
@@ -367,7 +190,7 @@
         "responses": {"200": {
           "schema": {
             "type": "array",
-            "items": {"$ref": "#/definitions/PdfStamperJobContainer"}
+            "items": {"$ref": "#/definitions/PdfStamperJobResult"}
           },
           "description": "All PDF jobs that have not been deleted"
         }},
@@ -402,7 +225,78 @@
         "tags": ["Jobs"]
       }
     },
-    "/jobs/{jobid}/streams/location": {"post": {
+    "/jobs/{jobId}/streams/content": {"post": {
+      "summary": "Upload a base64 encoded file",
+      "security": [{"oauth2schema": ["global"]}],
+      "deprecated": false,
+      "produces": ["application/json;charset=UTF-8"],
+      "description": "Upload an image, office or pdf for conversion to PDF, embedded in a json as a base64 encoded string",
+      "operationId": "addContent",
+      "responses": {
+        "200": {
+          "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
+          "description": "File content uploaded. The JSON Job response will be returned in the body."
+        },
+        "400": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "Job could not be stored/processed"
+        },
+        "404": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "Invalid job id."
+        }
+      },
+      "parameters": [
+        {
+          "schema": {"$ref": "#/definitions/ContentRequest"},
+          "in": "body",
+          "name": "contentRequest",
+          "description": "Content request",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "jobId",
+          "description": "jobId",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "tags": ["Jobs"],
+      "consumes": ["application/json;charset=UTF-8"]
+    }},
+    "/sync/streams/location": {"post": {
+      "summary": "Execute a synchronous stamp job with a streamlocation.",
+      "security": [{"oauth2schema": ["global"]}],
+      "deprecated": false,
+      "produces": ["application/json;charset=UTF-8"],
+      "description": "Execute a synchronous stamp job using the given configId. Header parameters will be parsed for additional template variables.",
+      "operationId": "syncJobStreamLocation",
+      "responses": {
+        "200": {
+          "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
+          "description": "The PDF stamper job ran successfully"
+        },
+        "400": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "The PDF stamper job failed"
+        },
+        "404": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "Invalid config id"
+        }
+      },
+      "parameters": [{
+        "schema": {"$ref": "#/definitions/PdfStamperJobRequest"},
+        "in": "body",
+        "name": "jobRequest",
+        "description": "Job request",
+        "required": true
+      }],
+      "tags": ["Synchronous"],
+      "consumes": ["application/json;charset=UTF-8"]
+    }},
+    "/jobs/{jobId}/streams/location": {"post": {
       "summary": "Add Input Stream Location(s)",
       "security": [{"oauth2schema": ["global"]}],
       "deprecated": false,
@@ -411,7 +305,7 @@
       "operationId": "addInputStreamLocations",
       "responses": {
         "200": {
-          "schema": {"$ref": "#/definitions/PdfStamperJobContainer"},
+          "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
           "description": "Stream location(s) added. The JSON Job response will be returned in the body."
         },
         "400": {
@@ -426,15 +320,15 @@
       "parameters": [
         {
           "in": "path",
-          "name": "jobid",
-          "description": "jobid",
+          "name": "jobId",
+          "description": "jobId",
           "type": "string",
           "required": true
         },
         {
           "schema": {
             "type": "array",
-            "items": {"$ref": "#/definitions/StreamLocation"}
+            "items": {"$ref": "#/definitions/InputResultLocation"}
           },
           "in": "body",
           "name": "streamLocations",
@@ -445,16 +339,229 @@
       "tags": ["Jobs"],
       "consumes": ["application/json;charset=UTF-8"]
     }},
-    "/jobs/{jobid}/streams/result": {"get": {
-      "summary": "Get the current result stream",
+    "/config/{configId}/streams/multipart": {"post": {
+      "summary": "Upload a configuration resource",
+      "security": [{"oauth2schema": ["global"]}],
+      "deprecated": false,
+      "produces": ["application/json;charset=UTF-8"],
+      "description": "Upload a resource needed by a configuration.",
+      "operationId": "uploadResource",
+      "responses": {"200": {
+        "schema": {"$ref": "#/definitions/StreamLocation"},
+        "description": "A StreamLocation object"
+      }},
+      "parameters": [
+        {
+          "in": "path",
+          "name": "configId",
+          "description": "configId",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "formData",
+          "name": "stream",
+          "description": "The resource data",
+          "type": "file",
+          "required": true
+        }
+      ],
+      "tags": ["Config"],
+      "consumes": ["multipart/form-data"]
+    }},
+    "/jobs/{jobId}": {
+      "get": {
+        "summary": "Job definition and state",
+        "security": [{"oauth2schema": ["global"]}],
+        "deprecated": false,
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Get the PDF stamper job definition and current state. Please note that you can differentiate based on http response status.",
+        "operationId": "getJob",
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
+            "description": "PDF job returned and Job is done or in error"
+          },
+          "202": {
+            "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
+            "description": "PDF job returned and Job is still processing"
+          },
+          "404": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Invalid job id"
+          }
+        },
+        "parameters": [{
+          "in": "path",
+          "name": "jobId",
+          "description": "jobId",
+          "type": "string",
+          "required": true
+        }],
+        "tags": ["Jobs"]
+      },
+      "delete": {
+        "summary": "Delete a job manually",
+        "security": [{"oauth2schema": ["global"]}],
+        "deprecated": false,
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Delete the PDF stamper job and all related files depending on the lifecycle.",
+        "operationId": "deleteJob",
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
+            "description": "PDF job returned and Job is done or in error"
+          },
+          "400": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Could not delete all parts"
+          },
+          "404": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Invalid job id"
+          }
+        },
+        "parameters": [{
+          "in": "path",
+          "name": "jobId",
+          "description": "jobId",
+          "type": "string",
+          "required": true
+        }],
+        "tags": ["Jobs"]
+      },
+      "put": {
+        "summary": "Submit PDF stamper job for processing",
+        "security": [{"oauth2schema": ["global"]}],
+        "deprecated": false,
+        "produces": ["application/json;charset=UTF-8"],
+        "description": "Start PDF stamper job for processing. Stamp one or more configurations on the previously uploaded PDFs. If the optional settings are supplied with the job in the request body, they are being used, otherwise the settings created during job creation are being used. You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.",
+        "operationId": "submitJob",
+        "responses": {
+          "200": {
+            "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
+            "description": "Conversion job submitted"
+          },
+          "400": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Resubmitted job not allowed because the job is currently processing or already processed and had status DONE"
+          },
+          "404": {
+            "schema": {"$ref": "#/definitions/ErrorResponse"},
+            "description": "Invalid job id"
+          }
+        },
+        "parameters": [{
+          "in": "path",
+          "name": "jobId",
+          "description": "jobId",
+          "type": "string",
+          "required": true
+        }],
+        "tags": ["Jobs"],
+        "consumes": ["application/json;charset=UTF-8"]
+      }
+    },
+    "/config": {"post": {
+      "summary": "Create PDF stamper configuration",
+      "security": [{"oauth2schema": ["global"]}],
+      "deprecated": false,
+      "produces": ["application/json;charset=UTF-8"],
+      "description": "Create / initialize a new PDF stamper configuration.",
+      "operationId": "createConfiguration",
+      "responses": {"201": {
+        "schema": {"$ref": "#/definitions/StamperConfigResponse"},
+        "description": "PDF Stamp configuration has been successfully created."
+      }},
+      "parameters": [{
+        "schema": {"$ref": "#/definitions/StamperConfig"},
+        "in": "body",
+        "name": "stampConfiguration",
+        "description": "The PDF stamper configuration",
+        "required": true
+      }],
+      "tags": ["Config"],
+      "consumes": ["application/json;charset=UTF-8"]
+    }},
+    "/config/{configId}/streams": {"delete": {
+      "summary": "Delete resources",
+      "security": [{"oauth2schema": ["global"]}],
+      "deprecated": false,
+      "produces": ["*/*"],
+      "description": "Delete resources referenced by a configuration.",
+      "operationId": "deleteResources",
+      "responses": {"200": {"description": "The resources were deleted successfully"}},
+      "parameters": [
+        {
+          "in": "path",
+          "name": "configId",
+          "description": "The PDF stamper configuration id",
+          "type": "string",
+          "required": true
+        },
+        {
+          "schema": {
+            "type": "array",
+            "items": {"$ref": "#/definitions/StreamLocation"}
+          },
+          "in": "body",
+          "name": "streamLocations",
+          "description": "The resource locations in storage",
+          "required": true
+        }
+      ],
+      "tags": ["Config"]
+    }},
+    "/jobs/{jobId}/streams/multipart": {"post": {
+      "summary": "Upload a file",
+      "security": [{"oauth2schema": ["global"]}],
+      "deprecated": false,
+      "produces": ["application/json;charset=UTF-8"],
+      "description": "Upload a pdf to stamp one or more configurations. Please note that you can upload multiple files.",
+      "operationId": "addInputFile",
+      "responses": {
+        "200": {
+          "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
+          "description": "File uploaded. The JSON Job response will be returned in the body."
+        },
+        "400": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "Job could not be stored/processed"
+        },
+        "404": {
+          "schema": {"$ref": "#/definitions/ErrorResponse"},
+          "description": "Invalid job id."
+        }
+      },
+      "parameters": [
+        {
+          "in": "path",
+          "name": "jobId",
+          "description": "jobId",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "formData",
+          "name": "stream",
+          "description": "The (additional) binary image or PDF (file/inputstream) to convert to PDF",
+          "type": "file",
+          "required": true
+        }
+      ],
+      "tags": ["Jobs"],
+      "consumes": ["multipart/form-data"]
+    }},
+    "/jobs/{jobId}/streams/result/{correlationId}": {"get": {
+      "summary": "Get the result stream by correlation Id",
       "security": [{"oauth2schema": ["global"]}],
       "deprecated": false,
       "produces": [
         "application/octet-stream",
         "application/json;charset=UTF-8"
       ],
-      "description": "Get the PDF stamper as binary stream/file.\r\nOur API generation does not allow changing the media type based on the Accepted header unfortunately.\r\nThis means we use a separate path postfix with the value '/stream'.\r\nThis API only returns the PDF when the response status is DONE.",
-      "operationId": "getStream",
+      "description": "Get the PDF stamper as binary stream/file by correlation Id.\r\nOur API generation does not allow changing the media type based on the Accepted header unfortunately.\r\nThis means we use a separate path postfix with the value '/stream'.\r\nThis API only returns the PDF when the response status is DONE.",
+      "operationId": "getStreamById",
       "responses": {
         "200": {
           "schema": {
@@ -481,13 +588,22 @@
           "description": "Invalid job id. No response body is supplied"
         }
       },
-      "parameters": [{
-        "in": "path",
-        "name": "jobid",
-        "description": "jobid",
-        "type": "string",
-        "required": true
-      }],
+      "parameters": [
+        {
+          "in": "path",
+          "name": "correlationId",
+          "description": "correlationId",
+          "type": "string",
+          "required": true
+        },
+        {
+          "in": "path",
+          "name": "jobId",
+          "description": "jobId",
+          "type": "string",
+          "required": true
+        }
+      ],
       "tags": ["Jobs"]
     }}
   },
@@ -640,63 +756,110 @@
       "description": "An hyperlink component to stamp a hyperlink on a pdf",
       "title": "HyperlinkComponent"
     },
-    "PdfStamperConfigContainer": {
-      "description": "Container with the PDF stamper configuration",
+    "ContentResponse": {
+      "xml": {
+        "name": "ContentResponse",
+        "attribute": false,
+        "wrapped": false
+      },
+      "description": "The content response base64 encoded",
       "type": "object",
-      "title": "PdfStamperConfigContainer",
-      "required": [
-        "configId",
-        "pdfStamperConfig"
-      ],
+      "title": "ContentResponse",
       "properties": {
-        "registeredResources": {
-          "type": "array",
-          "items": {"$ref": "#/definitions/StreamLocation"}
+        "filename": {
+          "xml": {
+            "name": "filename",
+            "attribute": false,
+            "wrapped": false
+          },
+          "readOnly": true,
+          "type": "string"
         },
-        "creationTime": {
+        "mediaType": {
+          "xml": {
+            "name": "mediaType",
+            "attribute": false,
+            "wrapped": false
+          },
+          "readOnly": true,
+          "type": "string"
+        },
+        "content": {
+          "xml": {
+            "name": "content",
+            "attribute": false,
+            "wrapped": false
+          },
+          "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "PdfStamperJobResult": {
+      "xml": {
+        "name": "jobResult",
+        "attribute": false,
+        "wrapped": false
+      },
+      "description": "The PDF Stamper job.",
+      "type": "object",
+      "title": "PdfStamperJobResult",
+      "properties": {
+        "completionTime": {
           "format": "date-time",
-          "description": "The creation date/time of the initial configuration in ISO 8601 format",
+          "description": "The completion date/time of this job in ISO 8601 format",
           "readOnly": true,
           "type": "string"
         },
-        "blockchainConfig": {
-          "description": "Optional blockchain proof configuration",
-          "$ref": "#/definitions/BlockchainConfig"
-        },
-        "configId": {
-          "description": "The configuration id",
+        "jobId": {
+          "description": "The job id",
           "readOnly": true,
           "type": "string"
         },
-        "name": {
-          "description": "An optional configuration name",
-          "type": "string"
-        },
-        "updateTime": {
-          "format": "date-time",
-          "description": "The last update date/time of this configuration in ISO 8601 format",
+        "request": {
+          "description": "The request settings used during executing the PDF Stamper job",
           "readOnly": true,
-          "type": "string"
+          "$ref": "#/definitions/PdfStamperJobRequest"
         },
-        "configStatus": {
-          "description": "The status of the configStatus action",
+        "jobStatus": {
+          "description": "The status of the job",
           "readOnly": true,
           "type": "string",
           "enum": [
             "CREATED",
-            "UPDATED",
-            "RESOURCE_UPLOADED",
+            "INPUTS_UPLOADED",
+            "PROCESSING",
+            "DONE",
             "ERROR",
-            "DELETED",
-            "DONE"
+            "DELETED"
           ]
         },
-        "pdfStamperConfig": {
-          "description": "The PDF stamper configuration",
-          "$ref": "#/definitions/PdfStamperConfig"
+        "creationTime": {
+          "format": "date-time",
+          "description": "The creation date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "inputResults": {
+          "description": "The input(s) and result(s) streamlocation pairs",
+          "readOnly": true,
+          "type": "array",
+          "items": {"$ref": "#/definitions/InputResultLocation"}
+        },
+        "updateTime": {
+          "format": "date-time",
+          "description": "The last update date/time of this job in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
         },
         "statusMessage": {
-          "description": "A status message, which can be informational, warning or error. A message here does not indicate an error per se",
+          "description": "A status message, which can be informational, warning or error. AA message here does not indicate an error per se",
+          "readOnly": true,
+          "type": "string"
+        },
+        "queueTime": {
+          "format": "date-time",
+          "description": "The PDF Stamper queue date/time of this job in ISO 8601 format",
           "readOnly": true,
           "type": "string"
         }
@@ -748,6 +911,49 @@
         "originalFilename": {"type": "string"}
       }
     },
+    "PdfStamperJobRequest": {
+      "description": "PDF stamper job request settings",
+      "type": "object",
+      "title": "PdfStamperJobRequest",
+      "required": [
+        "configIds",
+        "inputResults"
+      ],
+      "properties": {
+        "jobLifecycles": {
+          "description": "The lifecycles of the job itself",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Lifecycle"}
+        },
+        "inlineConfig": {
+          "description": "Optional job specific config that can be supplied inline. Will be merged with the specified configuration. ",
+          "$ref": "#/definitions/StamperConfig"
+        },
+        "variables": {
+          "description": "A map with key-values used to replace template variables in components.",
+          "additionalProperties": {"type": "string"},
+          "type": "object"
+        },
+        "resultSettings": {
+          "description": "The result file and lifecycle settings",
+          "$ref": "#/definitions/ResultSettings"
+        },
+        "configIds": {
+          "description": "A list of configuration ids that have to be applied during executing the job.",
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "inputResults": {
+          "description": "The input(s) and optional result(s)",
+          "type": "array",
+          "items": {"$ref": "#/definitions/InputResultLocation"}
+        },
+        "inputSettings": {
+          "description": "The input file and lifecycle settings",
+          "$ref": "#/definitions/InputSettings"
+        }
+      }
+    },
     "ImageComponent": {
       "allOf": [
         {"$ref": "#/definitions/StampComponent"},
@@ -758,7 +964,7 @@
           "required": ["type"],
           "properties": {
             "imageData": {
-              "description": "The image as a base64 string",
+              "description": "The image as a base64 string if a stream location is not being used",
               "type": "string"
             },
             "scaledDimension": {
@@ -774,49 +980,6 @@
       ],
       "description": "An image component to stamp an image on a pdf",
       "title": "ImageComponent"
-    },
-    "InputResources": {
-      "description": "Input response",
-      "type": "object",
-      "title": "InputResources",
-      "properties": {"streamLocations": {
-        "description": "Input Stream Locations",
-        "type": "array",
-        "items": {"$ref": "#/definitions/StreamLocation"}
-      }}
-    },
-    "PdfStamperJobSettings": {
-      "description": "PDF stamper job settings",
-      "type": "object",
-      "title": "PdfStamperJobSettings",
-      "properties": {
-        "useConfiguration": {
-          "description": "A list of configuration ids that have to be applied during executing the job.",
-          "type": "array",
-          "items": {"type": "string"}
-        },
-        "variables": {
-          "description": "A map with key-values used to replace template variables in components.",
-          "additionalProperties": {"type": "string"},
-          "type": "object"
-        },
-        "resultSettings": {
-          "description": "The result file and lifecycle settings",
-          "$ref": "#/definitions/ResultSettings"
-        },
-        "configuration": {
-          "description": "A configuration that only applies for one job without the ability to be reused.",
-          "$ref": "#/definitions/PdfStamperConfig"
-        },
-        "inputSettings": {
-          "description": "The input file and lifecycle settings",
-          "$ref": "#/definitions/InputSettings"
-        },
-        "jobLifecycle": {
-          "description": "The lifecycle of the job itself",
-          "$ref": "#/definitions/Lifecycle"
-        }
-      }
     },
     "StorageLocation": {
       "description": "Storage Location",
@@ -836,80 +999,33 @@
       "type": "object",
       "title": "InputSettings",
       "properties": {
-        "lifecycle": {
-          "description": "The lifecycle of input files",
-          "$ref": "#/definitions/Lifecycle"
-        },
         "storageLocation": {
           "description": "Input Storage location. This is where input files will be stored when addInput is called",
           "$ref": "#/definitions/StorageLocation"
+        },
+        "lifecycles": {
+          "description": "The lifecycle of input files",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Lifecycle"}
         }
       }
     },
-    "PdfStamperJobContainer": {
-      "description": "The PDF Stamper job.",
+    "InputResultLocation": {
+      "description": "Input and result streamlocation pair allows to specify an optional result location for the input stream lcoation",
       "type": "object",
-      "title": "PdfStamperJobContainer",
+      "title": "InputResultLocation",
+      "required": ["input"],
       "properties": {
         "result": {
-          "description": "The result(s)",
-          "readOnly": true,
-          "$ref": "#/definitions/ResultResources"
-        },
-        "completionTime": {
-          "format": "date-time",
-          "description": "The completion date/time of this job in ISO 8601 format",
-          "readOnly": true,
-          "type": "string"
+          "description": "Optional result stream location, otherwise the default job settings will be honored for the results",
+          "$ref": "#/definitions/StreamLocation"
         },
         "input": {
-          "description": "The input(s)",
-          "readOnly": true,
-          "$ref": "#/definitions/InputResources"
+          "description": "The input stream location of the pre stamped PDF file",
+          "$ref": "#/definitions/StreamLocation"
         },
-        "jobId": {
-          "description": "The job id",
-          "readOnly": true,
-          "type": "string"
-        },
-        "settings": {
-          "description": "The settings used during executing the PDF Stamper job",
-          "$ref": "#/definitions/PdfStamperJobSettings"
-        },
-        "jobStatus": {
-          "description": "The status of the job",
-          "readOnly": true,
-          "type": "string",
-          "enum": [
-            "CREATED",
-            "INPUTS_UPLOADED",
-            "PROCESSING",
-            "DONE",
-            "ERROR",
-            "DELETED"
-          ]
-        },
-        "creationTime": {
-          "format": "date-time",
-          "description": "The creation date/time of this job in ISO 8601 format",
-          "readOnly": true,
-          "type": "string"
-        },
-        "updateTime": {
-          "format": "date-time",
-          "description": "The last update date/time of this job in ISO 8601 format",
-          "readOnly": true,
-          "type": "string"
-        },
-        "statusMessage": {
-          "description": "A status message, which can be informational, warning or error. AA message here does not indicate an error per se",
-          "readOnly": true,
-          "type": "string"
-        },
-        "queueTime": {
-          "format": "date-time",
-          "description": "The PDF Stamper queue date/time of this job in ISO 8601 format",
-          "readOnly": true,
+        "correlationId": {
+          "description": "The id to associate with this input result location pair. Will be created (using a UUID) if not provided",
           "type": "string"
         }
       }
@@ -954,24 +1070,61 @@
       "description": "An text component to stamp text on a pdf",
       "title": "TextComponent"
     },
-    "PdfStamperConfig": {
-      "description": "The PDF stamper configuration",
+    "StamperConfigResponse": {
+      "description": "Response with the PDF stamper configuration",
       "type": "object",
-      "title": "PdfStamperConfig",
+      "title": "StamperConfigResponse",
       "properties": {
-        "storageLocation": {
-          "description": "The storage location where the configuration resources will be stored",
-          "$ref": "#/definitions/StorageLocation"
-        },
-        "fields": {
-          "description": "The form fields that should be filled",
-          "additionalProperties": {"type": "string"},
-          "type": "object"
-        },
-        "canvasComponents": {
-          "description": "The canvas components containing the information of the stamp",
+        "configResources": {
+          "description": "Any registered resource used by the configuration",
+          "readOnly": true,
           "type": "array",
-          "items": {"$ref": "#/definitions/CanvasComponent"}
+          "items": {"$ref": "#/definitions/StreamLocation"}
+        },
+        "creationTime": {
+          "format": "date-time",
+          "description": "The creation date/time of the initial configuration in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "configId": {
+          "description": "The configuration id",
+          "readOnly": true,
+          "type": "string"
+        },
+        "name": {
+          "description": "An optional configuration name",
+          "readOnly": true,
+          "type": "string"
+        },
+        "updateTime": {
+          "format": "date-time",
+          "description": "The last update date/time of this configuration in ISO 8601 format",
+          "readOnly": true,
+          "type": "string"
+        },
+        "configStatus": {
+          "description": "The status of the config action",
+          "readOnly": true,
+          "type": "string",
+          "enum": [
+            "CREATED",
+            "UPDATED",
+            "RESOURCE_UPLOADED",
+            "ERROR",
+            "DELETED",
+            "DONE"
+          ]
+        },
+        "config": {
+          "description": "The PDF stamper configuration",
+          "readOnly": true,
+          "$ref": "#/definitions/StamperConfig"
+        },
+        "statusMessage": {
+          "description": "A status message, which can be informational, warning or error. A message here does not indicate an error per se",
+          "readOnly": true,
+          "type": "string"
         }
       }
     },
@@ -1010,7 +1163,7 @@
       "type": "object",
       "title": "Lifecycle",
       "properties": {
-        "applicableJobStatusses": {
+        "applicableJobStatuses": {
           "description": "Job status needs to be in this list in order for the action to be performed!",
           "type": "array",
           "items": {
@@ -1128,22 +1281,25 @@
       "description": "Result settings",
       "type": "object",
       "title": "ResultSettings",
+      "required": ["storageMode"],
       "properties": {
-        "lifecycle": {
-          "description": "The lifecycle of result files",
-          "$ref": "#/definitions/Lifecycle"
-        },
         "storageMode": {
-          "description": "Storage mode. Can be a configured storage location on the storage API, or replacing the input files (streamlocations).",
+          "description": "Storage mode. Can be a configured storage location on the storage API, a job id folder in the supplied storage location or completely replacing the input files (streamlocations).",
           "type": "string",
           "enum": [
             "STORAGE_LOCATION",
+            "STORAGE_LOCATION_JOB_IDS",
             "REPLACE_INPUT"
           ]
         },
         "storageLocation": {
           "description": "Result Storage location",
           "$ref": "#/definitions/StorageLocation"
+        },
+        "lifecycles": {
+          "description": "The lifecycle of result files",
+          "type": "array",
+          "items": {"$ref": "#/definitions/Lifecycle"}
         }
       }
     },
@@ -1193,6 +1349,35 @@
         }
       }
     },
+    "StamperConfig": {
+      "description": "The PDF stamper configuration",
+      "type": "object",
+      "title": "StamperConfig",
+      "properties": {
+        "blockchainConfig": {
+          "description": "Optional blockchain proof configuration. This is applicable to all stamps created using this configuration. ",
+          "$ref": "#/definitions/BlockchainConfig"
+        },
+        "defaultJobSettings": {
+          "description": "Default job settings. Values omitted from the job will get default settings specified in here",
+          "$ref": "#/definitions/DefaultJobSettings"
+        },
+        "configResourcesLocation": {
+          "description": "The storage location where the configuration resources will be stored",
+          "$ref": "#/definitions/StorageLocation"
+        },
+        "fields": {
+          "description": "The form fields that should be filled",
+          "additionalProperties": {"type": "string"},
+          "type": "object"
+        },
+        "canvasComponents": {
+          "description": "The canvas components containing the information of the stamp",
+          "type": "array",
+          "items": {"$ref": "#/definitions/CanvasComponent"}
+        }
+      }
+    },
     "ErrorResponse": {
       "description": "The error response",
       "type": "object",
@@ -1203,10 +1388,13 @@
       }}
     },
     "BlockchainConfig": {
-      "description": "The optional Blockchain configuration",
+      "description": "The Blockchain configuration",
       "type": "object",
       "title": "BlockchainConfig",
-      "required": ["proofConfigName"],
+      "required": [
+        "blockchainAnchors",
+        "proofConfigName"
+      ],
       "properties": {
         "blockchainAnchors": {
           "description": "The states at which to create a blockchain anchor. This can be the original file (before stamp)the stamped file, or both",
@@ -1221,6 +1409,61 @@
         },
         "proofConfigName": {
           "description": "The blockchain proof configuration name to use",
+          "type": "string"
+        }
+      }
+    },
+    "DefaultJobSettings": {
+      "description": "Default PDF Stamper job settings",
+      "type": "object",
+      "title": "DefaultJobSettings",
+      "properties": {
+        "variables": {
+          "description": "A map with key-values used to replace template variables in components. These are optional defaults. Values in job specific variables will overwrite default values.",
+          "additionalProperties": {"type": "string"},
+          "type": "object"
+        },
+        "resultSettings": {
+          "description": "The default result file and lifecycle settings",
+          "$ref": "#/definitions/ResultSettings"
+        },
+        "inputSettings": {
+          "description": "The default input file and lifecycle settings",
+          "$ref": "#/definitions/InputSettings"
+        }
+      }
+    },
+    "ContentRequest": {
+      "xml": {
+        "name": "ContentRequest",
+        "attribute": false,
+        "wrapped": false
+      },
+      "description": "Content request",
+      "type": "object",
+      "title": "ContentRequest",
+      "required": [
+        "configIds",
+        "content",
+        "filename"
+      ],
+      "properties": {
+        "variables": {
+          "description": "A map with key-values used to replace template variables in components.",
+          "additionalProperties": {"type": "string"},
+          "type": "object"
+        },
+        "filename": {
+          "description": "Original filename",
+          "type": "string"
+        },
+        "configIds": {
+          "description": "A list of configuration ids that have to be applied during executing the job.",
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "content": {
+          "description": "The file as a base64 encoded string",
           "type": "string"
         }
       }
@@ -1297,6 +1540,39 @@
       "description": "A barcode component to stamp a barcode on a pdf",
       "title": "BarcodeComponent"
     },
+    "BlockchainProofComponent": {
+      "allOf": [
+        {"$ref": "#/definitions/StampComponent"},
+        {
+          "description": "An invisible component that does a blockchain registration",
+          "type": "object",
+          "title": "BlockchainProofComponent",
+          "required": [
+            "proofConfigName",
+            "type"
+          ],
+          "properties": {
+            "blockchainAnchors": {
+              "description": "The states at which to create a blockchain anchor. This can be the original file (before stamp)the stamped file, or both",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "BEFORE_STAMP",
+                  "AFTER_STAMP"
+                ]
+              }
+            },
+            "proofConfigName": {
+              "description": "The blockchain proof configuration name to use",
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "description": "An invisible component that does a blockchain registration",
+      "title": "BlockchainProofComponent"
+    },
     "Border": {
       "description": "Border of component",
       "type": "object",
@@ -1313,45 +1589,6 @@
           "type": "number"
         }
       }
-    },
-    "ResultResources": {
-      "description": "Result response",
-      "type": "object",
-      "title": "ResultResources",
-      "properties": {"streamLocations": {
-        "description": "Result Stream Locations",
-        "type": "array",
-        "items": {"$ref": "#/definitions/StreamLocation"}
-      }}
-    },
-    "FileContentRequest": {
-      "xml": {
-        "name": "FileContentRequest",
-        "attribute": false,
-        "wrapped": false
-      },
-      "description": "Filecontent request",
-      "type": "object",
-      "title": "FileContentRequest",
-      "required": [
-        "content",
-        "contentType",
-        "fileName"
-      ],
-      "properties": {
-        "fileName": {
-          "description": "Original filename",
-          "type": "string"
-        },
-        "contentType": {
-          "description": "Content type",
-          "type": "string"
-        },
-        "content": {
-          "description": "The file as a base64 encoded string",
-          "type": "string"
-        }
-      }
     }
   },
   "swagger": "2.0",
@@ -1365,10 +1602,10 @@
       "url": "https://sphereon.com",
       "email": "dev@sphereon.com"
     },
-    "description": "The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.\r\n\r\nThe flow is generally as follows:\r\n1. Make a configuration containing the stamp information\r\n2. Create a job specifying the desired configuration\r\n3. Add one or more PDF files to the job\r\n4. Start the job for processing\r\n5. Retrieve the processed files\r\n\r\nFull API Documentation: https://docs.sphereon.com/api/pdf-stamper/0.2\r\nInteractive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com",
-    "termsOfService": "https://docs.sphereon.com/api/pdf-stamper/0.2",
+    "description": "The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.\r\n\r\nThe flow is generally as follows:\r\n1. Make a configuration containing the stamp information\r\n2. Create a job specifying the desired configuration\r\n3. Add one or more PDF files to the job\r\n4. Start the job for processing\r\n5. Retrieve the processed files\r\n\r\nFull API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0\r\nInteractive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com",
+    "termsOfService": "https://docs.sphereon.com/api/pdf-stamper/1.0",
     "title": "PDF stamper",
-    "version": "0.2"
+    "version": "1.0"
   },
   "tags": [
     {
@@ -1378,6 +1615,10 @@
     {
       "name": "Jobs",
       "description": "PDF stamper job related API's"
+    },
+    {
+      "name": "Synchronous",
+      "description": "API for PDF stamper synchronous functions"
     }
   ]
 }

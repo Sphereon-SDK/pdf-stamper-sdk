@@ -7,9 +7,7 @@ Welcome to the PDF Stamper SDK. This SDK allows you to stamp barcodes, hyperlink
 ## Available SDKs
 
 The SDK currently supports the folowing languages:
- * [Java - Jersey2](java8-jersey2)
  * [Java - OkHttp - Gson](java8-okhttp-gson)
- * [C# .NET](csharp-net45)
  * [Javascript](javascript)
  
 SDKs for the following languages will follow soon:

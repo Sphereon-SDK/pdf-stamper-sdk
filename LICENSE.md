@@ -1,4 +1,4 @@
-Copyright 2016 Sphereon BV
+Copyright 2020 Sphereon BV
 
 Apache License
 ==============

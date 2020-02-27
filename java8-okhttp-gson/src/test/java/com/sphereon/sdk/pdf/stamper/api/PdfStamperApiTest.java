@@ -28,24 +28,7 @@ package com.sphereon.sdk.pdf.stamper.api;
 import com.sphereon.sdk.pdf.stamper.handler.ApiClient;
 import com.sphereon.sdk.pdf.stamper.handler.ApiException;
 import com.sphereon.sdk.pdf.stamper.handler.Configuration;
-import com.sphereon.sdk.pdf.stamper.model.BarcodeComponent;
-import com.sphereon.sdk.pdf.stamper.model.Border;
-import com.sphereon.sdk.pdf.stamper.model.CanvasComponent;
-import com.sphereon.sdk.pdf.stamper.model.Color;
-import com.sphereon.sdk.pdf.stamper.model.Connector;
-import com.sphereon.sdk.pdf.stamper.model.Dimension;
-import com.sphereon.sdk.pdf.stamper.model.HyperlinkComponent;
-import com.sphereon.sdk.pdf.stamper.model.ImageComponent;
-import com.sphereon.sdk.pdf.stamper.model.LineComponent;
-import com.sphereon.sdk.pdf.stamper.model.PdfStamperConfig;
-import com.sphereon.sdk.pdf.stamper.model.PdfStamperConfigContainer;
-import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobContainer;
-import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobSettings;
-import com.sphereon.sdk.pdf.stamper.model.Point;
-import com.sphereon.sdk.pdf.stamper.model.RGBValue;
-import com.sphereon.sdk.pdf.stamper.model.StampComponent;
-import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
-import com.sphereon.sdk.pdf.stamper.model.TextComponent;
+import com.sphereon.sdk.pdf.stamper.model.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -76,7 +59,7 @@ public class PdfStamperApiTest {
     @Before
     public void initClient() {
         ApiClient apiClient = Configuration.getDefaultApiClient();
-        String accessToken = System.getProperty("sphereon.access.token"); // YOUR ACCESS TOKEN
+        String accessToken = System.getenv("sphereon.access.token"); // YOUR ACCESS TOKEN
         apiClient.setAccessToken(accessToken);
         apiClient.setConnectTimeout(10000);
         configApi.setApiClient(apiClient);
@@ -116,18 +99,18 @@ public class PdfStamperApiTest {
         canvasComponent.setConnectors(Arrays.asList(canvasConnector));
         canvasComponent.setSpecificPages(new ArrayList<>());
 
-        PdfStamperConfig config = new PdfStamperConfig();
+        StamperConfig config = new StamperConfig();
         config.setCanvasComponents(Arrays.asList(canvasComponent));
 
-        PdfStamperConfigContainer response = configApi.createConfiguration(config);
+        StamperConfigResponse response = configApi.createConfiguration(config);
 
         Assert.assertNotNull(response);
         configId = response.getConfigId();
 
         Assert.assertNotNull(configId);
-        Assert.assertEquals(PdfStamperConfigContainer.ConfigStatusEnum.CREATED, response.getConfigStatus());
+        Assert.assertEquals(StamperConfigResponse.ConfigStatusEnum.CREATED, response.getConfigStatus());
 
-        Assert.assertEquals(config, response.getPdfStamperConfig());
+        Assert.assertEquals(config, response.getConfig());
     }
 
     /**
@@ -196,7 +179,7 @@ public class PdfStamperApiTest {
         textOffset.setY(13f);
 
         TextComponent textComponent = new TextComponent();
-        textComponent.setText("Text example: ${variable}");
+        textComponent.setText("Text example: ${eaxample-variable}");
         textComponent.setFontSize(9f);
         textComponent.setOffset(textOffset);
 
@@ -249,17 +232,17 @@ public class PdfStamperApiTest {
         allPageCanvasComponent.setPageSelector(CanvasComponent.PageSelectorEnum.ALL_PAGES);
         allPageCanvasComponent.setConnectors(Arrays.asList(leftCanvasConnector));
 
-        PdfStamperConfig config = new PdfStamperConfig();
+        StamperConfig config = new StamperConfig();
         config.setCanvasComponents(Arrays.asList(allPageCanvasComponent, firstPageCanvasComponent));
 
-        PdfStamperConfigContainer response = configApi.updateConfiguration(configId, config);
+        StamperConfigResponse response = configApi.updateConfiguration(configId, config);
 
         Assert.assertNotNull(response);
         Assert.assertNotNull(response.getConfigId());
-        Assert.assertEquals(PdfStamperConfigContainer.ConfigStatusEnum.UPDATED, response.getConfigStatus());
+        Assert.assertEquals(StamperConfigResponse.ConfigStatusEnum.UPDATED, response.getConfigStatus());
 
         // assert deep config equals
-        Assert.assertEquals(config.getCanvasComponents().size(), response.getPdfStamperConfig().getCanvasComponents().size());
+        Assert.assertEquals(config.getCanvasComponents().size(), response.getConfig().getCanvasComponents().size());
     }
 
     /**
@@ -271,11 +254,11 @@ public class PdfStamperApiTest {
      */
     @Test
     public void _04_getConfigurationTest() throws ApiException {
-        PdfStamperConfigContainer response = configApi.getConfiguration(configId);
+        StamperConfigResponse response = configApi.getConfiguration(configId);
 
         Assert.assertNotNull(response);
         Assert.assertNotNull(response.getConfigId());
-        Assert.assertEquals(PdfStamperConfigContainer.ConfigStatusEnum.UPDATED, response.getConfigStatus());
+        Assert.assertEquals(StamperConfigResponse.ConfigStatusEnum.UPDATED, response.getConfigStatus());
     }
 
     /**
@@ -287,13 +270,14 @@ public class PdfStamperApiTest {
      */
     @Test
     public void _10_createJobTest() throws ApiException {
-        PdfStamperJobSettings jobSettings = new PdfStamperJobSettings();
-        jobSettings.addUseConfigurationItem(configId);
-        PdfStamperJobContainer response = jobsApi.createJob(jobSettings);
+        PdfStamperJobRequest jobRequest = new PdfStamperJobRequest();
+        jobRequest.addConfigIdsItem(configId);
+        jobRequest.putVariablesItem("example-variable", "Hello Stamp World");
+        PdfStamperJobResult response = jobsApi.createJob(jobRequest);
 
         Assert.assertNotNull(response);
         Assert.assertNotNull(response.getJobId());
-        Assert.assertEquals(PdfStamperJobContainer.JobStatusEnum.CREATED, response.getJobStatus());
+        Assert.assertEquals(PdfStamperJobResult.JobStatusEnum.CREATED, response.getJobStatus());
 
         jobId = response.getJobId();
     }
@@ -308,11 +292,12 @@ public class PdfStamperApiTest {
     @Test
     public void _11_addInputFileTest() throws ApiException {
         File stream = resource("/canvas.pdf");
-        PdfStamperJobContainer response = jobsApi.addInputFile(jobId, stream);
+        PdfStamperJobResult response = jobsApi.addInputFile(jobId, stream);
 
         Assert.assertNotNull(response);
-        Assert.assertEquals(1, response.getInput().getStreamLocations().size());
-        Assert.assertEquals(PdfStamperJobContainer.JobStatusEnum.INPUTS_UPLOADED, response.getJobStatus());
+        Assert.assertEquals(1, response.getInputResults().size());
+        Assert.assertNotNull(response.getInputResults().get(0).getInput());
+        Assert.assertEquals(PdfStamperJobResult.JobStatusEnum.INPUTS_UPLOADED, response.getJobStatus());
     }
 
     /**
@@ -327,14 +312,14 @@ public class PdfStamperApiTest {
         Map<String, String> variables = new HashMap<>();
         variables.put("variable", "created by an unit test");
 
-        PdfStamperJobSettings jobSettings = new PdfStamperJobSettings();
-        jobSettings.addUseConfigurationItem(configId);
+        PdfStamperJobRequest jobSettings = new PdfStamperJobRequest();
+        jobSettings.addConfigIdsItem(configId);
         jobSettings.setVariables(variables);
 
-        PdfStamperJobContainer response = jobsApi.submitJob(jobId, jobSettings);
+        PdfStamperJobResult response = jobsApi.submitJob(jobId);
 
         Assert.assertNotNull(response);
-        Assert.assertEquals(PdfStamperJobContainer.JobStatusEnum.PROCESSING, response.getJobStatus());
+        Assert.assertEquals(PdfStamperJobResult.JobStatusEnum.PROCESSING, response.getJobStatus());
     }
 
     /**
@@ -352,8 +337,8 @@ public class PdfStamperApiTest {
             Thread.sleep(1000);
             count--;
 
-            PdfStamperJobContainer response = jobsApi.getJob(jobId);
-            if (response.getJobStatus() != PdfStamperJobContainer.JobStatusEnum.PROCESSING) {
+            PdfStamperJobResult response = jobsApi.getJob(jobId);
+            if (response.getJobStatus() != PdfStamperJobResult.JobStatusEnum.PROCESSING) {
                 System.out.println("job finished processing: " + response);
                 break;
             }
@@ -369,7 +354,7 @@ public class PdfStamperApiTest {
      */
     @Test
     public void _14_getStreamTest() throws ApiException, IOException {
-        byte[] response = jobsApi.getStream(jobId);
+        byte[] response = jobsApi.getFirstStream(jobId);
 
         File tempFile= File.createTempFile("unit-test",".pdf");
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
@@ -388,10 +373,10 @@ public class PdfStamperApiTest {
      */
     @Test
     public void _20_deleteConfigurationTest() throws ApiException {
-        PdfStamperConfigContainer response = configApi.deleteConfiguration(configId);
+        StamperConfigResponse response = configApi.deleteConfiguration(configId);
 
         Assert.assertNotNull(response);
-        Assert.assertEquals(PdfStamperConfigContainer.ConfigStatusEnum.DELETED, response.getConfigStatus());
+        Assert.assertEquals(StamperConfigResponse.ConfigStatusEnum.DELETED, response.getConfigStatus());
     }
 
     /**
@@ -403,10 +388,10 @@ public class PdfStamperApiTest {
      */
     @Test
     public void _21_deleteJobTest() throws ApiException {
-        PdfStamperJobContainer response = jobsApi.deleteJob(jobId);
+        PdfStamperJobResult response = jobsApi.deleteJob(jobId);
 
         Assert.assertNotNull(response);
-        Assert.assertEquals(PdfStamperJobContainer.JobStatusEnum.DELETED, response.getJobStatus());
+        Assert.assertEquals(PdfStamperJobResult.JobStatusEnum.DELETED, response.getJobStatus());
     }
 
     private File resource(String filename) {

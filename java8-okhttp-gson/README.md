@@ -28,7 +28,7 @@ Add this dependency to your project's POM:
 <dependency>
     <groupId>com.sphereon.sdk</groupId>
     <artifactId>com.sphereon.sdk.pdf.stamper-java8-okhttp-gson</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.sphereon.sdk:com.sphereon.sdk.pdf.stamper-java8-okhttp-gson:0.1.0-SNAPSHOT"
+compile "com.sphereon.sdk:com.sphereon.sdk.pdf.stamper-java8-okhttp-gson:1.0.0-SNAPSHOT"
 ```
 
 ### Others
@@ -49,7 +49,7 @@ At first generate the JAR by executing:
 
 Then manually install the following JARs:
 
-* target/com.sphereon.sdk.pdf.stamper-java8-okhttp-gson-0.1.0-SNAPSHOT.jar
+* target/com.sphereon.sdk.pdf.stamper-java8-okhttp-gson-1.0.0-SNAPSHOT.jar
 * target/lib/*.jar
 
 ## Getting Started
@@ -76,9 +76,9 @@ public class ConfigApiExample {
         oauth2schema.setAccessToken("YOUR ACCESS TOKEN");
 
         ConfigApi apiInstance = new ConfigApi();
-        PdfStamperConfig pdfStamperConfiguration = new PdfStamperConfig(); // PdfStamperConfig | The PDF stamper configuration
+        StamperConfig stampConfiguration = new StamperConfig(); // StamperConfig | The PDF stamper configuration
         try {
-            PdfStamperConfigContainer result = apiInstance.createConfiguration(pdfStamperConfiguration);
+            StamperConfigResponse result = apiInstance.createConfiguration(stampConfiguration);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ConfigApi#createConfiguration");
@@ -91,7 +91,7 @@ public class ConfigApiExample {
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://localhost:56794/pdf/stamp/0.1*
+All URIs are relative to *https://gw.api.cloud.sphereon.com/pdf/stamp/1.0*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
@@ -100,43 +100,49 @@ Class | Method | HTTP request | Description
 *ConfigApi* | [**deleteResources**](docs/ConfigApi.md#deleteResources) | **DELETE** /config/{configId}/streams | Delete resources
 *ConfigApi* | [**getConfiguration**](docs/ConfigApi.md#getConfiguration) | **GET** /config/{configId} | Get PDF stamper configuration
 *ConfigApi* | [**updateConfiguration**](docs/ConfigApi.md#updateConfiguration) | **PUT** /config/{configId} | Update PDF stamper configuration
-*ConfigApi* | [**uploadResource**](docs/ConfigApi.md#uploadResource) | **POST** /config/{configId}/streams/multipart | Upload resource
-*JobsApi* | [**addContent**](docs/JobsApi.md#addContent) | **POST** /jobs/{jobid}/streams/content | Upload a base64 encoded file
-*JobsApi* | [**addInputFile**](docs/JobsApi.md#addInputFile) | **POST** /jobs/{jobid}/streams/multipart | Upload a file
-*JobsApi* | [**addInputStreamLocations**](docs/JobsApi.md#addInputStreamLocations) | **POST** /jobs/{jobid}/streams/location | Add Input Stream Location(s)
+*ConfigApi* | [**uploadResource**](docs/ConfigApi.md#uploadResource) | **POST** /config/{configId}/streams/multipart | Upload a configuration resource
+*JobsApi* | [**addContent**](docs/JobsApi.md#addContent) | **POST** /jobs/{jobId}/streams/content | Upload a base64 encoded file
+*JobsApi* | [**addInputFile**](docs/JobsApi.md#addInputFile) | **POST** /jobs/{jobId}/streams/multipart | Upload a file
+*JobsApi* | [**addInputStreamLocations**](docs/JobsApi.md#addInputStreamLocations) | **POST** /jobs/{jobId}/streams/location | Add Input Stream Location(s)
 *JobsApi* | [**createJob**](docs/JobsApi.md#createJob) | **POST** /jobs | Create PDF stamper job
-*JobsApi* | [**deleteJob**](docs/JobsApi.md#deleteJob) | **DELETE** /jobs/{jobid} | Delete a job manually
-*JobsApi* | [**getJob**](docs/JobsApi.md#getJob) | **GET** /jobs/{jobid} | Job definition and state
+*JobsApi* | [**deleteJob**](docs/JobsApi.md#deleteJob) | **DELETE** /jobs/{jobId} | Delete a job manually
+*JobsApi* | [**getFirstStream**](docs/JobsApi.md#getFirstStream) | **GET** /jobs/{jobId}/streams/result | Get the current/first result stream
+*JobsApi* | [**getJob**](docs/JobsApi.md#getJob) | **GET** /jobs/{jobId} | Job definition and state
 *JobsApi* | [**getJobs**](docs/JobsApi.md#getJobs) | **GET** /jobs | Get all jobs
-*JobsApi* | [**getStream**](docs/JobsApi.md#getStream) | **GET** /jobs/{jobid}/streams/result | Get the current result stream
-*JobsApi* | [**submitJob**](docs/JobsApi.md#submitJob) | **PUT** /jobs/{jobid} | Submit PDF job for processing
+*JobsApi* | [**getStreamById**](docs/JobsApi.md#getStreamById) | **GET** /jobs/{jobId}/streams/result/{correlationId} | Get the result stream by correlation Id
+*JobsApi* | [**submitJob**](docs/JobsApi.md#submitJob) | **PUT** /jobs/{jobId} | Submit PDF stamper job for processing
+*SynchronousApi* | [**syncJobContent**](docs/SynchronousApi.md#syncJobContent) | **POST** /sync/streams/content | Execute a synchronous stamp job with a content request/response.
+*SynchronousApi* | [**syncJobStreamLocation**](docs/SynchronousApi.md#syncJobStreamLocation) | **POST** /sync/streams/location | Execute a synchronous stamp job with a streamlocation.
 
 
 ## Documentation for Models
 
+ - [BlockchainConfig](docs/BlockchainConfig.md)
  - [Border](docs/Border.md)
  - [CanvasComponent](docs/CanvasComponent.md)
  - [Color](docs/Color.md)
  - [Connector](docs/Connector.md)
+ - [ContentRequest](docs/ContentRequest.md)
+ - [ContentResponse](docs/ContentResponse.md)
+ - [DefaultJobSettings](docs/DefaultJobSettings.md)
  - [Dimension](docs/Dimension.md)
  - [Error](docs/Error.md)
  - [ErrorResponse](docs/ErrorResponse.md)
- - [FileContentRequest](docs/FileContentRequest.md)
- - [InputResources](docs/InputResources.md)
+ - [InputResultLocation](docs/InputResultLocation.md)
  - [InputSettings](docs/InputSettings.md)
  - [Lifecycle](docs/Lifecycle.md)
- - [PdfStamperConfig](docs/PdfStamperConfig.md)
- - [PdfStamperConfigContainer](docs/PdfStamperConfigContainer.md)
- - [PdfStamperJobContainer](docs/PdfStamperJobContainer.md)
- - [PdfStamperJobSettings](docs/PdfStamperJobSettings.md)
+ - [PdfStamperJobRequest](docs/PdfStamperJobRequest.md)
+ - [PdfStamperJobResult](docs/PdfStamperJobResult.md)
  - [Point](docs/Point.md)
  - [RGBValue](docs/RGBValue.md)
- - [ResultResources](docs/ResultResources.md)
  - [ResultSettings](docs/ResultSettings.md)
  - [StampComponent](docs/StampComponent.md)
+ - [StamperConfig](docs/StamperConfig.md)
+ - [StamperConfigResponse](docs/StamperConfigResponse.md)
  - [StorageLocation](docs/StorageLocation.md)
  - [StreamLocation](docs/StreamLocation.md)
  - [BarcodeComponent](docs/BarcodeComponent.md)
+ - [BlockchainProofComponent](docs/BlockchainProofComponent.md)
  - [HyperlinkComponent](docs/HyperlinkComponent.md)
  - [ImageComponent](docs/ImageComponent.md)
  - [LineComponent](docs/LineComponent.md)
