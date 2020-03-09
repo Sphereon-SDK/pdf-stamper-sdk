@@ -33,7 +33,7 @@ import java.util.List;
  * A line component to stamp a line on a pdf
  */
 @ApiModel(description = "A line component to stamp a line on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class LineComponent extends StampComponent {
   @SerializedName("color")
   private Color color = null;
@@ -68,10 +68,10 @@ public class LineComponent extends StampComponent {
   }
 
    /**
-   * The point to which the line should be drawn
+   * The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left) 
    * @return lineTo
   **/
-  @ApiModelProperty(required = true, value = "The point to which the line should be drawn")
+  @ApiModelProperty(required = true, value = "The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left) ")
   public Point getLineTo() {
     return lineTo;
   }

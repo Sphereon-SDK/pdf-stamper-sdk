@@ -30,10 +30,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * An text component to stamp text on a pdf
+ * A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text. Having said that, common linebreak characters like &#x60;\\r\\n&#x60; and &#x60;\\n&#x60; and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made.
  */
-@ApiModel(description = "An text component to stamp text on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@ApiModel(description = "A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text. Having said that, common linebreak characters like `\\r\\n` and `\\n` and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made.")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class TextComponent extends StampComponent {
   @SerializedName("nonStrokingColor")
   private Color nonStrokingColor = null;

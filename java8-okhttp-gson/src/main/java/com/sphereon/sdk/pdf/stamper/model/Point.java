@@ -27,10 +27,10 @@ import java.io.IOException;
  * Location point
  */
 @ApiModel(description = "Location point")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class Point {
   /**
-   * Gets or Sets unit
+   * The unit (pt)
    */
   @JsonAdapter(UnitEnum.Adapter.class)
   public enum UnitEnum {
@@ -89,10 +89,10 @@ public class Point {
   }
 
    /**
-   * Get unit
+   * The unit (pt)
    * @return unit
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "The unit (pt)")
   public UnitEnum getUnit() {
     return unit;
   }
@@ -107,10 +107,10 @@ public class Point {
   }
 
    /**
-   * Get x
+   * X coordinate
    * @return x
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "X coordinate")
   public Float getX() {
     return x;
   }
@@ -125,10 +125,10 @@ public class Point {
   }
 
    /**
-   * Get y
+   * Y coordinate
    * @return y
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "Y coordinate")
   public Float getY() {
     return y;
   }

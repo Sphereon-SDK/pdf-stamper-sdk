@@ -28,10 +28,10 @@ import java.io.IOException;
  * A color object
  */
 @ApiModel(description = "A color object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class Color {
   /**
-   * Use one of the common predefined colors
+   * Use one of the common predefined colors, alternatively provide a RGB value in the respective field.
    */
   @JsonAdapter(NameEnum.Adapter.class)
   public enum NameEnum {
@@ -111,10 +111,10 @@ public class Color {
   }
 
    /**
-   * Use one of the common predefined colors
+   * Use one of the common predefined colors, alternatively provide a RGB value in the respective field.
    * @return name
   **/
-  @ApiModelProperty(value = "Use one of the common predefined colors")
+  @ApiModelProperty(value = "Use one of the common predefined colors, alternatively provide a RGB value in the respective field.")
   public NameEnum getName() {
     return name;
   }
@@ -129,10 +129,10 @@ public class Color {
   }
 
    /**
-   * Use a color that is composed out of the red, green and blue values
+   * Use a color that is composed out of the red, green and blue values. Alternatively use a predefined color for the respective field.
    * @return rgbValue
   **/
-  @ApiModelProperty(value = "Use a color that is composed out of the red, green and blue values")
+  @ApiModelProperty(value = "Use a color that is composed out of the red, green and blue values. Alternatively use a predefined color for the respective field.")
   public RGBValue getRgbValue() {
     return rgbValue;
   }

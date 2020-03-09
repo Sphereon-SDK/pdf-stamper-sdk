@@ -31,10 +31,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * An image component to stamp an image on a pdf
+ * An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a &lt;&lt;StreamLocation&gt;&gt; or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. 
  */
-@ApiModel(description = "An image component to stamp an image on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@ApiModel(description = "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. ")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class ImageComponent extends StampComponent {
   @SerializedName("imageData")
   private String imageData = null;

@@ -24,10 +24,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Dimension
+ * Dimensions for an object. It requires a width, height and unit, which currently is only in Poins
  */
-@ApiModel(description = "Dimension")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@ApiModel(description = "Dimensions for an object. It requires a width, height and unit, which currently is only in Poins")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class Dimension {
   /**
    * Gets or Sets unit
@@ -92,7 +92,7 @@ public class Dimension {
    * Get unit
    * @return unit
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
   public UnitEnum getUnit() {
     return unit;
   }

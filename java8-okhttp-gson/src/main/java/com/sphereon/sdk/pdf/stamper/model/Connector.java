@@ -31,7 +31,7 @@ import java.util.List;
  * Connection between components containing anchor points and offset of the component
  */
 @ApiModel(description = "Connection between components containing anchor points and offset of the component")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class Connector {
   @SerializedName("components")
   private List<StampComponent> components = null;
@@ -175,10 +175,10 @@ public class Connector {
   }
 
    /**
-   * The offset op the components relative to the parent component
+   * The optional offset of the components relative to the parent component
    * @return offset
   **/
-  @ApiModelProperty(value = "The offset op the components relative to the parent component")
+  @ApiModelProperty(value = "The optional offset of the components relative to the parent component")
   public Point getOffset() {
     return offset;
   }

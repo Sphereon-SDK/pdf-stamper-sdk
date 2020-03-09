@@ -31,7 +31,7 @@ import java.util.List;
  * Result settings
  */
 @ApiModel(description = "Result settings")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class ResultSettings {
   /**
    * Storage mode. Can be a configured storage location on the storage API, a job id folder in the supplied storage location or completely replacing the input files (streamlocations).
@@ -141,10 +141,10 @@ public class ResultSettings {
   }
 
    /**
-   * The lifecycle of result files
+   * The lifecycles of result files
    * @return lifecycles
   **/
-  @ApiModelProperty(value = "The lifecycle of result files")
+  @ApiModelProperty(value = "The lifecycles of result files")
   public List<Lifecycle> getLifecycles() {
     return lifecycles;
   }

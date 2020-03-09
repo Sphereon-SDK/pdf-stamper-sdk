@@ -86,7 +86,6 @@ public class PdfStamperApiTest {
         hyperlinkComponent.setWidth(100);
         hyperlinkComponent.setHeight(90);
         hyperlinkComponent.setOffset(offset);
-        hyperlinkComponent.setType("HYPERLINKCOMPONENT");
         hyperlinkComponent.setConnectors(new ArrayList<>());
 
         // Add the hyperlink to a canvas connector
@@ -97,7 +96,6 @@ public class PdfStamperApiTest {
 
         // Create the canvas component on the first page and add the canvas connecter as the only connector on the page
         CanvasComponent canvasComponent = new CanvasComponent();
-        canvasComponent.setType("CANVASCOMPONENT");
         canvasComponent.setPageOperation(CanvasComponent.PageOperationEnum.STAMP);
         canvasComponent.setPageSelector(CanvasComponent.PageSelectorEnum.FIRST_PAGE);
         canvasComponent.setConnectors(Arrays.asList(canvasConnector));

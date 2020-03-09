@@ -32,7 +32,7 @@ import java.util.List;
  * Response with the PDF stamper configuration
  */
 @ApiModel(description = "Response with the PDF stamper configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class StamperConfigResponse {
   @SerializedName("configResources")
   private List<StreamLocation> configResources = null;

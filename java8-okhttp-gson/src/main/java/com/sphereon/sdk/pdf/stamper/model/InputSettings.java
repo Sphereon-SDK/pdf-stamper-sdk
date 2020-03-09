@@ -31,7 +31,7 @@ import java.util.List;
  * Input settings. Specify, if applicable, external location of the inputfile(s)
  */
 @ApiModel(description = "Input settings. Specify, if applicable, external location of the inputfile(s)")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class InputSettings {
   @SerializedName("storageLocation")
   private StorageLocation storageLocation = null;
@@ -71,10 +71,10 @@ public class InputSettings {
   }
 
    /**
-   * The lifecycle of input files
+   * The lifecycles of input files
    * @return lifecycles
   **/
-  @ApiModelProperty(value = "The lifecycle of input files")
+  @ApiModelProperty(value = "The lifecycles of input files")
   public List<Lifecycle> getLifecycles() {
     return lifecycles;
   }

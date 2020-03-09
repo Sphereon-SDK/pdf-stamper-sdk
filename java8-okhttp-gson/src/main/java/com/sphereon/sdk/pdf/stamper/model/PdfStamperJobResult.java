@@ -32,7 +32,7 @@ import java.util.List;
  * The PDF Stamper job.
  */
 @ApiModel(description = "The PDF Stamper job.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class PdfStamperJobResult {
   @SerializedName("completionTime")
   private OffsetDateTime completionTime = null;

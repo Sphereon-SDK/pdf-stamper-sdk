@@ -29,16 +29,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Default PDF Stamper job settings
+ * Default PDF Stamper job settings. Whenever a job does not submit the settings, the defaults will be used.
  */
-@ApiModel(description = "Default PDF Stamper job settings")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@ApiModel(description = "Default PDF Stamper job settings. Whenever a job does not submit the settings, the defaults will be used.")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class DefaultJobSettings {
   @SerializedName("variables")
   private Map<String, String> variables = null;
 
   @SerializedName("resultSettings")
   private ResultSettings resultSettings = null;
+
+  @SerializedName("formFields")
+  private Map<String, String> formFields = null;
 
   @SerializedName("inputSettings")
   private InputSettings inputSettings = null;
@@ -87,6 +90,32 @@ public class DefaultJobSettings {
     this.resultSettings = resultSettings;
   }
 
+  public DefaultJobSettings formFields(Map<String, String> formFields) {
+    this.formFields = formFields;
+    return this;
+  }
+
+  public DefaultJobSettings putFormFieldsItem(String key, String formFieldsItem) {
+    if (this.formFields == null) {
+      this.formFields = new HashMap<>();
+    }
+    this.formFields.put(key, formFieldsItem);
+    return this;
+  }
+
+   /**
+   * Form fields are filled out in PDF forms. These are default values used in the job. Please note that these are different from variables, as the latter can only be used for text, barcode and hyperlink components, whilst the form-fields as the name implies are for filling out PDF forms
+   * @return formFields
+  **/
+  @ApiModelProperty(value = "Form fields are filled out in PDF forms. These are default values used in the job. Please note that these are different from variables, as the latter can only be used for text, barcode and hyperlink components, whilst the form-fields as the name implies are for filling out PDF forms")
+  public Map<String, String> getFormFields() {
+    return formFields;
+  }
+
+  public void setFormFields(Map<String, String> formFields) {
+    this.formFields = formFields;
+  }
+
   public DefaultJobSettings inputSettings(InputSettings inputSettings) {
     this.inputSettings = inputSettings;
     return this;
@@ -117,12 +146,13 @@ public class DefaultJobSettings {
     DefaultJobSettings defaultJobSettings = (DefaultJobSettings) o;
     return Objects.equals(this.variables, defaultJobSettings.variables) &&
         Objects.equals(this.resultSettings, defaultJobSettings.resultSettings) &&
+        Objects.equals(this.formFields, defaultJobSettings.formFields) &&
         Objects.equals(this.inputSettings, defaultJobSettings.inputSettings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(variables, resultSettings, inputSettings);
+    return Objects.hash(variables, resultSettings, formFields, inputSettings);
   }
 
 
@@ -133,6 +163,7 @@ public class DefaultJobSettings {
     
     sb.append("    variables: ").append(toIndentedString(variables)).append("\n");
     sb.append("    resultSettings: ").append(toIndentedString(resultSettings)).append("\n");
+    sb.append("    formFields: ").append(toIndentedString(formFields)).append("\n");
     sb.append("    inputSettings: ").append(toIndentedString(inputSettings)).append("\n");
     sb.append("}");
     return sb.toString();

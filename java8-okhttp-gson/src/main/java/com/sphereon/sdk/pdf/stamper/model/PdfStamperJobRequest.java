@@ -36,7 +36,7 @@ import java.util.Map;
  * PDF stamper job request settings
  */
 @ApiModel(description = "PDF stamper job request settings")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class PdfStamperJobRequest {
   @SerializedName("jobLifecycles")
   private List<Lifecycle> jobLifecycles = null;
@@ -55,6 +55,9 @@ public class PdfStamperJobRequest {
 
   @SerializedName("inputResults")
   private List<InputResultLocation> inputResults = new ArrayList<>();
+
+  @SerializedName("formFields")
+  private Map<String, String> formFields = null;
 
   @SerializedName("inputSettings")
   private InputSettings inputSettings = null;
@@ -193,6 +196,32 @@ public class PdfStamperJobRequest {
     this.inputResults = inputResults;
   }
 
+  public PdfStamperJobRequest formFields(Map<String, String> formFields) {
+    this.formFields = formFields;
+    return this;
+  }
+
+  public PdfStamperJobRequest putFormFieldsItem(String key, String formFieldsItem) {
+    if (this.formFields == null) {
+      this.formFields = new HashMap<>();
+    }
+    this.formFields.put(key, formFieldsItem);
+    return this;
+  }
+
+   /**
+   * A map with key-values used to input values in a PDF form.
+   * @return formFields
+  **/
+  @ApiModelProperty(value = "A map with key-values used to input values in a PDF form.")
+  public Map<String, String> getFormFields() {
+    return formFields;
+  }
+
+  public void setFormFields(Map<String, String> formFields) {
+    this.formFields = formFields;
+  }
+
   public PdfStamperJobRequest inputSettings(InputSettings inputSettings) {
     this.inputSettings = inputSettings;
     return this;
@@ -227,12 +256,13 @@ public class PdfStamperJobRequest {
         Objects.equals(this.resultSettings, pdfStamperJobRequest.resultSettings) &&
         Objects.equals(this.configIds, pdfStamperJobRequest.configIds) &&
         Objects.equals(this.inputResults, pdfStamperJobRequest.inputResults) &&
+        Objects.equals(this.formFields, pdfStamperJobRequest.formFields) &&
         Objects.equals(this.inputSettings, pdfStamperJobRequest.inputSettings);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(jobLifecycles, inlineConfig, variables, resultSettings, configIds, inputResults, inputSettings);
+    return Objects.hash(jobLifecycles, inlineConfig, variables, resultSettings, configIds, inputResults, formFields, inputSettings);
   }
 
 
@@ -247,6 +277,7 @@ public class PdfStamperJobRequest {
     sb.append("    resultSettings: ").append(toIndentedString(resultSettings)).append("\n");
     sb.append("    configIds: ").append(toIndentedString(configIds)).append("\n");
     sb.append("    inputResults: ").append(toIndentedString(inputResults)).append("\n");
+    sb.append("    formFields: ").append(toIndentedString(formFields)).append("\n");
     sb.append("    inputSettings: ").append(toIndentedString(inputSettings)).append("\n");
     sb.append("}");
     return sb.toString();

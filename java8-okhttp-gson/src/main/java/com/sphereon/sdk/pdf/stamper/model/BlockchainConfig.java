@@ -29,7 +29,7 @@ import java.util.List;
  * The Blockchain configuration
  */
 @ApiModel(description = "The Blockchain configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class BlockchainConfig {
   /**
    * Gets or Sets blockchainAnchors
@@ -113,10 +113,10 @@ public class BlockchainConfig {
   }
 
    /**
-   * The blockchain proof configuration name to use
+   * The blockchain proof configuration name to use. The name has to be created in the blockchain-proof API
    * @return proofConfigName
   **/
-  @ApiModelProperty(required = true, value = "The blockchain proof configuration name to use")
+  @ApiModelProperty(required = true, value = "The blockchain proof configuration name to use. The name has to be created in the blockchain-proof API")
   public String getProofConfigName() {
     return proofConfigName;
   }

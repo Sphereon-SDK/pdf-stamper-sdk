@@ -32,7 +32,7 @@ import java.util.List;
  * A canvas space interconnecting zones on the page to stamp components
  */
 @ApiModel(description = "A canvas space interconnecting zones on the page to stamp components")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class CanvasComponent {
   @SerializedName("border")
   private Border border = null;
@@ -44,7 +44,7 @@ public class CanvasComponent {
   private List<Connector> connectors = null;
 
   /**
-   * Prescribes the page the component needs to be overlay-ed
+   * Prescribes the page(s) the component needs to be overlay-ed on.
    */
   @JsonAdapter(PageSelectorEnum.Adapter.class)
   public enum PageSelectorEnum {
@@ -152,8 +152,55 @@ public class CanvasComponent {
   @SerializedName("pageOperation")
   private PageOperationEnum pageOperation = null;
 
-  @SerializedName("type")
-  private String type = null;
+  /**
+   * The position where the stamp end up relative to existing content. Only foreground is supported for now
+   */
+  @JsonAdapter(PositionEnum.Adapter.class)
+  public enum PositionEnum {
+    FOREGROUND("FOREGROUND"),
+    
+    BACKGROUND("BACKGROUND");
+
+    private String value;
+
+    PositionEnum(String value) {
+      this.value = value;
+    }
+
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    public static PositionEnum fromValue(String text) {
+      for (PositionEnum b : PositionEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+
+    public static class Adapter extends TypeAdapter<PositionEnum> {
+      @Override
+      public void write(final JsonWriter jsonWriter, final PositionEnum enumeration) throws IOException {
+        jsonWriter.value(enumeration.getValue());
+      }
+
+      @Override
+      public PositionEnum read(final JsonReader jsonReader) throws IOException {
+        String value = jsonReader.nextString();
+        return PositionEnum.fromValue(String.valueOf(value));
+      }
+    }
+  }
+
+  @SerializedName("position")
+  private PositionEnum position = null;
 
   public CanvasComponent border(Border border) {
     this.border = border;
@@ -231,10 +278,10 @@ public class CanvasComponent {
   }
 
    /**
-   * Prescribes the page the component needs to be overlay-ed
+   * Prescribes the page(s) the component needs to be overlay-ed on.
    * @return pageSelector
   **/
-  @ApiModelProperty(required = true, value = "Prescribes the page the component needs to be overlay-ed")
+  @ApiModelProperty(required = true, value = "Prescribes the page(s) the component needs to be overlay-ed on.")
   public PageSelectorEnum getPageSelector() {
     return pageSelector;
   }
@@ -279,22 +326,22 @@ public class CanvasComponent {
     this.pageOperation = pageOperation;
   }
 
-  public CanvasComponent type(String type) {
-    this.type = type;
+  public CanvasComponent position(PositionEnum position) {
+    this.position = position;
     return this;
   }
 
    /**
-   * The discriminator type for serialization of the different components
-   * @return type
+   * The position where the stamp end up relative to existing content. Only foreground is supported for now
+   * @return position
   **/
-  @ApiModelProperty(required = true, value = "The discriminator type for serialization of the different components")
-  public String getType() {
-    return type;
+  @ApiModelProperty(required = true, value = "The position where the stamp end up relative to existing content. Only foreground is supported for now")
+  public PositionEnum getPosition() {
+    return position;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setPosition(PositionEnum position) {
+    this.position = position;
   }
 
 
@@ -313,12 +360,12 @@ public class CanvasComponent {
         Objects.equals(this.pageSelector, canvasComponent.pageSelector) &&
         Objects.equals(this.offset, canvasComponent.offset) &&
         Objects.equals(this.pageOperation, canvasComponent.pageOperation) &&
-        Objects.equals(this.type, canvasComponent.type);
+        Objects.equals(this.position, canvasComponent.position);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(border, specificPages, connectors, pageSelector, offset, pageOperation, type);
+    return Objects.hash(border, specificPages, connectors, pageSelector, offset, pageOperation, position);
   }
 
 
@@ -333,7 +380,7 @@ public class CanvasComponent {
     sb.append("    pageSelector: ").append(toIndentedString(pageSelector)).append("\n");
     sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
     sb.append("    pageOperation: ").append(toIndentedString(pageOperation)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    position: ").append(toIndentedString(position)).append("\n");
     sb.append("}");
     return sb.toString();
   }

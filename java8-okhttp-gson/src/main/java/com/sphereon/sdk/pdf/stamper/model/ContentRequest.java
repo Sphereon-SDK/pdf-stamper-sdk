@@ -31,7 +31,7 @@ import java.util.Map;
  * Content request
  */
 @ApiModel(description = "Content request")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class ContentRequest {
   @SerializedName("variables")
   private Map<String, String> variables = null;
@@ -41,6 +41,9 @@ public class ContentRequest {
 
   @SerializedName("configIds")
   private List<String> configIds = new ArrayList<>();
+
+  @SerializedName("formFields")
+  private Map<String, String> formFields = null;
 
   @SerializedName("content")
   private String content = null;
@@ -77,10 +80,10 @@ public class ContentRequest {
   }
 
    /**
-   * Original filename
+   * The filename
    * @return filename
   **/
-  @ApiModelProperty(required = true, value = "Original filename")
+  @ApiModelProperty(required = true, value = "The filename")
   public String getFilename() {
     return filename;
   }
@@ -110,6 +113,32 @@ public class ContentRequest {
 
   public void setConfigIds(List<String> configIds) {
     this.configIds = configIds;
+  }
+
+  public ContentRequest formFields(Map<String, String> formFields) {
+    this.formFields = formFields;
+    return this;
+  }
+
+  public ContentRequest putFormFieldsItem(String key, String formFieldsItem) {
+    if (this.formFields == null) {
+      this.formFields = new HashMap<>();
+    }
+    this.formFields.put(key, formFieldsItem);
+    return this;
+  }
+
+   /**
+   * A map with key-values used to fill out PDF forms. Please not that this is different from using variables. Variables are used in texts, hyperlinks and barcodes
+   * @return formFields
+  **/
+  @ApiModelProperty(value = "A map with key-values used to fill out PDF forms. Please not that this is different from using variables. Variables are used in texts, hyperlinks and barcodes")
+  public Map<String, String> getFormFields() {
+    return formFields;
+  }
+
+  public void setFormFields(Map<String, String> formFields) {
+    this.formFields = formFields;
   }
 
   public ContentRequest content(String content) {
@@ -143,12 +172,13 @@ public class ContentRequest {
     return Objects.equals(this.variables, contentRequest.variables) &&
         Objects.equals(this.filename, contentRequest.filename) &&
         Objects.equals(this.configIds, contentRequest.configIds) &&
+        Objects.equals(this.formFields, contentRequest.formFields) &&
         Objects.equals(this.content, contentRequest.content);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(variables, filename, configIds, content);
+    return Objects.hash(variables, filename, configIds, formFields, content);
   }
 
 
@@ -160,6 +190,7 @@ public class ContentRequest {
     sb.append("    variables: ").append(toIndentedString(variables)).append("\n");
     sb.append("    filename: ").append(toIndentedString(filename)).append("\n");
     sb.append("    configIds: ").append(toIndentedString(configIds)).append("\n");
+    sb.append("    formFields: ").append(toIndentedString(formFields)).append("\n");
     sb.append("    content: ").append(toIndentedString(content)).append("\n");
     sb.append("}");
     return sb.toString();

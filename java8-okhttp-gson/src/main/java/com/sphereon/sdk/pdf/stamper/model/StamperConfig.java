@@ -27,15 +27,13 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The PDF stamper configuration
  */
 @ApiModel(description = "The PDF stamper configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class StamperConfig {
   @SerializedName("blockchainConfig")
   private BlockchainConfig blockchainConfig = null;
@@ -46,11 +44,8 @@ public class StamperConfig {
   @SerializedName("configResourcesLocation")
   private StorageLocation configResourcesLocation = null;
 
-  @SerializedName("fields")
-  private Map<String, String> fields = null;
-
   @SerializedName("canvasComponents")
-  private List<CanvasComponent> canvasComponents = null;
+  private List<CanvasComponent> canvasComponents = new ArrayList<>();
 
   public StamperConfig blockchainConfig(BlockchainConfig blockchainConfig) {
     this.blockchainConfig = blockchainConfig;
@@ -106,41 +101,12 @@ public class StamperConfig {
     this.configResourcesLocation = configResourcesLocation;
   }
 
-  public StamperConfig fields(Map<String, String> fields) {
-    this.fields = fields;
-    return this;
-  }
-
-  public StamperConfig putFieldsItem(String key, String fieldsItem) {
-    if (this.fields == null) {
-      this.fields = new HashMap<>();
-    }
-    this.fields.put(key, fieldsItem);
-    return this;
-  }
-
-   /**
-   * The form fields that should be filled
-   * @return fields
-  **/
-  @ApiModelProperty(value = "The form fields that should be filled")
-  public Map<String, String> getFields() {
-    return fields;
-  }
-
-  public void setFields(Map<String, String> fields) {
-    this.fields = fields;
-  }
-
   public StamperConfig canvasComponents(List<CanvasComponent> canvasComponents) {
     this.canvasComponents = canvasComponents;
     return this;
   }
 
   public StamperConfig addCanvasComponentsItem(CanvasComponent canvasComponentsItem) {
-    if (this.canvasComponents == null) {
-      this.canvasComponents = new ArrayList<>();
-    }
     this.canvasComponents.add(canvasComponentsItem);
     return this;
   }
@@ -149,7 +115,7 @@ public class StamperConfig {
    * The canvas components containing the information of the stamp
    * @return canvasComponents
   **/
-  @ApiModelProperty(value = "The canvas components containing the information of the stamp")
+  @ApiModelProperty(required = true, value = "The canvas components containing the information of the stamp")
   public List<CanvasComponent> getCanvasComponents() {
     return canvasComponents;
   }
@@ -171,13 +137,12 @@ public class StamperConfig {
     return Objects.equals(this.blockchainConfig, stamperConfig.blockchainConfig) &&
         Objects.equals(this.defaultJobSettings, stamperConfig.defaultJobSettings) &&
         Objects.equals(this.configResourcesLocation, stamperConfig.configResourcesLocation) &&
-        Objects.equals(this.fields, stamperConfig.fields) &&
         Objects.equals(this.canvasComponents, stamperConfig.canvasComponents);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(blockchainConfig, defaultJobSettings, configResourcesLocation, fields, canvasComponents);
+    return Objects.hash(blockchainConfig, defaultJobSettings, configResourcesLocation, canvasComponents);
   }
 
 
@@ -189,7 +154,6 @@ public class StamperConfig {
     sb.append("    blockchainConfig: ").append(toIndentedString(blockchainConfig)).append("\n");
     sb.append("    defaultJobSettings: ").append(toIndentedString(defaultJobSettings)).append("\n");
     sb.append("    configResourcesLocation: ").append(toIndentedString(configResourcesLocation)).append("\n");
-    sb.append("    fields: ").append(toIndentedString(fields)).append("\n");
     sb.append("    canvasComponents: ").append(toIndentedString(canvasComponents)).append("\n");
     sb.append("}");
     return sb.toString();

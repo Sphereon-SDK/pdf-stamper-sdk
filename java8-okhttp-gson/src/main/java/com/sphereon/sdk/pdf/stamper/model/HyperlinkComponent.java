@@ -29,10 +29,10 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * An hyperlink component to stamp a hyperlink on a pdf
+ * An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable. 
  */
-@ApiModel(description = "An hyperlink component to stamp a hyperlink on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@ApiModel(description = "An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable. ")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class HyperlinkComponent extends StampComponent {
   @SerializedName("address")
   private String address = null;
@@ -49,10 +49,10 @@ public class HyperlinkComponent extends StampComponent {
   }
 
    /**
-   * The hyperlink address
+   * The hyperlink address (URL)
    * @return address
   **/
-  @ApiModelProperty(required = true, value = "The hyperlink address")
+  @ApiModelProperty(required = true, value = "The hyperlink address (URL)")
   public String getAddress() {
     return address;
   }

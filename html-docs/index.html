@@ -710,7 +710,7 @@ margin-bottom: 20px;
     },
     "proofConfigName" : {
       "type" : "string",
-      "description" : "The blockchain proof configuration name to use"
+      "description" : "The blockchain proof configuration name to use. The name has to be created in the blockchain-proof API"
     }
   },
   "title" : "BlockchainConfig",
@@ -727,15 +727,15 @@ margin-bottom: 20px;
     "thickness" : {
       "type" : "number",
       "format" : "float",
-      "description" : "The thickness of the border line"
+      "description" : "The thickness of the border line, which is 1 by default"
     }
   },
   "title" : "Border",
-  "description" : "Border of component"
+  "description" : "Optional border of a component"
 };
             defs.CanvasComponent = {
   "type" : "object",
-  "required" : [ "pageOperation", "pageSelector", "type" ],
+  "required" : [ "pageOperation", "pageSelector", "position" ],
   "properties" : {
     "border" : {
       "description" : "The border of the component",
@@ -757,7 +757,7 @@ margin-bottom: 20px;
     },
     "pageSelector" : {
       "type" : "string",
-      "description" : "Prescribes the page the component needs to be overlay-ed",
+      "description" : "Prescribes the page(s) the component needs to be overlay-ed on.",
       "enum" : [ "FIRST_PAGE", "LAST_PAGE", "EVEN_PAGES", "ODD_PAGES", "ALL_PAGES", "SPECIFIC_PAGES" ]
     },
     "offset" : {
@@ -769,9 +769,10 @@ margin-bottom: 20px;
       "description" : "The operation that should be executed with the stamp component",
       "enum" : [ "STAMP" ]
     },
-    "type" : {
+    "position" : {
       "type" : "string",
-      "description" : "The discriminator type for serialization of the different components"
+      "description" : "The position where the stamp end up relative to existing content. Only foreground is supported for now",
+      "enum" : [ "FOREGROUND", "BACKGROUND" ]
     }
   },
   "title" : "CanvasComponent",
@@ -782,11 +783,11 @@ margin-bottom: 20px;
   "properties" : {
     "name" : {
       "type" : "string",
-      "description" : "Use one of the common predefined colors",
+      "description" : "Use one of the common predefined colors, alternatively provide a RGB value in the respective field.",
       "enum" : [ "BLACK", "WHITE", "RED", "GREEN", "BLUE", "YELLOW", "CYAN", "MAGENTA", "PINK", "GRAY", "DARK_GRAY", "LIGHT_GRAY", "ORANGE" ]
     },
     "rgbValue" : {
-      "description" : "Use a color that is composed out of the red, green and blue values",
+      "description" : "Use a color that is composed out of the red, green and blue values. Alternatively use a predefined color for the respective field.",
       "$ref" : "#/definitions/RGBValue"
     }
   },
@@ -804,7 +805,7 @@ margin-bottom: 20px;
       }
     },
     "offset" : {
-      "description" : "The offset op the components relative to the parent component",
+      "description" : "The optional offset of the components relative to the parent component",
       "$ref" : "#/definitions/Point"
     },
     "horizontalAnchorPoint" : {
@@ -834,12 +835,19 @@ margin-bottom: 20px;
     },
     "filename" : {
       "type" : "string",
-      "description" : "Original filename"
+      "description" : "The filename"
     },
     "configIds" : {
       "type" : "array",
       "description" : "A list of configuration ids that have to be applied during executing the job.",
       "items" : {
+        "type" : "string"
+      }
+    },
+    "formFields" : {
+      "type" : "object",
+      "description" : "A map with key-values used to fill out PDF forms. Please not that this is different from using variables. Variables are used in texts, hyperlinks and barcodes",
+      "additionalProperties" : {
         "type" : "string"
       }
     },
@@ -909,17 +917,24 @@ margin-bottom: 20px;
       "description" : "The default result file and lifecycle settings",
       "$ref" : "#/definitions/ResultSettings"
     },
+    "formFields" : {
+      "type" : "object",
+      "description" : "Form fields are filled out in PDF forms. These are default values used in the job. Please note that these are different from variables, as the latter can only be used for text, barcode and hyperlink components, whilst the form-fields as the name implies are for filling out PDF forms",
+      "additionalProperties" : {
+        "type" : "string"
+      }
+    },
     "inputSettings" : {
       "description" : "The default input file and lifecycle settings",
       "$ref" : "#/definitions/InputSettings"
     }
   },
   "title" : "DefaultJobSettings",
-  "description" : "Default PDF Stamper job settings"
+  "description" : "Default PDF Stamper job settings. Whenever a job does not submit the settings, the defaults will be used."
 };
             defs.Dimension = {
   "type" : "object",
-  "required" : [ "height", "width" ],
+  "required" : [ "height", "unit", "width" ],
   "properties" : {
     "unit" : {
       "type" : "string",
@@ -935,7 +950,7 @@ margin-bottom: 20px;
     }
   },
   "title" : "Dimension",
-  "description" : "Dimension"
+  "description" : "Dimensions for an object. It requires a width, height and unit, which currently is only in Poins"
 };
             defs.Error = {
   "type" : "object",
@@ -1000,7 +1015,7 @@ margin-bottom: 20px;
     },
     "lifecycles" : {
       "type" : "array",
-      "description" : "The lifecycle of input files",
+      "description" : "The lifecycles of input files",
       "items" : {
         "$ref" : "#/definitions/Lifecycle"
       }
@@ -1079,6 +1094,13 @@ margin-bottom: 20px;
         "$ref" : "#/definitions/InputResultLocation"
       }
     },
+    "formFields" : {
+      "type" : "object",
+      "description" : "A map with key-values used to input values in a PDF form.",
+      "additionalProperties" : {
+        "type" : "string"
+      }
+    },
     "inputSettings" : {
       "description" : "The input file and lifecycle settings",
       "$ref" : "#/definitions/InputSettings"
@@ -1152,19 +1174,22 @@ margin-bottom: 20px;
 };
             defs.Point = {
   "type" : "object",
-  "required" : [ "x", "y" ],
+  "required" : [ "unit", "x", "y" ],
   "properties" : {
     "unit" : {
       "type" : "string",
+      "description" : "The unit (pt)",
       "enum" : [ "pt" ]
     },
     "x" : {
       "type" : "number",
-      "format" : "float"
+      "format" : "float",
+      "description" : "X coordinate"
     },
     "y" : {
       "type" : "number",
-      "format" : "float"
+      "format" : "float",
+      "description" : "Y coordinate"
     }
   },
   "title" : "Point",
@@ -1188,7 +1213,7 @@ margin-bottom: 20px;
     }
   },
   "title" : "RGBValue",
-  "description" : "A RGB color value"
+  "description" : "A Red Green Blue color value combination"
 };
             defs.ResultSettings = {
   "type" : "object",
@@ -1205,7 +1230,7 @@ margin-bottom: 20px;
     },
     "lifecycles" : {
       "type" : "array",
-      "description" : "The lifecycle of result files",
+      "description" : "The lifecycles of result files",
       "items" : {
         "$ref" : "#/definitions/Lifecycle"
       }
@@ -1216,7 +1241,6 @@ margin-bottom: 20px;
 };
             defs.StampComponent = {
   "type" : "object",
-  "required" : [ "type" ],
   "discriminator" : "type",
   "properties" : {
     "border" : {
@@ -1248,21 +1272,13 @@ margin-bottom: 20px;
       },
       "description" : "The offset of the component relative to the parent component",
       "$ref" : "#/definitions/Point"
-    },
-    "type" : {
-      "type" : "string",
-      "xml" : {
-        "name" : "type",
-        "attribute" : false,
-        "wrapped" : false
-      },
-      "description" : "The discriminator type for serialization of the different components"
     }
   },
   "title" : "StampComponent"
 };
             defs.StamperConfig = {
   "type" : "object",
+  "required" : [ "canvasComponents" ],
   "properties" : {
     "blockchainConfig" : {
       "description" : "Optional blockchain proof configuration. This is applicable to all stamps created using this configuration. ",
@@ -1275,13 +1291,6 @@ margin-bottom: 20px;
     "configResourcesLocation" : {
       "description" : "The storage location where the configuration resources will be stored",
       "$ref" : "#/definitions/StorageLocation"
-    },
-    "fields" : {
-      "type" : "object",
-      "description" : "The form fields that should be filled",
-      "additionalProperties" : {
-        "type" : "string"
-      }
     },
     "canvasComponents" : {
       "type" : "array",
@@ -1423,9 +1432,9 @@ margin-bottom: 20px;
       }
     },
     "title" : "BarcodeComponent",
-    "description" : "A barcode component to stamp a barcode on a pdf"
+    "description" : "A barcode component to stamp a barcode or QR code on a pdf"
   } ],
-  "description" : "A barcode component to stamp a barcode on a pdf"
+  "description" : "A barcode component to stamp a barcode or QR code on a pdf"
 };
             defs.BlockchainProofComponent = {
   "title" : "BlockchainProofComponent",
@@ -1463,7 +1472,7 @@ margin-bottom: 20px;
     "properties" : {
       "address" : {
         "type" : "string",
-        "description" : "The hyperlink address"
+        "description" : "The hyperlink address (URL)"
       },
       "width" : {
         "type" : "integer",
@@ -1477,9 +1486,9 @@ margin-bottom: 20px;
       }
     },
     "title" : "HyperlinkComponent",
-    "description" : "An hyperlink component to stamp a hyperlink on a pdf"
+    "description" : "An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not\nbe visible in the result PDF. Clicking the transparent box brings you to the provided URL.\nSo typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.\n"
   } ],
-  "description" : "An hyperlink component to stamp a hyperlink on a pdf"
+  "description" : "An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not\nbe visible in the result PDF. Clicking the transparent box brings you to the provided URL.\nSo typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.\n"
 };
             defs.ImageComponent = {
   "title" : "ImageComponent",
@@ -1502,9 +1511,9 @@ margin-bottom: 20px;
       }
     },
     "title" : "ImageComponent",
-    "description" : "An image component to stamp an image on a pdf"
+    "description" : "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. "
   } ],
-  "description" : "An image component to stamp an image on a pdf"
+  "description" : "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. "
 };
             defs.LineComponent = {
   "title" : "LineComponent",
@@ -1519,7 +1528,7 @@ margin-bottom: 20px;
         "$ref" : "#/definitions/Color"
       },
       "lineTo" : {
-        "description" : "The point to which the line should be drawn",
+        "description" : "The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left) ",
         "$ref" : "#/definitions/Point"
       },
       "lineWidth" : {
@@ -1565,9 +1574,9 @@ margin-bottom: 20px;
       }
     },
     "title" : "TextComponent",
-    "description" : "An text component to stamp text on a pdf"
+    "description" : "A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text.\nHaving said that, common linebreak characters like `\\r\\n` and `\\n` and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made."
   } ],
-  "description" : "An text component to stamp text on a pdf"
+  "description" : "A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text.\nHaving said that, common linebreak characters like `\\r\\n` and `\\n` and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made."
 };
   </script>
 
@@ -8770,7 +8779,7 @@ $(document).ready(function() {
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2020-02-27T02:50:40.811+01:00
+              Generated 2020-03-09T05:07:39.426Z
             </div>
           </div>
       </div>

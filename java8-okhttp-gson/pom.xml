@@ -8,15 +8,26 @@
     <version>1.0.1-SNAPSHOT</version>
     <url>https://github.com/swagger-api/swagger-codegen</url>
     <description>Swagger Java</description>
+    <distributionManagement>
+        <repository>
+            <id>sphereon-sdk-releases</id>
+            <url>http://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>sphereon-sdk-snapshots</id>
+            <url>http://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
     <scm>
-        <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
-        <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
-        <url>https://github.com/swagger-api/swagger-codegen</url>
+        <connection>scm:git:git@github.com:Sphereon-SDK/pdf-stamper-sdk.git</connection>
+        <developerConnection>scm:git:git@github.com:Sphereon-SDK/pdf-stamper-sdk.git</developerConnection>
+        <url>https://github.com/Sphereon-SDK/pdf-stamper</url>
     </scm>
+
 
     <licenses>
         <license>
-            <name>Unlicense</name>
+            <name>Apache2</name>
             <url>http://www.apache.org/licenses/LICENSE-2.0</url>
             <distribution>repo</distribution>
         </license>

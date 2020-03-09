@@ -25,10 +25,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Border of component
+ * Optional border of a component
  */
-@ApiModel(description = "Border of component")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@ApiModel(description = "Optional border of a component")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 public class Border {
   @SerializedName("color")
   private Color color = null;
@@ -60,10 +60,10 @@ public class Border {
   }
 
    /**
-   * The thickness of the border line
+   * The thickness of the border line, which is 1 by default
    * @return thickness
   **/
-  @ApiModelProperty(value = "The thickness of the border line")
+  @ApiModelProperty(value = "The thickness of the border line, which is 1 by default")
   public Float getThickness() {
     return thickness;
   }

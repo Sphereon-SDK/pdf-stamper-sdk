@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * StampComponent
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-02-27T02:48:32.481+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
 
 public class StampComponent {
   @SerializedName("border")
@@ -42,9 +42,6 @@ public class StampComponent {
 
   @SerializedName("offset")
   private Point offset = null;
-
-  @SerializedName("type")
-  private String type = null;
 
   public StampComponent border(Border border) {
     this.border = border;
@@ -108,24 +105,6 @@ public class StampComponent {
     this.offset = offset;
   }
 
-  public StampComponent type(String type) {
-    this.type = type;
-    return this;
-  }
-
-   /**
-   * The discriminator type for serialization of the different components
-   * @return type
-  **/
-  @ApiModelProperty(required = true, value = "The discriminator type for serialization of the different components")
-  public String getType() {
-    return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -138,13 +117,12 @@ public class StampComponent {
     StampComponent stampComponent = (StampComponent) o;
     return Objects.equals(this.border, stampComponent.border) &&
         Objects.equals(this.connectors, stampComponent.connectors) &&
-        Objects.equals(this.offset, stampComponent.offset) &&
-        Objects.equals(this.type, stampComponent.type);
+        Objects.equals(this.offset, stampComponent.offset);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(border, connectors, offset, type);
+    return Objects.hash(border, connectors, offset);
   }
 
 
@@ -156,7 +134,6 @@ public class StampComponent {
     sb.append("    border: ").append(toIndentedString(border)).append("\n");
     sb.append("    connectors: ").append(toIndentedString(connectors)).append("\n");
     sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
   }
