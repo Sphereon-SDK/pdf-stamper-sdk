@@ -75,10 +75,12 @@ public class PdfStamperApiTest {
      */
     @Test
     public void _01_createConfigurationTest() throws ApiException {
+        // Create an offset to the left and up
         Point offset = new Point();
         offset.setX(-10f);
         offset.setY(10f);
 
+        // Create an invisible hyperlink at the offset
         HyperlinkComponent hyperlinkComponent = new HyperlinkComponent();
         hyperlinkComponent.setAddress("https://sphereon.com");
         hyperlinkComponent.setWidth(100);
@@ -87,11 +89,13 @@ public class PdfStamperApiTest {
         hyperlinkComponent.setType("HYPERLINKCOMPONENT");
         hyperlinkComponent.setConnectors(new ArrayList<>());
 
+        // Add the hyperlink to a canvas connector
         Connector canvasConnector = new Connector();
         canvasConnector.setHorizontalAnchorPoint(Connector.HorizontalAnchorPointEnum.RIGHT);
         canvasConnector.setVerticalAnchorPoint(Connector.VerticalAnchorPointEnum.BOTTOM);
         canvasConnector.setComponents(Arrays.asList(hyperlinkComponent));
 
+        // Create the canvas component on the first page and add the canvas connecter as the only connector on the page
         CanvasComponent canvasComponent = new CanvasComponent();
         canvasComponent.setType("CANVASCOMPONENT");
         canvasComponent.setPageOperation(CanvasComponent.PageOperationEnum.STAMP);
@@ -99,6 +103,7 @@ public class PdfStamperApiTest {
         canvasComponent.setConnectors(Arrays.asList(canvasConnector));
         canvasComponent.setSpecificPages(new ArrayList<>());
 
+        // Create a configuration with the above
         StamperConfig config = new StamperConfig();
         config.setCanvasComponents(Arrays.asList(canvasComponent));
 
@@ -179,7 +184,7 @@ public class PdfStamperApiTest {
         textOffset.setY(13f);
 
         TextComponent textComponent = new TextComponent();
-        textComponent.setText("Text example: ${eaxample-variable}");
+        textComponent.setText("Text example: ${example-variable}");
         textComponent.setFontSize(9f);
         textComponent.setOffset(textOffset);
 
