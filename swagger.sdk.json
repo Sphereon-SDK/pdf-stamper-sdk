@@ -67,22 +67,13 @@
           "description": "Invalid config id"
         }
       },
-      "parameters": [
-        {
-          "in": "path",
-          "name": "configId",
-          "description": "The PDF stamper configuration id",
-          "type": "string",
-          "required": true
-        },
-        {
-          "schema": {"$ref": "#/definitions/ContentRequest"},
-          "in": "body",
-          "name": "contentRequest",
-          "description": "File content",
-          "required": true
-        }
-      ],
+      "parameters": [{
+        "schema": {"$ref": "#/definitions/ContentRequest"},
+        "in": "body",
+        "name": "contentRequest",
+        "description": "File content",
+        "required": true
+      }],
       "tags": ["Synchronous"],
       "consumes": ["application/json;charset=UTF-8"]
     }},

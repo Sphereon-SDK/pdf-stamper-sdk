@@ -33,7 +33,7 @@ import java.util.List;
  * A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text. Having said that, common linebreak characters like &#x60;\\r\\n&#x60; and &#x60;\\n&#x60; and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made.
  */
 @ApiModel(description = "A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text. Having said that, common linebreak characters like `\\r\\n` and `\\n` and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 public class TextComponent extends StampComponent {
   @SerializedName("nonStrokingColor")
   private Color nonStrokingColor = null;

@@ -31,7 +31,7 @@ import java.util.List;
  * Result settings
  */
 @ApiModel(description = "Result settings")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 public class ResultSettings {
   /**
    * Storage mode. Can be a configured storage location on the storage API, a job id folder in the supplied storage location or completely replacing the input files (streamlocations).

@@ -28,7 +28,7 @@ import java.io.IOException;
  * Optional border of a component
  */
 @ApiModel(description = "Optional border of a component")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 public class Border {
   @SerializedName("color")
   private Color color = null;

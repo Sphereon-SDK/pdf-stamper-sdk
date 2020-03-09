@@ -100,6 +100,7 @@ public class PdfStamperApiTest {
         canvasComponent.setPageSelector(CanvasComponent.PageSelectorEnum.FIRST_PAGE);
         canvasComponent.setConnectors(Arrays.asList(canvasConnector));
         canvasComponent.setSpecificPages(new ArrayList<>());
+        canvasComponent.setPosition(CanvasComponent.PositionEnum.FOREGROUND);
 
         // Create a configuration with the above
         StamperConfig config = new StamperConfig();

@@ -27,7 +27,7 @@ import java.io.IOException;
  * Storage Location
  */
 @ApiModel(description = "Storage Location")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 public class StorageLocation {
   @SerializedName("folderPath")
   private String folderPath = null;

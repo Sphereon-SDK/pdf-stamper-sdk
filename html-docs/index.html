@@ -7944,10 +7944,9 @@ public class SynchronousApiExample {
         oauth2schema.setAccessToken("YOUR ACCESS TOKEN");
 
         SynchronousApi apiInstance = new SynchronousApi();
-        String configId = configId_example; // String | The PDF stamper configuration id
         ContentRequest contentRequest = ; // ContentRequest | File content
         try {
-            ContentResponse result = apiInstance.syncJobContent(configId, contentRequest);
+            ContentResponse result = apiInstance.syncJobContent(contentRequest);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SynchronousApi#syncJobContent");
@@ -7964,10 +7963,9 @@ public class SynchronousApiExample {
 
     public static void main(String[] args) {
         SynchronousApi apiInstance = new SynchronousApi();
-        String configId = configId_example; // String | The PDF stamper configuration id
         ContentRequest contentRequest = ; // ContentRequest | File content
         try {
-            ContentResponse result = apiInstance.syncJobContent(configId, contentRequest);
+            ContentResponse result = apiInstance.syncJobContent(contentRequest);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling SynchronousApi#syncJobContent");
@@ -7986,14 +7984,12 @@ public class SynchronousApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: oauth2schema)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-String *configId = configId_example; // The PDF stamper configuration id
 ContentRequest *contentRequest = ; // File content
 
 SynchronousApi *apiInstance = [[SynchronousApi alloc] init];
 
 // Execute a synchronous stamp job with a content request/response.
-[apiInstance syncJobContentWith:configId
-    contentRequest:contentRequest
+[apiInstance syncJobContentWith:contentRequest
               completionHandler: ^(ContentResponse output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -8015,8 +8011,6 @@ oauth2schema.accessToken = "YOUR ACCESS TOKEN"
 
 var api = new PdfStamper.SynchronousApi()
 
-var configId = configId_example; // {String} The PDF stamper configuration id
-
 var contentRequest = ; // {ContentRequest} File content
 
 
@@ -8027,7 +8021,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.syncJobContent(configId, contentRequest, callback);
+api.syncJobContent(contentRequest, callback);
 </code></pre>
                             </div>
 
@@ -8052,13 +8046,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new SynchronousApi();
-            var configId = configId_example;  // String | The PDF stamper configuration id
             var contentRequest = new ContentRequest(); // ContentRequest | File content
 
             try
             {
                 // Execute a synchronous stamp job with a content request/response.
-                ContentResponse result = apiInstance.syncJobContent(configId, contentRequest);
+                ContentResponse result = apiInstance.syncJobContent(contentRequest);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -8079,11 +8072,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
 
 $api_instance = new Swagger\Client\Api\SynchronousApi();
-$configId = configId_example; // String | The PDF stamper configuration id
 $contentRequest = ; // ContentRequest | File content
 
 try {
-    $result = $api_instance->syncJobContent($configId, $contentRequest);
+    $result = $api_instance->syncJobContent($contentRequest);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling SynchronousApi->syncJobContent: ', $e->getMessage(), PHP_EOL;
@@ -8100,11 +8092,10 @@ use WWW::SwaggerClient::SynchronousApi;
 $WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
 my $api_instance = WWW::SwaggerClient::SynchronousApi->new();
-my $configId = configId_example; # String | The PDF stamper configuration id
 my $contentRequest = WWW::SwaggerClient::Object::ContentRequest->new(); # ContentRequest | File content
 
 eval { 
-    my $result = $api_instance->syncJobContent(configId => $configId, contentRequest => $contentRequest);
+    my $result = $api_instance->syncJobContent(contentRequest => $contentRequest);
     print Dumper($result);
 };
 if ($@) {
@@ -8124,12 +8115,11 @@ swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = swagger_client.SynchronousApi()
-configId = configId_example # String | The PDF stamper configuration id
 contentRequest =  # ContentRequest | File content
 
 try: 
     # Execute a synchronous stamp job with a content request/response.
-    api_response = api_instance.sync_job_content(configId, contentRequest)
+    api_response = api_instance.sync_job_content(contentRequest)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling SynchronousApi->syncJobContent: %s\n" % e)</code></pre>
@@ -8138,36 +8128,6 @@ except ApiException as e:
 
                           <h2>Parameters</h2>
 
-                            <div class="methodsubtabletitle">Path parameters</div>
-                            <table id="methodsubtable">
-                                <tr>
-                                  <th width="150px">Name</th>
-                                  <th>Description</th>
-                                </tr>
-                                  <tr><td style="width:150px;">configId*</td>
-<td>
-
-
-    <div id="d2e199_syncJobContent_configId">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    String
-                </span>
-
-                    <div class="inner description">
-                        The PDF stamper configuration id
-                    </div>
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
-</td>
-</tr>
-
-                            </table>
 
 
                             <div class="methodsubtabletitle">Body parameters</div>
@@ -8779,7 +8739,7 @@ $(document).ready(function() {
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2020-03-09T05:07:39.426Z
+              Generated 2020-03-09T08:19:15.555Z
             </div>
           </div>
       </div>

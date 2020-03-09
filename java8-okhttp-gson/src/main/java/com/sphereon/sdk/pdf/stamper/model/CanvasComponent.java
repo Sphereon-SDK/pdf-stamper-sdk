@@ -32,7 +32,7 @@ import java.util.List;
  * A canvas space interconnecting zones on the page to stamp components
  */
 @ApiModel(description = "A canvas space interconnecting zones on the page to stamp components")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 public class CanvasComponent {
   @SerializedName("border")
   private Border border = null;

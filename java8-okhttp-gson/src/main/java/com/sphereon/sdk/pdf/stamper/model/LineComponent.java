@@ -33,7 +33,7 @@ import java.util.List;
  * A line component to stamp a line on a pdf
  */
 @ApiModel(description = "A line component to stamp a line on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 public class LineComponent extends StampComponent {
   @SerializedName("color")
   private Color color = null;

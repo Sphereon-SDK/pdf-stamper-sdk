@@ -29,7 +29,7 @@ import java.util.List;
  * The Blockchain configuration
  */
 @ApiModel(description = "The Blockchain configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 public class BlockchainConfig {
   /**
    * Gets or Sets blockchainAnchors

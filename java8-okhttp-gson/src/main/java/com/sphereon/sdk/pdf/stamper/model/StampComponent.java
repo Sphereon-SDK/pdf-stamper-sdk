@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * StampComponent
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T04:53:18.701Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 
 public class StampComponent {
   @SerializedName("border")

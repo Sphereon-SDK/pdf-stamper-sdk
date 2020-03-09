@@ -60,19 +60,17 @@ public class SynchronousApi {
 
     /**
      * Build call for syncJobContent
-     * @param configId The PDF stamper configuration id (required)
      * @param contentRequest File content (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call syncJobContentCall(String configId, ContentRequest contentRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call syncJobContentCall(ContentRequest contentRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = contentRequest;
 
         // create path and map variables
-        String localVarPath = "/sync/streams/content"
-            .replaceAll("\\{" + "configId" + "\\}", apiClient.escapeString(configId.toString()));
+        String localVarPath = "/sync/streams/content";
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -110,12 +108,7 @@ public class SynchronousApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call syncJobContentValidateBeforeCall(String configId, ContentRequest contentRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'configId' is set
-        if (configId == null) {
-            throw new ApiException("Missing the required parameter 'configId' when calling syncJobContent(Async)");
-        }
+    private com.squareup.okhttp.Call syncJobContentValidateBeforeCall(ContentRequest contentRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'contentRequest' is set
         if (contentRequest == null) {
@@ -123,7 +116,7 @@ public class SynchronousApi {
         }
         
 
-        com.squareup.okhttp.Call call = syncJobContentCall(configId, contentRequest, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = syncJobContentCall(contentRequest, progressListener, progressRequestListener);
         return call;
 
     }
@@ -131,26 +124,24 @@ public class SynchronousApi {
     /**
      * Execute a synchronous stamp job with a content request/response.
      * Execute a synchronous stamp job using the given configId. Header parameters will be parsed for additional template variables.
-     * @param configId The PDF stamper configuration id (required)
      * @param contentRequest File content (required)
      * @return ContentResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ContentResponse syncJobContent(String configId, ContentRequest contentRequest) throws ApiException {
-        ApiResponse<ContentResponse> resp = syncJobContentWithHttpInfo(configId, contentRequest);
+    public ContentResponse syncJobContent(ContentRequest contentRequest) throws ApiException {
+        ApiResponse<ContentResponse> resp = syncJobContentWithHttpInfo(contentRequest);
         return resp.getData();
     }
 
     /**
      * Execute a synchronous stamp job with a content request/response.
      * Execute a synchronous stamp job using the given configId. Header parameters will be parsed for additional template variables.
-     * @param configId The PDF stamper configuration id (required)
      * @param contentRequest File content (required)
      * @return ApiResponse&lt;ContentResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ContentResponse> syncJobContentWithHttpInfo(String configId, ContentRequest contentRequest) throws ApiException {
-        com.squareup.okhttp.Call call = syncJobContentValidateBeforeCall(configId, contentRequest, null, null);
+    public ApiResponse<ContentResponse> syncJobContentWithHttpInfo(ContentRequest contentRequest) throws ApiException {
+        com.squareup.okhttp.Call call = syncJobContentValidateBeforeCall(contentRequest, null, null);
         Type localVarReturnType = new TypeToken<ContentResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
@@ -158,13 +149,12 @@ public class SynchronousApi {
     /**
      * Execute a synchronous stamp job with a content request/response. (asynchronously)
      * Execute a synchronous stamp job using the given configId. Header parameters will be parsed for additional template variables.
-     * @param configId The PDF stamper configuration id (required)
      * @param contentRequest File content (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call syncJobContentAsync(String configId, ContentRequest contentRequest, final ApiCallback<ContentResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call syncJobContentAsync(ContentRequest contentRequest, final ApiCallback<ContentResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -185,7 +175,7 @@ public class SynchronousApi {
             };
         }
 
-        com.squareup.okhttp.Call call = syncJobContentValidateBeforeCall(configId, contentRequest, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = syncJobContentValidateBeforeCall(contentRequest, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<ContentResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
