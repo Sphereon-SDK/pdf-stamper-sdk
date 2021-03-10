@@ -36,7 +36,7 @@ public class StampPdf {
         // Create a PDF stamper configuration.
         final String configId = createConfiguration();
 
-        final File resource = new File(StampPdf.class.getResource("/logo2.png").getFile());
+        final File resource = new File(StampPdf.class.getResource("/logo.png").getFile());
         final StreamLocation logoStreamLocation = configApi.uploadResource(configId, resource);
 
         // Update the existing PDF stamper configuration.
