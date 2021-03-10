@@ -25,12 +25,12 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class StampPdf {
-    private static final String accessToken = "f66815be-231c-37ed-9212-0317b76d0237"; //System.getenv("sphereon.access.token"); // YOUR ACCESS TOKEN
+    private static final String accessToken = "[YOUR ACCESS TOKEN]";
     private static final ConfigApi configApi = new ConfigApi();
     private static final JobsApi jobsApi = new JobsApi();
 
     public static void main(final String[] args) throws ApiException, InterruptedException, IOException {
-        // Create / initialize a new PDF stamper configuration.
+        // Create/initialize a new PDF stamper configuration.
         initClient(accessToken);
 
         // Create a PDF stamper configuration.
@@ -41,8 +41,6 @@ public class StampPdf {
 
         // Update the existing PDF stamper configuration.
         updateConfiguration(configId, logoStreamLocation);
-
-        StamperConfigResponse response = configApi.getConfiguration(configId);
 
         // Create a job using the given settings.
         final String jobId = createJob(configId);
@@ -63,7 +61,13 @@ public class StampPdf {
         // Get the PDF as binary stream/file. Our API generation does not allow changing the media type based on the Accepted header unfortunately.
         // This means we use a separate path postfix with the value &#39;/stream&#39;.
         // This API only returns the PDF when the response status.
-        final File tempFile = getStream(jobId);
+        final byte[] content = getFileResponse(jobId);
+
+        // Write content to result file
+        final File tempFile = File.createTempFile("sphereon-stamp-example-",".pdf");
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(content);
+        }
 
         // Delete a PDF stamper configuration.
         configApi.deleteConfiguration(configId);
@@ -127,6 +131,8 @@ public class StampPdf {
         firstPageCanvasComponent.setPageSelector(CanvasComponent.PageSelectorEnum.FIRST_PAGE);
         firstPageCanvasComponent.setConnectors(Collections.singletonList(rightComponentConnector));
 
+        // TODO add signature component
+
         final StamperConfig config = new StamperConfig();
         // Attach canvas component to pdf stamper config
         config.setCanvasComponents(Collections.singletonList(firstPageCanvasComponent));
@@ -136,38 +142,28 @@ public class StampPdf {
     }
 
     private static String createJob(final String configId) throws ApiException {
+        // create job request
         final PdfStamperJobRequest jobRequest = new PdfStamperJobRequest();
         jobRequest.addConfigIdsItem(configId);
-//        jobRequest.putVariablesItem("example-variable", "Hello Stamp World");
 
+        // create job
         final PdfStamperJobResult response = jobsApi.createJob(jobRequest);
 
         return response.getJobId();
     }
 
     public static PdfStamperJobResult submitJob(final String jobId, final String configId) throws ApiException {
-//        final Map<String, String> variables = new HashMap<>();
-//        variables.put("variable", "created by an unit test");
-
-        final PdfStamperJobRequest jobSettings = new PdfStamperJobRequest();
-        jobSettings.addConfigIdsItem(configId);
-//        jobSettings.setVariables(variables);
-
+        // submit job
         return jobsApi.submitJob(jobId);
     }
 
-    public static File getStream(final String jobId) throws ApiException, IOException {
-        final byte[] response = jobsApi.getFirstStream(jobId);
-
-        final File tempFile = File.createTempFile("sphereon-example",".pdf");
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            fos.write(response);
-        }
-
-        return tempFile;
+    public static byte[] getFileResponse(final String jobId) throws ApiException {
+        // get the first stream for the job
+        return jobsApi.getFirstStream(jobId);
     }
 
     public static void awaitJob(final String jobId) throws InterruptedException, ApiException {
+        // wait until job is done processing
         int count = 180;
             while (count > 0) {
             Thread.sleep(1000);
