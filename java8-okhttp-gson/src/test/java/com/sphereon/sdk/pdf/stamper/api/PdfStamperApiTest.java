@@ -38,7 +38,6 @@ import org.junit.runners.MethodSorters;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -59,7 +58,7 @@ public class PdfStamperApiTest {
     @Before
     public void initClient() {
         ApiClient apiClient = Configuration.getDefaultApiClient();
-        String accessToken = System.getenv("sphereon.access.token"); // YOUR ACCESS TOKEN
+        String accessToken = "fbfeaabd-9a6c-3460-8584-44f705ab5f88";//System.getenv("sphereon.access.token"); // YOUR ACCESS TOKEN
         apiClient.setAccessToken(accessToken);
         apiClient.setConnectTimeout(10000);
         configApi.setApiClient(apiClient);
@@ -94,7 +93,7 @@ public class PdfStamperApiTest {
         canvasConnector.setVerticalAnchorPoint(Connector.VerticalAnchorPointEnum.BOTTOM);
         canvasConnector.setComponents(Arrays.asList(hyperlinkComponent));
 
-        // Create the canvas component on the first page and add the canvas connecter as the only connector on the page
+        // Create the canvas component on the first page and add the canvas connector as the only connector on the page
         CanvasComponent canvasComponent = new CanvasComponent();
         canvasComponent.setPageOperation(CanvasComponent.PageOperationEnum.STAMP);
         canvasComponent.setPageSelector(CanvasComponent.PageSelectorEnum.FIRST_PAGE);
@@ -352,7 +351,7 @@ public class PdfStamperApiTest {
     /**
      * Get the current result stream
      * <p>
-     * Get the PDF as binary stream/file.  Our API generation does not allow changing the media type based on the Accepted header unfortunately.  This means we use a seperate path postfix with the value &#39;/stream&#39;.  This API only returns the PDF when the response status.
+     * Get the PDF as binary stream/file.  Our API generation does not allow changing the media type based on the Accepted header unfortunately.  This means we use a separate path postfix with the value &#39;/stream&#39;.  This API only returns the PDF when the response status.
      *
      * @throws ApiException if the Api call fails
      */
