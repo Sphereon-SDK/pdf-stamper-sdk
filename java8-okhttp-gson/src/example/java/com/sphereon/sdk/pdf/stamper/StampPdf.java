@@ -53,7 +53,7 @@ public class StampPdf {
         // The settings supplied with the job in the request body are used for the conversion.
         // You can only submit the job after a new Job is created with status INPUTS_UPLOADED or resubmit an existing Job with status ERROR.
         // In all cases the job Id in the path must match the jobId in the request.
-        submitJob(jobId, configId);
+        submitJob(jobId);
 
         // Get the PDF job definition and current state. Please note that you can differentiate based on http response status.
         awaitJob(jobId);
@@ -152,7 +152,7 @@ public class StampPdf {
         return response.getJobId();
     }
 
-    public static PdfStamperJobResult submitJob(final String jobId, final String configId) throws ApiException {
+    public static PdfStamperJobResult submitJob(final String jobId) throws ApiException {
         // submit job
         return jobsApi.submitJob(jobId);
     }
