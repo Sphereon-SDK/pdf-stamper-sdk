@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.
@@ -148,7 +149,11 @@ public class HyperlinkComponent extends StampComponent {
 
   @Override
   public void validate() {
-    // TODO implement
+    if (StringUtils.isEmpty(address)) {
+      throw new IllegalArgumentException("hyperlink component requires a link");
+    } else if (width < 1 || height < 1) {
+      throw new IllegalArgumentException(String.format("hyperlink component dimensions (%s,%s) should both be greater than 0", width, height));
+    }
   }
 
 }

@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A barcode component to stamp a barcode or QR code on a pdf
@@ -345,7 +346,13 @@ public class BarcodeComponent extends StampComponent {
 
   @Override
   public void validate() {
-    // TODO implement
+    if (StringUtils.isEmpty(content)) {
+      throw new IllegalArgumentException("barcode component requires content");
+    } else if (width < 1 || height < 1) {
+      throw new IllegalArgumentException(String.format("barcode component dimensions (%s,%s) should both be greater than 0", width, height));
+    } else if (barcodeFormat == null) {
+      throw new IllegalArgumentException("barcode component requires barcodeFormat");
+    }
   }
 
 }

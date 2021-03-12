@@ -3,6 +3,7 @@ package com.sphereon.sdk.pdf.stamper.model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.regex.Pattern;
+import org.apache.commons.lang3.StringUtils;
 
 @ApiModel(value = "PdfSignatureComponent", description = "An invisible component that adds a PDF signature", parent = StampComponent.class)
 public class PdfSignatureComponent extends StampComponent {
@@ -65,11 +66,11 @@ public class PdfSignatureComponent extends StampComponent {
 
     @Override
     public void validate() {
-//        if (StringUtils.isEmpty(name)) {
-//            throw new RestException.IllegalArgumentException("Cannot create a PDF signature without a name");
-//        } else if (certificateSettings == null && !NAME_PATTERN.matcher(name).find()) {
-//            throw new RestException.IllegalArgumentException("Name needs to contain a valid e-mail address when not using a custom certificate!. Supplied: " + name);
-//        }
+        if (StringUtils.isEmpty(name)) {
+            throw new IllegalArgumentException("Cannot create a PDF signature without a name");
+        } else if (certificateSettings == null && !NAME_PATTERN.matcher(name).find()) {
+            throw new IllegalArgumentException("Name needs to contain a valid e-mail address when not using a custom certificate!. Supplied: " + name);
+        }
     }
 
     public CertificateSettings getCertificateSettings() {

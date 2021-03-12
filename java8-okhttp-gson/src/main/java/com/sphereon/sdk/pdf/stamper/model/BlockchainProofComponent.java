@@ -181,7 +181,6 @@ public class BlockchainProofComponent extends StampComponent {
 
   @Override
   public void validate() {
-    // TODO implement
   }
 
 }

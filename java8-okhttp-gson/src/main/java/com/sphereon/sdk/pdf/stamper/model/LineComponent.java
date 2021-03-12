@@ -149,7 +149,13 @@ public class LineComponent extends StampComponent {
 
   @Override
   public void validate() {
-    // TODO implement
+    if (lineTo == null || (lineTo.getX() == 0 && lineTo.getY() == 0)) {
+      throw new IllegalArgumentException("line component requires a coordinate different (0,0)");
+    } else if (lineWidth <= 0) {
+      throw new IllegalArgumentException("line component requires a line thickness greater than 0");
+    } else if (color != null && color.getName() == null && color.getRgbValue() == null) {
+      throw new IllegalArgumentException("line component requires color with a name of a rgb value");
+    }
   }
 
 }
