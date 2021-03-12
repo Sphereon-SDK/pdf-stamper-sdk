@@ -17,7 +17,6 @@ import com.sphereon.sdk.pdf.stamper.model.PdfSignatureComponent.SignatureModeEnu
 import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobRequest;
 import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobResult;
 import com.sphereon.sdk.pdf.stamper.model.Point;
-import com.sphereon.sdk.pdf.stamper.model.SignatureMode;
 import com.sphereon.sdk.pdf.stamper.model.StamperConfig;
 import com.sphereon.sdk.pdf.stamper.model.StamperConfigResponse;
 import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
@@ -32,6 +31,7 @@ public class StampPdf {
     private static final ConfigApi configApi = new ConfigApi();
     private static final JobsApi jobsApi = new JobsApi();
 
+    // This example will stamp an PDF with a logo with a hyperlink, and will sign the PDF with a certificate signature.
     public static void main(final String[] args) throws ApiException, InterruptedException, IOException {
         // Create/initialize a new PDF stamper configuration.
         initClient(accessToken);
