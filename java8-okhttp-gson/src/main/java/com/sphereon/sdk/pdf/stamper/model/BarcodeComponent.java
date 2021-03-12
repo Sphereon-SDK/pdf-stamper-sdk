@@ -40,11 +40,11 @@ public class BarcodeComponent extends StampComponent {
   @JsonAdapter(ErrorCorrectionLevelEnum.Adapter.class)
   public enum ErrorCorrectionLevelEnum {
     L("QR_L"),
-    
+
     M("QR_M"),
-    
+
     Q("QR_Q"),
-    
+
     H("QR_H");
 
     private String value;
@@ -94,37 +94,37 @@ public class BarcodeComponent extends StampComponent {
   @JsonAdapter(BarcodeFormatEnum.Adapter.class)
   public enum BarcodeFormatEnum {
     AZTEC("AZTEC"),
-    
+
     CODABAR("CODABAR"),
-    
+
     CODE_39("CODE_39"),
-    
+
     CODE_93("CODE_93"),
-    
+
     CODE_128("CODE_128"),
-    
+
     DATA_MATRIX("DATA_MATRIX"),
-    
+
     EAN_8("EAN_8"),
-    
+
     EAN_13("EAN_13"),
-    
+
     ITF("ITF"),
-    
+
     MAXICODE("MAXICODE"),
-    
+
     PDF_417("PDF_417"),
-    
+
     QR_CODE("QR_CODE"),
-    
+
     RSS_14("RSS_14"),
-    
+
     RSS_EXPANDED("RSS_EXPANDED"),
-    
+
     UPC_A("UPC_A"),
-    
+
     UPC_E("UPC_E"),
-    
+
     UPC_EAN_EXTENSION("UPC_EAN_EXTENSION");
 
     private String value;
@@ -179,6 +179,10 @@ public class BarcodeComponent extends StampComponent {
 
   @SerializedName("qrVersion")
   private Integer qrVersion = null;
+
+  public BarcodeComponent() {
+    super(StampType.BARCODECOMPONENT.name());
+  }
 
   public BarcodeComponent errorCorrectionLevel(ErrorCorrectionLevelEnum errorCorrectionLevel) {
     this.errorCorrectionLevel = errorCorrectionLevel;
@@ -337,6 +341,11 @@ public class BarcodeComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  @Override
+  public void validate() {
+    // TODO implement
   }
 
 }

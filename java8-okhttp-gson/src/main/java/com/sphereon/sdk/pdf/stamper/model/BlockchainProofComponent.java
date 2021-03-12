@@ -41,7 +41,7 @@ public class BlockchainProofComponent extends StampComponent {
   @JsonAdapter(BlockchainAnchorsEnum.Adapter.class)
   public enum BlockchainAnchorsEnum {
     BEFORE_STAMP("BEFORE_STAMP"),
-    
+
     AFTER_STAMP("AFTER_STAMP");
 
     private String value;
@@ -87,6 +87,10 @@ public class BlockchainProofComponent extends StampComponent {
 
   @SerializedName("proofConfigName")
   private String proofConfigName = null;
+
+  public BlockchainProofComponent() {
+    super(StampType.BLOCKCHAINPROOFCOMPONENT.name());
+  }
 
   public BlockchainProofComponent blockchainAnchors(List<BlockchainAnchorsEnum> blockchainAnchors) {
     this.blockchainAnchors = blockchainAnchors;
@@ -173,6 +177,11 @@ public class BlockchainProofComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  @Override
+  public void validate() {
+    // TODO implement
   }
 
 }

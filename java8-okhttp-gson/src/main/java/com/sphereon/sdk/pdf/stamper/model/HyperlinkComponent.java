@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable. 
+ * An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.
  */
 @ApiModel(description = "An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable. ")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
@@ -42,6 +42,10 @@ public class HyperlinkComponent extends StampComponent {
 
   @SerializedName("height")
   private Integer height = null;
+
+  public HyperlinkComponent() {
+    super(StampType.HYPERLINKCOMPONENT.name());
+  }
 
   public HyperlinkComponent address(String address) {
     this.address = address;
@@ -140,6 +144,11 @@ public class HyperlinkComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  @Override
+  public void validate() {
+    // TODO implement
   }
 
 }

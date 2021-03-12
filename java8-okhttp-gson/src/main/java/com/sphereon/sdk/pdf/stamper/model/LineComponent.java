@@ -44,6 +44,10 @@ public class LineComponent extends StampComponent {
   @SerializedName("lineWidth")
   private Float lineWidth = null;
 
+  public LineComponent() {
+    super(StampType.IMAGECOMPONENT.name());
+  }
+
   public LineComponent color(Color color) {
     this.color = color;
     return this;
@@ -68,7 +72,7 @@ public class LineComponent extends StampComponent {
   }
 
    /**
-   * The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left) 
+   * The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left)
    * @return lineTo
   **/
   @ApiModelProperty(required = true, value = "The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left) ")
@@ -141,6 +145,11 @@ public class LineComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  @Override
+  public void validate() {
+    // TODO implement
   }
 
 }

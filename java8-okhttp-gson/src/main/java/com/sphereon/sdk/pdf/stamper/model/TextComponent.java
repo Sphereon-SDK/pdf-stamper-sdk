@@ -50,6 +50,10 @@ public class TextComponent extends StampComponent {
   @SerializedName("lineSpacing")
   private Float lineSpacing = null;
 
+  public TextComponent() {
+    super(StampType.TEXTCOMPONENT.name());
+  }
+
   public TextComponent nonStrokingColor(Color nonStrokingColor) {
     this.nonStrokingColor = nonStrokingColor;
     return this;
@@ -187,6 +191,11 @@ public class TextComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  @Override
+  public void validate() {
+    // TODO implement
   }
 
 }

@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-
 package com.sphereon.sdk.pdf.stamper.model;
 
 import java.util.Objects;
@@ -33,7 +32,7 @@ import java.util.List;
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
 
-public class StampComponent {
+public abstract class StampComponent {
   @SerializedName("border")
   private Border border = null;
 
@@ -42,6 +41,13 @@ public class StampComponent {
 
   @SerializedName("offset")
   private Point offset = null;
+
+  @SerializedName("type")
+  private String type;
+
+  public StampComponent(String type) {
+    this.type = type;
+  }
 
   public StampComponent border(Border border) {
     this.border = border;
@@ -130,7 +136,7 @@ public class StampComponent {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class StampComponent {\n");
-    
+
     sb.append("    border: ").append(toIndentedString(border)).append("\n");
     sb.append("    connectors: ").append(toIndentedString(connectors)).append("\n");
     sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
@@ -148,6 +154,8 @@ public class StampComponent {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  public abstract void validate();
 
 }
 

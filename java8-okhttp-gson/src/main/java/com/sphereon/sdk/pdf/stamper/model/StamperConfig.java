@@ -38,6 +38,9 @@ public class StamperConfig {
   @SerializedName("blockchainConfig")
   private BlockchainConfig blockchainConfig = null;
 
+  @SerializedName("signatureComponent")
+  private PdfSignatureComponent signatureComponent = null;
+
   @SerializedName("defaultJobSettings")
   private DefaultJobSettings defaultJobSettings = null;
 
@@ -53,7 +56,7 @@ public class StamperConfig {
   }
 
    /**
-   * Optional blockchain proof configuration. This is applicable to all stamps created using this configuration. 
+   * Optional blockchain proof configuration. This is applicable to all stamps created using this configuration.
    * @return blockchainConfig
   **/
   @ApiModelProperty(value = "Optional blockchain proof configuration. This is applicable to all stamps created using this configuration. ")
@@ -111,6 +114,14 @@ public class StamperConfig {
     return this;
   }
 
+  public PdfSignatureComponent getSignatureComponent() {
+    return signatureComponent;
+  }
+
+  public void setSignatureComponent(PdfSignatureComponent signatureComponent) {
+    this.signatureComponent = signatureComponent;
+  }
+
    /**
    * The canvas components containing the information of the stamp
    * @return canvasComponents
@@ -150,7 +161,7 @@ public class StamperConfig {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class StamperConfig {\n");
-    
+
     sb.append("    blockchainConfig: ").append(toIndentedString(blockchainConfig)).append("\n");
     sb.append("    defaultJobSettings: ").append(toIndentedString(defaultJobSettings)).append("\n");
     sb.append("    configResourcesLocation: ").append(toIndentedString(configResourcesLocation)).append("\n");

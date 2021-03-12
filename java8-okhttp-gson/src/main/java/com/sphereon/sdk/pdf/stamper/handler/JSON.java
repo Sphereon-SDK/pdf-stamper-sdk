@@ -60,6 +60,8 @@ public class JSON {
                 classByDiscriminatorValue.put("LineComponent".toUpperCase(), LineComponent.class);
                 classByDiscriminatorValue.put("TextComponent".toUpperCase(), TextComponent.class);
                 classByDiscriminatorValue.put("StampComponent".toUpperCase(), StampComponent.class);
+                classByDiscriminatorValue.put("PdfSignatureComponent".toUpperCase(), PdfSignatureComponent.class);
+
                 return getClassByDiscriminator(
                                            classByDiscriminatorValue,
                                            getDiscriminatorValue(readElement, "type"));

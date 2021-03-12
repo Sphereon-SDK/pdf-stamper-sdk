@@ -10,7 +10,6 @@
  * Do not edit the class manually.
  */
 
-
 package com.sphereon.sdk.pdf.stamper.model;
 
 import java.util.Objects;
@@ -31,7 +30,7 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a &lt;&lt;StreamLocation&gt;&gt; or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. 
+ * An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a &lt;&lt;StreamLocation&gt;&gt; or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size.
  */
 @ApiModel(description = "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. ")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
@@ -44,6 +43,10 @@ public class ImageComponent extends StampComponent {
 
   @SerializedName("imageStreamLocation")
   private StreamLocation imageStreamLocation = null;
+
+  public ImageComponent() {
+    super(StampType.IMAGECOMPONENT.name());
+  }
 
   public ImageComponent imageData(String imageData) {
     this.imageData = imageData;
@@ -142,6 +145,11 @@ public class ImageComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
+  }
+
+  @Override
+  public void validate() {
+    // TODO implement
   }
 
 }
