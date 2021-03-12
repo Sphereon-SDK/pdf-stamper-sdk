@@ -32,7 +32,7 @@ import java.util.List;
  * The PDF Stamper job.
  */
 @ApiModel(description = "The PDF Stamper job.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class PdfStamperJobResult {
   @SerializedName("completionTime")
   private OffsetDateTime completionTime = null;
@@ -206,10 +206,10 @@ public class PdfStamperJobResult {
   }
 
    /**
-   * A status message, which can be informational, warning or error. AA message here does not indicate an error per se
+   * A status message, which can be informational, warning or error. A message here does not indicate an error per se
    * @return statusMessage
   **/
-  @ApiModelProperty(value = "A status message, which can be informational, warning or error. AA message here does not indicate an error per se")
+  @ApiModelProperty(value = "A status message, which can be informational, warning or error. A message here does not indicate an error per se")
   public String getStatusMessage() {
     return statusMessage;
   }

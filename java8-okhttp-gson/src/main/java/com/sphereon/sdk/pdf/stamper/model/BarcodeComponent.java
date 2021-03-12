@@ -27,13 +27,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * A barcode component to stamp a barcode or QR code on a pdf
  */
 @ApiModel(description = "A barcode component to stamp a barcode or QR code on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class BarcodeComponent extends StampComponent {
   /**
    * Specifies what degree of error correction to use, for example in QR Codes, See ISO 18004:2006, 6.5.1. This enum encapsulates the four error correction levels defined by the QR code standard
@@ -41,11 +40,11 @@ public class BarcodeComponent extends StampComponent {
   @JsonAdapter(ErrorCorrectionLevelEnum.Adapter.class)
   public enum ErrorCorrectionLevelEnum {
     L("QR_L"),
-
+    
     M("QR_M"),
-
+    
     Q("QR_Q"),
-
+    
     H("QR_H");
 
     private String value;
@@ -95,37 +94,37 @@ public class BarcodeComponent extends StampComponent {
   @JsonAdapter(BarcodeFormatEnum.Adapter.class)
   public enum BarcodeFormatEnum {
     AZTEC("AZTEC"),
-
+    
     CODABAR("CODABAR"),
-
+    
     CODE_39("CODE_39"),
-
+    
     CODE_93("CODE_93"),
-
+    
     CODE_128("CODE_128"),
-
+    
     DATA_MATRIX("DATA_MATRIX"),
-
+    
     EAN_8("EAN_8"),
-
+    
     EAN_13("EAN_13"),
-
+    
     ITF("ITF"),
-
+    
     MAXICODE("MAXICODE"),
-
+    
     PDF_417("PDF_417"),
-
+    
     QR_CODE("QR_CODE"),
-
+    
     RSS_14("RSS_14"),
-
+    
     RSS_EXPANDED("RSS_EXPANDED"),
-
+    
     UPC_A("UPC_A"),
-
+    
     UPC_E("UPC_E"),
-
+    
     UPC_EAN_EXTENSION("UPC_EAN_EXTENSION");
 
     private String value;
@@ -180,10 +179,6 @@ public class BarcodeComponent extends StampComponent {
 
   @SerializedName("qrVersion")
   private Integer qrVersion = null;
-
-  public BarcodeComponent() {
-    super(StampType.BARCODECOMPONENT.name());
-  }
 
   public BarcodeComponent errorCorrectionLevel(ErrorCorrectionLevelEnum errorCorrectionLevel) {
     this.errorCorrectionLevel = errorCorrectionLevel;
@@ -342,17 +337,6 @@ public class BarcodeComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public void validate() {
-    if (StringUtils.isEmpty(content)) {
-      throw new IllegalArgumentException("barcode component requires content");
-    } else if (width < 1 || height < 1) {
-      throw new IllegalArgumentException(String.format("barcode component dimensions (%s,%s) should both be greater than 0", width, height));
-    } else if (barcodeFormat == null) {
-      throw new IllegalArgumentException("barcode component requires barcodeFormat");
-    }
   }
 
 }

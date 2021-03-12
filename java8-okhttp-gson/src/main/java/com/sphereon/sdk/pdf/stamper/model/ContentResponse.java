@@ -27,7 +27,7 @@ import java.io.IOException;
  * The content response base64 encoded
  */
 @ApiModel(description = "The content response base64 encoded")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class ContentResponse {
   @SerializedName("filename")
   private String filename = null;

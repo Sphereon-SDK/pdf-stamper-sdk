@@ -33,7 +33,7 @@ import java.util.List;
  * An invisible component that does a blockchain registration
  */
 @ApiModel(description = "An invisible component that does a blockchain registration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class BlockchainProofComponent extends StampComponent {
   /**
    * Gets or Sets blockchainAnchors
@@ -41,7 +41,7 @@ public class BlockchainProofComponent extends StampComponent {
   @JsonAdapter(BlockchainAnchorsEnum.Adapter.class)
   public enum BlockchainAnchorsEnum {
     BEFORE_STAMP("BEFORE_STAMP"),
-
+    
     AFTER_STAMP("AFTER_STAMP");
 
     private String value;
@@ -87,10 +87,6 @@ public class BlockchainProofComponent extends StampComponent {
 
   @SerializedName("proofConfigName")
   private String proofConfigName = null;
-
-  public BlockchainProofComponent() {
-    super(StampType.BLOCKCHAINPROOFCOMPONENT.name());
-  }
 
   public BlockchainProofComponent blockchainAnchors(List<BlockchainAnchorsEnum> blockchainAnchors) {
     this.blockchainAnchors = blockchainAnchors;
@@ -177,10 +173,6 @@ public class BlockchainProofComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public void validate() {
   }
 
 }

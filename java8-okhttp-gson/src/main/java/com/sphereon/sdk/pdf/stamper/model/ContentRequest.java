@@ -31,7 +31,7 @@ import java.util.Map;
  * Content request
  */
 @ApiModel(description = "Content request")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class ContentRequest {
   @SerializedName("variables")
   private Map<String, String> variables = null;
@@ -129,10 +129,10 @@ public class ContentRequest {
   }
 
    /**
-   * A map with key-values used to fill out PDF forms. Please not that this is different from using variables. Variables are used in texts, hyperlinks and barcodes
+   * A map with key-values used to fill out PDF forms. Please note that this is different from using variables. Variables are used in texts, hyperlinks and barcodes
    * @return formFields
   **/
-  @ApiModelProperty(value = "A map with key-values used to fill out PDF forms. Please not that this is different from using variables. Variables are used in texts, hyperlinks and barcodes")
+  @ApiModelProperty(value = "A map with key-values used to fill out PDF forms. Please note that this is different from using variables. Variables are used in texts, hyperlinks and barcodes")
   public Map<String, String> getFormFields() {
     return formFields;
   }

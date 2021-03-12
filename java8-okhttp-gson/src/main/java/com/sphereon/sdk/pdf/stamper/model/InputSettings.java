@@ -31,7 +31,7 @@ import java.util.List;
  * Input settings. Specify, if applicable, external location of the inputfile(s)
  */
 @ApiModel(description = "Input settings. Specify, if applicable, external location of the inputfile(s)")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class InputSettings {
   @SerializedName("storageLocation")
   private StorageLocation storageLocation = null;

@@ -10,21 +10,31 @@
  * Do not edit the class manually.
  */
 
+
 package com.sphereon.sdk.pdf.stamper.model;
 
-import java.util.Base64;
 import java.util.Objects;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import com.sphereon.sdk.pdf.stamper.model.Border;
+import com.sphereon.sdk.pdf.stamper.model.Connector;
+import com.sphereon.sdk.pdf.stamper.model.Dimension;
+import com.sphereon.sdk.pdf.stamper.model.Point;
+import com.sphereon.sdk.pdf.stamper.model.StampComponent;
+import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
+import java.io.IOException;
+import java.util.List;
 
 /**
- * An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a &lt;&lt;StreamLocation&gt;&gt; or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size.
+ * An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a &lt;&lt;StreamLocation&gt;&gt; or base64 string as input for the image. Optionally you can scale the image before it is stamped to a desired size. 
  */
-@ApiModel(description = "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@ApiModel(description = "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can scale the image before it is stamped to a desired size. ")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class ImageComponent extends StampComponent {
   @SerializedName("imageData")
   private String imageData = null;
@@ -34,10 +44,6 @@ public class ImageComponent extends StampComponent {
 
   @SerializedName("imageStreamLocation")
   private StreamLocation imageStreamLocation = null;
-
-  public ImageComponent() {
-    super(StampType.IMAGECOMPONENT.name());
-  }
 
   public ImageComponent imageData(String imageData) {
     this.imageData = imageData;
@@ -93,16 +99,6 @@ public class ImageComponent extends StampComponent {
     this.imageStreamLocation = imageStreamLocation;
   }
 
-  public byte[] getImageDataStream() {
-    if (imageData == null) {
-      return new byte[]{};
-    }
-    try {
-      return Base64.getDecoder().decode(imageData);
-    } catch (IllegalArgumentException e) {
-      throw new IllegalArgumentException("image component requires image data be set in base64");
-    }
-  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -146,16 +142,6 @@ public class ImageComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public void validate() {
-    byte[] rawImageData = getImageDataStream();
-    if (ArrayUtils.isEmpty(rawImageData) && (imageStreamLocation == null || StringUtils.isEmpty(imageStreamLocation.getContainerId()) || StringUtils.isEmpty(imageStreamLocation.getFilename()))) {
-      throw new IllegalArgumentException("image component requires image data or a image stream location");
-    } else if (scaledDimension != null && (scaledDimension.getWidth() < 1 || scaledDimension.getHeight() < 1)) {
-      throw new IllegalArgumentException(String.format("image component requires scaled dimensions (%s,%s) both be greater than 0", scaledDimension.getWidth(), scaledDimension.getHeight()));
-    }
   }
 
 }

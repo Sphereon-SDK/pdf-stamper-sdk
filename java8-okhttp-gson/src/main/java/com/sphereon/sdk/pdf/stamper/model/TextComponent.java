@@ -28,13 +28,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text. Having said that, common linebreak characters like &#x60;\\r\\n&#x60; and &#x60;\\n&#x60; and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made.
  */
 @ApiModel(description = "A text component to stamp text on a pdf. When using TextComponents and multiple lines, we suggest to use multiple components, for precise placement of the text. Having said that, common linebreak characters like `\\r\\n` and `\\n` and unicode variants are supported. Although you can provide a linespacing value, automatic newlines do mean some assumptions will be made.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class TextComponent extends StampComponent {
   @SerializedName("nonStrokingColor")
   private Color nonStrokingColor = null;
@@ -50,10 +49,6 @@ public class TextComponent extends StampComponent {
 
   @SerializedName("lineSpacing")
   private Float lineSpacing = null;
-
-  public TextComponent() {
-    super(StampType.TEXTCOMPONENT.name());
-  }
 
   public TextComponent nonStrokingColor(Color nonStrokingColor) {
     this.nonStrokingColor = nonStrokingColor;
@@ -192,17 +187,6 @@ public class TextComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public void validate() {
-    if (StringUtils.isEmpty(text)) {
-      throw new IllegalArgumentException("text component requires text");
-    } else if (fontSize != null && fontSize <= 0) {
-      throw new IllegalArgumentException("text component requires the font size greater than 0");
-    } else if (nonStrokingColor != null && nonStrokingColor.getName() == null && nonStrokingColor.getRgbValue() == null) {
-      throw new IllegalArgumentException("text component requires non stroking color with a name of a rgb value");
-    }
   }
 
 }

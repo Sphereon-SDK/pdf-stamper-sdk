@@ -27,13 +27,12 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 
 /**
- * An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.
+ * A hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable. 
  */
-@ApiModel(description = "An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@ApiModel(description = "A hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not be visible in the result PDF. Clicking the transparent box brings you to the provided URL. So typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable. ")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class HyperlinkComponent extends StampComponent {
   @SerializedName("address")
   private String address = null;
@@ -43,10 +42,6 @@ public class HyperlinkComponent extends StampComponent {
 
   @SerializedName("height")
   private Integer height = null;
-
-  public HyperlinkComponent() {
-    super(StampType.HYPERLINKCOMPONENT.name());
-  }
 
   public HyperlinkComponent address(String address) {
     this.address = address;
@@ -145,15 +140,6 @@ public class HyperlinkComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public void validate() {
-    if (StringUtils.isEmpty(address)) {
-      throw new IllegalArgumentException("hyperlink component requires a link");
-    } else if (width < 1 || height < 1) {
-      throw new IllegalArgumentException(String.format("hyperlink component dimensions (%s,%s) should both be greater than 0", width, height));
-    }
   }
 
 }

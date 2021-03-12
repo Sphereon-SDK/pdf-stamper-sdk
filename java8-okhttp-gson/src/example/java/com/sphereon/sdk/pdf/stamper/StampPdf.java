@@ -13,6 +13,7 @@ import com.sphereon.sdk.pdf.stamper.model.Dimension;
 import com.sphereon.sdk.pdf.stamper.model.HyperlinkComponent;
 import com.sphereon.sdk.pdf.stamper.model.ImageComponent;
 import com.sphereon.sdk.pdf.stamper.model.PdfSignatureComponent;
+import com.sphereon.sdk.pdf.stamper.model.PdfSignatureComponent.SignatureModeEnum;
 import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobRequest;
 import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobResult;
 import com.sphereon.sdk.pdf.stamper.model.Point;
@@ -143,7 +144,7 @@ public class StampPdf {
         signatureComponent.setName("test@sphereon.com");
         signatureComponent.setReason("my reason");
         signatureComponent.setLocation("var: ${location}");
-        signatureComponent.setSignatureMode(SignatureMode.CERTIFICATION);
+        signatureComponent.setSignatureMode(SignatureModeEnum.CERTIFICATION);
         config.setSignatureComponent(signatureComponent);
 
         // update the configuration with the new settings

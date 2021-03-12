@@ -33,7 +33,7 @@ import java.util.List;
  * A line component to stamp a line on a pdf
  */
 @ApiModel(description = "A line component to stamp a line on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class LineComponent extends StampComponent {
   @SerializedName("color")
   private Color color = null;
@@ -43,10 +43,6 @@ public class LineComponent extends StampComponent {
 
   @SerializedName("lineWidth")
   private Float lineWidth = null;
-
-  public LineComponent() {
-    super(StampType.IMAGECOMPONENT.name());
-  }
 
   public LineComponent color(Color color) {
     this.color = color;
@@ -72,10 +68,10 @@ public class LineComponent extends StampComponent {
   }
 
    /**
-   * The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left)
+   * The point to which the line should be drawn. The origin is derived from the X and Y coordinate of the component itself (bottom-left) 
    * @return lineTo
   **/
-  @ApiModelProperty(required = true, value = "The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left) ")
+  @ApiModelProperty(required = true, value = "The point to which the line should be drawn. The origin is derived from the X and Y coordinate of the component itself (bottom-left) ")
   public Point getLineTo() {
     return lineTo;
   }
@@ -145,17 +141,6 @@ public class LineComponent extends StampComponent {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public void validate() {
-    if (lineTo == null || (lineTo.getX() == 0 && lineTo.getY() == 0)) {
-      throw new IllegalArgumentException("line component requires a coordinate different (0,0)");
-    } else if (lineWidth <= 0) {
-      throw new IllegalArgumentException("line component requires a line thickness greater than 0");
-    } else if (color != null && color.getName() == null && color.getRgbValue() == null) {
-      throw new IllegalArgumentException("line component requires color with a name of a rgb value");
-    }
   }
 
 }
