@@ -12,9 +12,11 @@ import com.sphereon.sdk.pdf.stamper.model.Connector;
 import com.sphereon.sdk.pdf.stamper.model.Dimension;
 import com.sphereon.sdk.pdf.stamper.model.HyperlinkComponent;
 import com.sphereon.sdk.pdf.stamper.model.ImageComponent;
+import com.sphereon.sdk.pdf.stamper.model.PdfSignatureComponent;
 import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobRequest;
 import com.sphereon.sdk.pdf.stamper.model.PdfStamperJobResult;
 import com.sphereon.sdk.pdf.stamper.model.Point;
+import com.sphereon.sdk.pdf.stamper.model.SignatureMode;
 import com.sphereon.sdk.pdf.stamper.model.StamperConfig;
 import com.sphereon.sdk.pdf.stamper.model.StamperConfigResponse;
 import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
@@ -136,6 +138,13 @@ public class StampPdf {
         final StamperConfig config = new StamperConfig();
         // Attach canvas component to pdf stamper config
         config.setCanvasComponents(Collections.singletonList(firstPageCanvasComponent));
+
+        PdfSignatureComponent signatureComponent = new PdfSignatureComponent();
+        signatureComponent.setName("test@sphereon.com");
+        signatureComponent.setReason("my reason");
+        signatureComponent.setLocation("var: ${location}");
+        signatureComponent.setSignatureMode(SignatureMode.CERTIFICATION);
+        config.setSignatureComponent(signatureComponent);
 
         // update the configuration with the new settings
         return configApi.updateConfiguration(configId, config);
