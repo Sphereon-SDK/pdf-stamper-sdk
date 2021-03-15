@@ -36,6 +36,10 @@ import java.util.Map;
 public class StampPdf {
     // Fill your access key of the Sphereon store
     private static final String accessToken = "<YOUR ACCESS TOKEN>";
+    // Fill your crypto keys config name
+    private static final String cryptoKeysConfigName = "<YOUR CRYPTO KEYS CONFIG NAME>";
+    // Fill your tenant of azure
+    private static final String azureTenant = "<YOUR AZURE TENANT>";
     // Fill your client id of azure
     private static final String azureClientId = "<YOUR AZURE CLIENT ID>";
     // Fill your client secret of azure
@@ -177,7 +181,7 @@ public class StampPdf {
         connection.setDoInput(true);
         connection.setDoOutput(true);
 
-        final String requestBody = "{\"configuration\": {\"name\": \"sphereon-certs\",\"azureKeyVaultSettings\": {\"tenant\": \"sphereon.com\",\"clientId\": "+ azureClientId + ",\"clientSecret\":" + azureClientSecret + ",\"resourceGroup\": \"certificates\",\"keyVaultName\": \"sphereon-certs\",\"keyVaultURL\": \"https:\\/\\/sphereon-certs.vault.azure.net\\/\",\"environment\": \"AZURE\",\"region\": \"GERMANY_CENTRAL\",\"subscriptionId\": " + azureSubscriptionId + ",\"hsmUsage\": null\\},\"localStorageSettings\": null,\"implementationType\": \"AZURE_KEYVAULT_MANAGED\",\"storageTypeType\": \"AZURE_KEYVAULT\\}";
+        final String requestBody = "{\"configuration\": {\"name\": " + cryptoKeysConfigName + ",\"azureKeyVaultSettings\": {\"tenant\": " + azureTenant + ",\"clientId\": "+ azureClientId + ",\"clientSecret\":" + azureClientSecret + ",\"resourceGroup\": \"certificates\",\"keyVaultName\": \"sphereon-certs\",\"keyVaultURL\": \"https:\\/\\/sphereon-certs.vault.azure.net\\/\",\"environment\": \"AZURE\",\"region\": \"GERMANY_CENTRAL\",\"subscriptionId\": " + azureSubscriptionId + ",\"hsmUsage\": null\\},\"localStorageSettings\": null,\"implementationType\": \"AZURE_KEYVAULT_MANAGED\",\"storageTypeType\": \"AZURE_KEYVAULT\\}";
 
         try (final OutputStream outputStream = connection.getOutputStream()) {
             outputStream.write(requestBody.getBytes());
