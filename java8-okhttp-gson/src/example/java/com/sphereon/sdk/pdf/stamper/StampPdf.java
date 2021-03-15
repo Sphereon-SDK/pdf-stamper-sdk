@@ -55,6 +55,7 @@ public class StampPdf {
         // Create a PDF stamper configuration.
         final String configId = createStampConfiguration();
 
+        // Create a crypto keys configuration for the signing of the PDF with a certificate
         createCryptoKeysConfiguration();
 
         final File resource = new File(StampPdf.class.getResource("/logo_new.png").getFile());
@@ -168,6 +169,7 @@ public class StampPdf {
     }
 
     private static void createCryptoKeysConfiguration() throws IOException {
+        // create connection
         final URL url = new URL(cryptoKeysApiUrl + "/manage/configs");
         final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -177,13 +179,16 @@ public class StampPdf {
         connection.setDoInput(true);
         connection.setDoOutput(true);
 
+        // create body (JSON)
         final String requestBody = "{\"configuration\": {\"name\": " + cryptoKeysConfigName + ",\"azureKeyVaultSettings\": {\"tenant\": " + azureTenant + ",\"clientId\": "+ azureClientId + ",\"clientSecret\":" + azureClientSecret + ",\"resourceGroup\": \"certificates\",\"keyVaultName\": \"sphereon-certs\",\"keyVaultURL\": \"https:\\/\\/sphereon-certs.vault.azure.net\\/\",\"environment\": \"AZURE\",\"region\": \"GERMANY_CENTRAL\",\"subscriptionId\": " + azureSubscriptionId + ",\"hsmUsage\": null\\},\"localStorageSettings\": null,\"implementationType\": \"AZURE_KEYVAULT_MANAGED\",\"storageTypeType\": \"AZURE_KEYVAULT\\}";
 
+        // write body
         try (final OutputStream outputStream = connection.getOutputStream()) {
             outputStream.write(requestBody.getBytes());
             outputStream.flush();
         }
 
+        // check response 
         if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Failed creating crypto keys config: HTTP error code : " + connection.getResponseCode());
         }
