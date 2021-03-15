@@ -23,11 +23,27 @@ import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class StampPdf {
-    private static final String accessToken = "[YOUR ACCESS TOKEN]";
+    // Fill your access key of the Sphereon store
+    private static final String accessToken = "<YOUR ACCESS TOKEN>";
+    // Fill your client id of azure
+    private static final String azureClientId = "<YOUR AZURE CLIENT ID>";
+    // Fill your client secret of azure
+    private static final String azureClientSecret = "<YOUR AZURE CLIENT SECRET>";
+    // Fill your subscription id of azure
+    private static final String azureSubscriptionId = "<YOUR AZURE SUBSCRIPTION UUID>";
+
+    private static final String cryptoKeysApiUrl = "http://gw-dev.api.cloud.sphereon.com/crypto/keys/0.9";
     private static final ConfigApi configApi = new ConfigApi();
     private static final JobsApi jobsApi = new JobsApi();
 
@@ -37,13 +53,15 @@ public class StampPdf {
         initClient(accessToken);
 
         // Create a PDF stamper configuration.
-        final String configId = createConfiguration();
+        final String configId = createStampConfiguration();
+
+        createCryptoKeysConfiguration();
 
         final File resource = new File(StampPdf.class.getResource("/logo_new.png").getFile());
         final StreamLocation logoStreamLocation = configApi.uploadResource(configId, resource);
 
         // Update the existing PDF stamper configuration.
-        updateConfiguration(configId, logoStreamLocation);
+        updateStampConfiguration(configId, logoStreamLocation);
 
         // Create a job using the given settings.
         final String jobId = createJob(configId);
@@ -87,7 +105,7 @@ public class StampPdf {
         jobsApi.setApiClient(apiClient);
     }
 
-    private static String createConfiguration() throws ApiException {
+    private static String createStampConfiguration() throws ApiException {
         final StamperConfig config = new StamperConfig();
         // add a blockchain config to the pdf stamper config
         config.setBlockchainConfig(new BlockchainConfig().proofConfigName("multichain")
@@ -99,7 +117,7 @@ public class StampPdf {
         return response.getConfigId();
     }
 
-    public static StamperConfigResponse updateConfiguration(final String configId, final StreamLocation logoStreamLocation) throws ApiException {
+    public static StamperConfigResponse updateStampConfiguration(final String configId, final StreamLocation logoStreamLocation) throws ApiException {
         // Create offset
         final Point offset = new Point();
         offset.setX(-10f);
@@ -134,8 +152,6 @@ public class StampPdf {
         firstPageCanvasComponent.setPageSelector(CanvasComponent.PageSelectorEnum.FIRST_PAGE);
         firstPageCanvasComponent.setConnectors(Collections.singletonList(rightComponentConnector));
 
-        // TODO add signature component
-
         final StamperConfig config = new StamperConfig();
         // Attach canvas component to pdf stamper config
         config.setCanvasComponents(Collections.singletonList(firstPageCanvasComponent));
@@ -149,6 +165,45 @@ public class StampPdf {
 
         // update the configuration with the new settings
         return configApi.updateConfiguration(configId, config);
+    }
+
+    private static void createCryptoKeysConfiguration() throws IOException {
+        final URL url = new URL(cryptoKeysApiUrl + "/manage/configs");
+        final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json; utf-8");
+        connection.setRequestProperty("Accept", "application/json");
+        connection.setRequestProperty("Authorization", "Bearer " + accessToken);
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+
+        final String requestBody = "{\"configuration\": {\"name\": \"sphereon-certs\",\"azureKeyVaultSettings\": {\"tenant\": \"sphereon.com\",\"clientId\": "+ azureClientId + ",\"clientSecret\":" + azureClientSecret + ",\"resourceGroup\": \"certificates\",\"keyVaultName\": \"sphereon-certs\",\"keyVaultURL\": \"https:\\/\\/sphereon-certs.vault.azure.net\\/\",\"environment\": \"AZURE\",\"region\": \"GERMANY_CENTRAL\",\"subscriptionId\": " + azureSubscriptionId + ",\"hsmUsage\": null\\},\"localStorageSettings\": null,\"implementationType\": \"AZURE_KEYVAULT_MANAGED\",\"storageTypeType\": \"AZURE_KEYVAULT\\}";
+
+        try (final OutputStream outputStream = connection.getOutputStream()) {
+            outputStream.write(requestBody.getBytes());
+            outputStream.flush();
+        }
+
+        if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            throw new RuntimeException("Failed creating crypto keys config: HTTP error code : " + connection.getResponseCode());
+        }
+    }
+
+    private static String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for(Map.Entry<String, String> entry : params.entrySet()){
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+
+        return result.toString();
     }
 
     private static String createJob(final String configId) throws ApiException {
