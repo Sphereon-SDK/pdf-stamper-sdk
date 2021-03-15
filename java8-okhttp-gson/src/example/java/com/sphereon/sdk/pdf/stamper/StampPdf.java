@@ -55,7 +55,7 @@ public class StampPdf {
         // Create a PDF stamper configuration.
         final String configId = createStampConfiguration();
 
-        // Create a crypto keys configuration for the signing of the PDF with a certificate
+        // Create a crypto keys configuration for the signing of the PDF with a certificate.
         createCryptoKeysConfiguration();
 
         final File resource = new File(StampPdf.class.getResource("/logo_new.png").getFile());
@@ -85,7 +85,7 @@ public class StampPdf {
         // This API only returns the PDF when the response status.
         final byte[] content = getFileResponse(jobId);
 
-        // Write content to result file
+        // Write content to result file.
         final File tempFile = File.createTempFile("sphereon-stamp-example-",".pdf");
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {
             fos.write(content);
@@ -108,53 +108,53 @@ public class StampPdf {
 
     private static String createStampConfiguration() throws ApiException {
         final StamperConfig config = new StamperConfig();
-        // add a blockchain config to the pdf stamper config
+        // Add a blockchain config to the pdf stamper config.
         config.setBlockchainConfig(new BlockchainConfig().proofConfigName("multichain")
             .blockchainAnchors(Collections.singletonList(BlockchainAnchorsEnum.AFTER_STAMP)));
 
-        // Create pdf stamper config
+        // Create pdf stamper config.
         final StamperConfigResponse response = configApi.createConfiguration(config);
 
         return response.getConfigId();
     }
 
     public static StamperConfigResponse updateStampConfiguration(final String configId, final StreamLocation logoStreamLocation) throws ApiException {
-        // Create offset
+        // Create offset.
         final Point offset = new Point();
         offset.setX(-10f);
         offset.setY(10f);
 
-        // Set image dimensions
+        // Set image dimensions.
         final Dimension scaledDimension = new Dimension();
         scaledDimension.setHeight(50f);
         scaledDimension.setWidth(230f);
 
-        // Create image component
+        // Create image component.
         final ImageComponent logoComponent = new ImageComponent();
         logoComponent.setImageStreamLocation(logoStreamLocation);
         logoComponent.setScaledDimension(scaledDimension);
 
-        // Create hyperlink component
+        // Create hyperlink component.
         final HyperlinkComponent hyperlinkComponent = new HyperlinkComponent();
         hyperlinkComponent.setAddress("https://document-verify.com/");
         hyperlinkComponent.setHeight(50);
         hyperlinkComponent.setWidth(230);
 
-        // Create connector
+        // Create connector.
         final Connector rightComponentConnector = new Connector();
         rightComponentConnector.setHorizontalAnchorPoint(Connector.HorizontalAnchorPointEnum.RIGHT);
         rightComponentConnector.setVerticalAnchorPoint(Connector.VerticalAnchorPointEnum.BOTTOM);
         rightComponentConnector.setComponents(Arrays.asList(logoComponent, hyperlinkComponent));
         rightComponentConnector.setOffset(offset);
 
-        // Create canvas component
+        // Create canvas component.
         final CanvasComponent firstPageCanvasComponent = new CanvasComponent();
         firstPageCanvasComponent.setPageOperation(CanvasComponent.PageOperationEnum.STAMP);
         firstPageCanvasComponent.setPageSelector(CanvasComponent.PageSelectorEnum.FIRST_PAGE);
         firstPageCanvasComponent.setConnectors(Collections.singletonList(rightComponentConnector));
 
         final StamperConfig config = new StamperConfig();
-        // Attach canvas component to pdf stamper config
+        // Attach canvas component to pdf stamper config.
         config.setCanvasComponents(Collections.singletonList(firstPageCanvasComponent));
 
         PdfSignatureComponent signatureComponent = new PdfSignatureComponent();
@@ -164,12 +164,12 @@ public class StampPdf {
         signatureComponent.setSignatureMode(SignatureModeEnum.CERTIFICATION);
         config.setSignatureComponent(signatureComponent);
 
-        // update the configuration with the new settings
+        // update the configuration with the new settings.
         return configApi.updateConfiguration(configId, config);
     }
 
     private static void createCryptoKeysConfiguration() throws IOException {
-        // create connection
+        // Create connection.
         final URL url = new URL(cryptoKeysApiUrl + "/manage/configs");
         final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -179,44 +179,44 @@ public class StampPdf {
         connection.setDoInput(true);
         connection.setDoOutput(true);
 
-        // create body (JSON)
+        // Create body (JSON).
         final String requestBody = "{\"configuration\": {\"name\": " + cryptoKeysConfigName + ",\"azureKeyVaultSettings\": {\"tenant\": " + azureTenant + ",\"clientId\": "+ azureClientId + ",\"clientSecret\":" + azureClientSecret + ",\"resourceGroup\": \"certificates\",\"keyVaultName\": \"sphereon-certs\",\"keyVaultURL\": \"https:\\/\\/sphereon-certs.vault.azure.net\\/\",\"environment\": \"AZURE\",\"region\": \"GERMANY_CENTRAL\",\"subscriptionId\": " + azureSubscriptionId + ",\"hsmUsage\": null\\},\"localStorageSettings\": null,\"implementationType\": \"AZURE_KEYVAULT_MANAGED\",\"storageTypeType\": \"AZURE_KEYVAULT\\}";
 
-        // write body
+        // Write body.
         try (final OutputStream outputStream = connection.getOutputStream()) {
             outputStream.write(requestBody.getBytes());
             outputStream.flush();
         }
 
-        // check response 
+        // Check response.
         if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Failed creating crypto keys config: HTTP error code : " + connection.getResponseCode());
         }
     }
 
     private static String createJob(final String configId) throws ApiException {
-        // create job request
+        // Create job request.
         final PdfStamperJobRequest jobRequest = new PdfStamperJobRequest();
         jobRequest.addConfigIdsItem(configId);
 
-        // create job
+        // Create job.
         final PdfStamperJobResult response = jobsApi.createJob(jobRequest);
 
         return response.getJobId();
     }
 
     public static PdfStamperJobResult submitJob(final String jobId) throws ApiException {
-        // submit job
+        // Submit job.
         return jobsApi.submitJob(jobId);
     }
 
     public static byte[] getFileResponse(final String jobId) throws ApiException {
-        // get the first stream for the job
+        // Get the first stream for the job.
         return jobsApi.getFirstStream(jobId);
     }
 
     public static void awaitJob(final String jobId) throws InterruptedException, ApiException {
-        // wait until job is done processing
+        // Wait until job is done processing.
         int count = 180;
             while (count > 0) {
             Thread.sleep(1000);
