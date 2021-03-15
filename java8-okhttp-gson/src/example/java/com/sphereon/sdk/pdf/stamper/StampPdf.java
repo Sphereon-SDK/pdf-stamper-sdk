@@ -49,7 +49,7 @@ public class StampPdf {
 
     // This example will stamp an PDF with a logo with a hyperlink, and will sign the PDF with a certificate signature.
     public static void main(final String[] args) throws ApiException, InterruptedException, IOException {
-        // Create/initialize a new PDF stamper configuration.
+        // Create/initialize a new API client.
         initClient(accessToken);
 
         // Create a PDF stamper configuration.
