@@ -164,7 +164,7 @@ public class StampPdf {
         signatureComponent.setSignatureMode(SignatureModeEnum.CERTIFICATION);
         config.setSignatureComponent(signatureComponent);
 
-        // update the configuration with the new settings.
+        // Update the configuration with the new settings.
         return configApi.updateConfiguration(configId, config);
     }
 
@@ -188,7 +188,7 @@ public class StampPdf {
             outputStream.flush();
         }
 
-        // Check response.
+        // Check response for HTTP 200.
         if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
             throw new RuntimeException("Failed creating crypto keys config: HTTP error code : " + connection.getResponseCode());
         }
