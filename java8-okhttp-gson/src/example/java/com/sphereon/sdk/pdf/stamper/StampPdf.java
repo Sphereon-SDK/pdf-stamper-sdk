@@ -38,13 +38,13 @@ public class StampPdf {
     private static final String accessToken = "<YOUR ACCESS TOKEN>";
     // Fill your crypto keys config name
     private static final String cryptoKeysConfigName = "<YOUR CRYPTO KEYS CONFIG NAME>";
-    // Fill your tenant of azure
+    // Fill your tenant of MS Azure
     private static final String azureTenant = "<YOUR AZURE TENANT>";
-    // Fill your client id of azure
+    // Fill your client id of MS Azure
     private static final String azureClientId = "<YOUR AZURE CLIENT ID>";
-    // Fill your client secret of azure
+    // Fill your client secret of MS Azure
     private static final String azureClientSecret = "<YOUR AZURE CLIENT SECRET>";
-    // Fill your subscription id of azure
+    // Fill your subscription id of MS Azure
     private static final String azureSubscriptionId = "<YOUR AZURE SUBSCRIPTION UUID>";
 
     private static final String cryptoKeysApiUrl = "http://gw-dev.api.cloud.sphereon.com/crypto/keys/0.9";
