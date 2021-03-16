@@ -125,8 +125,8 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
+                                <source>src/example/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -138,8 +138,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
