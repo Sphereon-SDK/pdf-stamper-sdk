@@ -20,9 +20,11 @@ import com.sphereon.sdk.pdf.stamper.model.Point;
 import com.sphereon.sdk.pdf.stamper.model.StamperConfig;
 import com.sphereon.sdk.pdf.stamper.model.StamperConfigResponse;
 import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -180,7 +182,27 @@ public class StampPdf {
         connection.setDoOutput(true);
 
         // Create body (JSON).
-        final String requestBody = "{\"configuration\": {\"name\": " + cryptoKeysConfigName + ",\"azureKeyVaultSettings\": {\"tenant\": " + azureTenant + ",\"clientId\": "+ azureClientId + ",\"clientSecret\":" + azureClientSecret + ",\"resourceGroup\": \"certificates\",\"keyVaultName\": \"sphereon-certs\",\"keyVaultURL\": \"https:\\/\\/sphereon-certs.vault.azure.net\\/\",\"environment\": \"AZURE\",\"region\": \"GERMANY_CENTRAL\",\"subscriptionId\": " + azureSubscriptionId + ",\"hsmUsage\": null\\},\"localStorageSettings\": null,\"implementationType\": \"AZURE_KEYVAULT_MANAGED\",\"storageTypeType\": \"AZURE_KEYVAULT\\}";
+        final String requestBody =
+            "{" +
+                "\"configuration\": {" +
+                    "\"name\": \"" + cryptoKeysConfigName + "\"," +
+                    "\"azureKeyVaultSettings\": {" +
+                    "\"tenant\": \"" + azureTenant + "\"," +
+                    "\"clientId\": \""+ azureClientId + "\"," +
+                    "\"clientSecret\": \"" + azureClientSecret + "\"," +
+                    "\"resourceGroup\": \"certificates\"," +
+                    "\"keyVaultName\": \"sphereon-certs\"," +
+                    "\"keyVaultURL\": \"https:\\/\\/sphereon-certs.vault.azure.net\\/\"," +
+                    "\"environment\": \"AZURE\"," +
+                    "\"region\": \"GERMANY_CENTRAL\"," +
+                    "\"subscriptionId\": \"" + azureSubscriptionId + "\"," +
+                    "\"hsmUsage\": null" +
+                "}," +
+                "\"localStorageSettings\": null," +
+                "\"implementationType\": \"AZURE_KEYVAULT_MANAGED\"," +
+                "\"storageTypeType\": \"AZURE_KEYVAULT\"" +
+                "}" +
+            "}";
 
         // Write body.
         try (final OutputStream outputStream = connection.getOutputStream()) {
@@ -190,7 +212,18 @@ public class StampPdf {
 
         // Check response for HTTP 200.
         if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new RuntimeException("Failed creating crypto keys config: HTTP error code : " + connection.getResponseCode());
+            String result = "";
+            String line;
+            try (BufferedReader rd = new BufferedReader(new InputStreamReader(connection.getErrorStream()))) {
+                while ((line = rd.readLine()) != null) {
+                    result += line;
+                }
+            }
+
+            // if we get the message "Name already exists", we continue
+            if (!result.contains("Name already exists")) {
+                throw new RuntimeException("Failed creating crypto keys config: HTTP error code : " + connection.getResponseCode());
+            }
         }
     }
 
