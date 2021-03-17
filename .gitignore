@@ -37,3 +37,4 @@ Maven__org_hamcrest_hamcrest_core_1_3.xml
 misc.xml
 modules.xml
 workspace.xml
+**.idea
