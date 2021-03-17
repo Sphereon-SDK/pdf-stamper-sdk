@@ -58,6 +58,7 @@ public class JSON {
                 classByDiscriminatorValue.put("HyperlinkComponent".toUpperCase(), HyperlinkComponent.class);
                 classByDiscriminatorValue.put("ImageComponent".toUpperCase(), ImageComponent.class);
                 classByDiscriminatorValue.put("LineComponent".toUpperCase(), LineComponent.class);
+                classByDiscriminatorValue.put("PdfSignatureComponent".toUpperCase(), PdfSignatureComponent.class);
                 classByDiscriminatorValue.put("TextComponent".toUpperCase(), TextComponent.class);
                 classByDiscriminatorValue.put("StampComponent".toUpperCase(), StampComponent.class);
                 return getClassByDiscriminator(

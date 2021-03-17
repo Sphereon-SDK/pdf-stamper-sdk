@@ -19,6 +19,8 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.sphereon.sdk.pdf.stamper.model.ClaimParameters;
+import com.sphereon.sdk.pdf.stamper.model.Credentials;
 import com.sphereon.sdk.pdf.stamper.model.StamperConfig;
 import com.sphereon.sdk.pdf.stamper.model.StreamLocation;
 import io.swagger.annotations.ApiModel;
@@ -32,13 +34,19 @@ import java.util.List;
  * Response with the PDF stamper configuration
  */
 @ApiModel(description = "Response with the PDF stamper configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class StamperConfigResponse {
+  @SerializedName("claimParameters")
+  private ClaimParameters claimParameters = null;
+
   @SerializedName("configResources")
   private List<StreamLocation> configResources = null;
 
   @SerializedName("creationTime")
   private OffsetDateTime creationTime = null;
+
+  @SerializedName("credentials")
+  private Credentials credentials = null;
 
   @SerializedName("configId")
   private String configId = null;
@@ -113,6 +121,24 @@ public class StamperConfigResponse {
   @SerializedName("statusMessage")
   private String statusMessage = null;
 
+  public StamperConfigResponse claimParameters(ClaimParameters claimParameters) {
+    this.claimParameters = claimParameters;
+    return this;
+  }
+
+   /**
+   * Get claimParameters
+   * @return claimParameters
+  **/
+  @ApiModelProperty(value = "")
+  public ClaimParameters getClaimParameters() {
+    return claimParameters;
+  }
+
+  public void setClaimParameters(ClaimParameters claimParameters) {
+    this.claimParameters = claimParameters;
+  }
+
   public StamperConfigResponse configResources(List<StreamLocation> configResources) {
     this.configResources = configResources;
     return this;
@@ -146,6 +172,24 @@ public class StamperConfigResponse {
   @ApiModelProperty(value = "The creation date/time of the initial configuration in ISO 8601 format")
   public OffsetDateTime getCreationTime() {
     return creationTime;
+  }
+
+  public StamperConfigResponse credentials(Credentials credentials) {
+    this.credentials = credentials;
+    return this;
+  }
+
+   /**
+   * Get credentials
+   * @return credentials
+  **/
+  @ApiModelProperty(value = "")
+  public Credentials getCredentials() {
+    return credentials;
+  }
+
+  public void setCredentials(Credentials credentials) {
+    this.credentials = credentials;
   }
 
    /**
@@ -221,8 +265,10 @@ public class StamperConfigResponse {
       return false;
     }
     StamperConfigResponse stamperConfigResponse = (StamperConfigResponse) o;
-    return Objects.equals(this.configResources, stamperConfigResponse.configResources) &&
+    return Objects.equals(this.claimParameters, stamperConfigResponse.claimParameters) &&
+        Objects.equals(this.configResources, stamperConfigResponse.configResources) &&
         Objects.equals(this.creationTime, stamperConfigResponse.creationTime) &&
+        Objects.equals(this.credentials, stamperConfigResponse.credentials) &&
         Objects.equals(this.configId, stamperConfigResponse.configId) &&
         Objects.equals(this.name, stamperConfigResponse.name) &&
         Objects.equals(this.updateTime, stamperConfigResponse.updateTime) &&
@@ -233,7 +279,7 @@ public class StamperConfigResponse {
 
   @Override
   public int hashCode() {
-    return Objects.hash(configResources, creationTime, configId, name, updateTime, configStatus, config, statusMessage);
+    return Objects.hash(claimParameters, configResources, creationTime, credentials, configId, name, updateTime, configStatus, config, statusMessage);
   }
 
 
@@ -242,8 +288,10 @@ public class StamperConfigResponse {
     StringBuilder sb = new StringBuilder();
     sb.append("class StamperConfigResponse {\n");
     
+    sb.append("    claimParameters: ").append(toIndentedString(claimParameters)).append("\n");
     sb.append("    configResources: ").append(toIndentedString(configResources)).append("\n");
     sb.append("    creationTime: ").append(toIndentedString(creationTime)).append("\n");
+    sb.append("    credentials: ").append(toIndentedString(credentials)).append("\n");
     sb.append("    configId: ").append(toIndentedString(configId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    updateTime: ").append(toIndentedString(updateTime)).append("\n");

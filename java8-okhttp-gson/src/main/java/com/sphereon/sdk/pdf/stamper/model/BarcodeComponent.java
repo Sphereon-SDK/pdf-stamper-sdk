@@ -32,7 +32,7 @@ import java.util.List;
  * A barcode component to stamp a barcode or QR code on a pdf
  */
 @ApiModel(description = "A barcode component to stamp a barcode or QR code on a pdf")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class BarcodeComponent extends StampComponent {
   /**
    * Specifies what degree of error correction to use, for example in QR Codes, See ISO 18004:2006, 6.5.1. This enum encapsulates the four error correction levels defined by the QR code standard

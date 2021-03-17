@@ -22,6 +22,7 @@ import com.google.gson.stream.JsonWriter;
 import com.sphereon.sdk.pdf.stamper.model.BlockchainConfig;
 import com.sphereon.sdk.pdf.stamper.model.CanvasComponent;
 import com.sphereon.sdk.pdf.stamper.model.DefaultJobSettings;
+import com.sphereon.sdk.pdf.stamper.model.PdfSignatureComponent;
 import com.sphereon.sdk.pdf.stamper.model.StorageLocation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -33,8 +34,11 @@ import java.util.List;
  * The PDF stamper configuration
  */
 @ApiModel(description = "The PDF stamper configuration")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class StamperConfig {
+  @SerializedName("signatureComponent")
+  private PdfSignatureComponent signatureComponent = null;
+
   @SerializedName("blockchainConfig")
   private BlockchainConfig blockchainConfig = null;
 
@@ -46,6 +50,24 @@ public class StamperConfig {
 
   @SerializedName("canvasComponents")
   private List<CanvasComponent> canvasComponents = new ArrayList<>();
+
+  public StamperConfig signatureComponent(PdfSignatureComponent signatureComponent) {
+    this.signatureComponent = signatureComponent;
+    return this;
+  }
+
+   /**
+   * Optional PDF signature component. Adds a PDF signature to the PDF document. 
+   * @return signatureComponent
+  **/
+  @ApiModelProperty(value = "Optional PDF signature component. Adds a PDF signature to the PDF document. ")
+  public PdfSignatureComponent getSignatureComponent() {
+    return signatureComponent;
+  }
+
+  public void setSignatureComponent(PdfSignatureComponent signatureComponent) {
+    this.signatureComponent = signatureComponent;
+  }
 
   public StamperConfig blockchainConfig(BlockchainConfig blockchainConfig) {
     this.blockchainConfig = blockchainConfig;
@@ -134,7 +156,8 @@ public class StamperConfig {
       return false;
     }
     StamperConfig stamperConfig = (StamperConfig) o;
-    return Objects.equals(this.blockchainConfig, stamperConfig.blockchainConfig) &&
+    return Objects.equals(this.signatureComponent, stamperConfig.signatureComponent) &&
+        Objects.equals(this.blockchainConfig, stamperConfig.blockchainConfig) &&
         Objects.equals(this.defaultJobSettings, stamperConfig.defaultJobSettings) &&
         Objects.equals(this.configResourcesLocation, stamperConfig.configResourcesLocation) &&
         Objects.equals(this.canvasComponents, stamperConfig.canvasComponents);
@@ -142,7 +165,7 @@ public class StamperConfig {
 
   @Override
   public int hashCode() {
-    return Objects.hash(blockchainConfig, defaultJobSettings, configResourcesLocation, canvasComponents);
+    return Objects.hash(signatureComponent, blockchainConfig, defaultJobSettings, configResourcesLocation, canvasComponents);
   }
 
 
@@ -151,6 +174,7 @@ public class StamperConfig {
     StringBuilder sb = new StringBuilder();
     sb.append("class StamperConfig {\n");
     
+    sb.append("    signatureComponent: ").append(toIndentedString(signatureComponent)).append("\n");
     sb.append("    blockchainConfig: ").append(toIndentedString(blockchainConfig)).append("\n");
     sb.append("    defaultJobSettings: ").append(toIndentedString(defaultJobSettings)).append("\n");
     sb.append("    configResourcesLocation: ").append(toIndentedString(configResourcesLocation)).append("\n");

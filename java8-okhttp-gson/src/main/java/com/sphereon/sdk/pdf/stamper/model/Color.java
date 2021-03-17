@@ -28,10 +28,10 @@ import java.io.IOException;
  * A color object
  */
 @ApiModel(description = "A color object")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class Color {
   /**
-   * Use one of the common predefined colors, alternatively provide a RGB value in the respective field.
+   * Use one of the common predefined colors, alternatively provide an RGB value in the respective field.
    */
   @JsonAdapter(NameEnum.Adapter.class)
   public enum NameEnum {
@@ -111,10 +111,10 @@ public class Color {
   }
 
    /**
-   * Use one of the common predefined colors, alternatively provide a RGB value in the respective field.
+   * Use one of the common predefined colors, alternatively provide an RGB value in the respective field.
    * @return name
   **/
-  @ApiModelProperty(value = "Use one of the common predefined colors, alternatively provide a RGB value in the respective field.")
+  @ApiModelProperty(value = "Use one of the common predefined colors, alternatively provide an RGB value in the respective field.")
   public NameEnum getName() {
     return name;
   }

@@ -371,7 +371,7 @@
         "responses": {
           "200": {
             "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
-            "description": "PDF job returned and Job is done or in error"
+            "description": "PDF job returned and Job is done processing"
           },
           "202": {
             "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
@@ -401,7 +401,7 @@
         "responses": {
           "200": {
             "schema": {"$ref": "#/definitions/PdfStamperJobResult"},
-            "description": "PDF job returned and Job is done or in error"
+            "description": "PDF job returned and Job is done processing"
           },
           "400": {
             "schema": {"$ref": "#/definitions/ErrorResponse"},
@@ -668,6 +668,47 @@
         }
       }
     },
+    "VisibleSignature": {
+      "type": "object",
+      "title": "VisibleSignature",
+      "properties": {
+        "pageSelector": {
+          "xml": {
+            "name": "pageSelector",
+            "attribute": false,
+            "wrapped": false
+          },
+          "description": "The page for the visible signature (multiple pages is not supported, call multiple stamp configurations if that is desired)",
+          "type": "string",
+          "enum": [
+            "FIRST_PAGE",
+            "LAST_PAGE",
+            "EVEN_PAGES",
+            "ODD_PAGES",
+            "ALL_PAGES",
+            "SPECIFIC_PAGES"
+          ]
+        },
+        "connector": {
+          "xml": {
+            "name": "connector",
+            "attribute": false,
+            "wrapped": false
+          },
+          "description": "The connector (location) for the visible signature",
+          "$ref": "#/definitions/Connector"
+        },
+        "imageComponent": {
+          "xml": {
+            "name": "imageComponent",
+            "attribute": false,
+            "wrapped": false
+          },
+          "description": "The image for the visible signature",
+          "$ref": "#/definitions/ImageComponent"
+        }
+      }
+    },
     "StampComponent": {
       "type": "object",
       "title": "StampComponent",
@@ -707,7 +748,7 @@
       "allOf": [
         {"$ref": "#/definitions/StampComponent"},
         {
-          "description": "An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not\nbe visible in the result PDF. Clicking the transparent box brings you to the provided URL.\nSo typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.\n",
+          "description": "A hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not\nbe visible in the result PDF. Clicking the transparent box brings you to the provided URL.\nSo typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.\n",
           "type": "object",
           "title": "HyperlinkComponent",
           "required": [
@@ -733,7 +774,7 @@
           }
         }
       ],
-      "description": "An hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not\nbe visible in the result PDF. Clicking the transparent box brings you to the provided URL.\nSo typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.\n",
+      "description": "A hyperlink component to stamp a hyperlink, which is a transparent overlay. Meaning it will create a box you can overlay onto text. Any URL will not\nbe visible in the result PDF. Clicking the transparent box brings you to the provided URL.\nSo typically you want to create an Image, Barcode or text first and then at the same location create a hyperlink componen to make it clickable.\n",
       "title": "HyperlinkComponent"
     },
     "ContentResponse": {
@@ -771,6 +812,30 @@
             "wrapped": false
           },
           "readOnly": true,
+          "type": "string"
+        }
+      }
+    },
+    "CertificateSettings": {
+      "description": "The PDF Certificate signature settings",
+      "type": "object",
+      "title": "CertificateSettings",
+      "required": [
+        "certificateName",
+        "certificateVersion",
+        "cryptoKeysConfigName"
+      ],
+      "properties": {
+        "certificateVersion": {
+          "description": "The optional version of the certificate from the crypto-keys configuration to use. Can be the value 'latest' to automatically use the latest version. The certificate (version) has to be present in the crypto-keys API",
+          "type": "string"
+        },
+        "cryptoKeysConfigName": {
+          "description": "The Crypto Keys configuration name to use. The name has to be created in the crypto-keys API",
+          "type": "string"
+        },
+        "certificateName": {
+          "description": "The name of the certificate from the crypto-keys configuration to use. The certificate has to be present in the crypto-keys API",
           "type": "string"
         }
       }
@@ -833,7 +898,7 @@
           "type": "string"
         },
         "statusMessage": {
-          "description": "A status message, which can be informational, warning or error. AA message here does not indicate an error per se",
+          "description": "A status message, which can be informational, warning or error. A message here does not indicate an error per se",
           "readOnly": true,
           "type": "string"
         },
@@ -859,7 +924,7 @@
               "$ref": "#/definitions/Color"
             },
             "lineTo": {
-              "description": "The point to which the line should be drawn. The origin is derived of the X and Y coordinate of the component itself (bottom-left) ",
+              "description": "The point to which the line should be drawn. The origin is derived from the X and Y coordinate of the component itself (bottom-left) ",
               "$ref": "#/definitions/Point"
             },
             "lineWidth": {
@@ -940,7 +1005,7 @@
       "allOf": [
         {"$ref": "#/definitions/StampComponent"},
         {
-          "description": "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. ",
+          "description": "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can scale the image before it is stamped to a desired size. ",
           "type": "object",
           "title": "ImageComponent",
           "properties": {
@@ -959,8 +1024,54 @@
           }
         }
       ],
-      "description": "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can cale the image before it is stamped to a desired size. ",
+      "description": "An image component to stamp an image on a pdf. Supported types are: BMP, GIF, PNG, JPG. You can use a <<StreamLocation>> or base64 string as input for the image. Optionally you can scale the image before it is stamped to a desired size. ",
       "title": "ImageComponent"
+    },
+    "PdfSignatureComponent": {
+      "allOf": [
+        {"$ref": "#/definitions/StampComponent"},
+        {
+          "description": "An invisible component that adds a PDF signature",
+          "type": "object",
+          "title": "PdfSignatureComponent",
+          "required": [
+            "name",
+            "signatureMode"
+          ],
+          "properties": {
+            "reason": {
+              "description": "Reason (optional)",
+              "type": "string"
+            },
+            "certificateSettings": {
+              "description": "The optional certificate name, version and configuration to use for the signature. If not specified the Sphereon supplied certificate will be used",
+              "$ref": "#/definitions/CertificateSettings"
+            },
+            "visibleSignature": {
+              "description": "Visible signature. If not specified, the signature will be invisible in the background",
+              "$ref": "#/definitions/VisibleSignature"
+            },
+            "name": {
+              "description": "The name in the signature",
+              "type": "string"
+            },
+            "location": {
+              "description": "Location (optional)",
+              "type": "string"
+            },
+            "signatureMode": {
+              "description": "The signature mode to use. Only one certification (company/organization seal) can be used for a document and it has to be the first. Many approvals can be used",
+              "type": "string",
+              "enum": [
+                "CERTIFICATION",
+                "APPROVAL"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "An invisible component that adds a PDF signature",
+      "title": "PdfSignatureComponent"
     },
     "StorageLocation": {
       "description": "Storage Location",
@@ -1053,35 +1164,67 @@
       "type": "object",
       "title": "StamperConfigResponse",
       "properties": {
+        "claimParameters": {"$ref": "#/definitions/ClaimParameters"},
         "configResources": {
+          "xml": {
+            "name": "configResources",
+            "attribute": false,
+            "wrapped": false
+          },
           "description": "Any registered resource used by the configuration",
           "readOnly": true,
           "type": "array",
           "items": {"$ref": "#/definitions/StreamLocation"}
         },
         "creationTime": {
+          "xml": {
+            "name": "creationTime",
+            "attribute": false,
+            "wrapped": false
+          },
           "format": "date-time",
           "description": "The creation date/time of the initial configuration in ISO 8601 format",
           "readOnly": true,
           "type": "string"
         },
+        "credentials": {"$ref": "#/definitions/Credentials"},
         "configId": {
+          "xml": {
+            "name": "configId",
+            "attribute": false,
+            "wrapped": false
+          },
           "description": "The configuration id",
           "readOnly": true,
           "type": "string"
         },
         "name": {
+          "xml": {
+            "name": "name",
+            "attribute": false,
+            "wrapped": false
+          },
           "description": "An optional configuration name",
           "readOnly": true,
           "type": "string"
         },
         "updateTime": {
+          "xml": {
+            "name": "updateTime",
+            "attribute": false,
+            "wrapped": false
+          },
           "format": "date-time",
           "description": "The last update date/time of this configuration in ISO 8601 format",
           "readOnly": true,
           "type": "string"
         },
         "configStatus": {
+          "xml": {
+            "name": "configStatus",
+            "attribute": false,
+            "wrapped": false
+          },
           "description": "The status of the config action",
           "readOnly": true,
           "type": "string",
@@ -1095,11 +1238,21 @@
           ]
         },
         "config": {
+          "xml": {
+            "name": "config",
+            "attribute": false,
+            "wrapped": false
+          },
           "description": "The PDF stamper configuration",
           "readOnly": true,
           "$ref": "#/definitions/StamperConfig"
         },
         "statusMessage": {
+          "xml": {
+            "name": "statusMessage",
+            "attribute": false,
+            "wrapped": false
+          },
           "description": "A status message, which can be informational, warning or error. A message here does not indicate an error per se",
           "readOnly": true,
           "type": "string"
@@ -1112,7 +1265,7 @@
       "title": "Color",
       "properties": {
         "name": {
-          "description": "Use one of the common predefined colors, alternatively provide a RGB value in the respective field.",
+          "description": "Use one of the common predefined colors, alternatively provide an RGB value in the respective field.",
           "type": "string",
           "enum": [
             "BLACK",
@@ -1286,7 +1439,7 @@
       }
     },
     "Dimension": {
-      "description": "Dimensions for an object. It requires a width, height and unit, which currently is only in Poins",
+      "description": "Dimensions for an object. It requires a width, height and unit, which currently is only in Points",
       "type": "object",
       "title": "Dimension",
       "required": [
@@ -1342,6 +1495,10 @@
       "title": "StamperConfig",
       "required": ["canvasComponents"],
       "properties": {
+        "signatureComponent": {
+          "description": "Optional PDF signature component. Adds a PDF signature to the PDF document. ",
+          "$ref": "#/definitions/PdfSignatureComponent"
+        },
         "blockchainConfig": {
           "description": "Optional blockchain proof configuration. This is applicable to all stamps created using this configuration. ",
           "$ref": "#/definitions/BlockchainConfig"
@@ -1358,6 +1515,52 @@
           "description": "The canvas components containing the information of the stamp",
           "type": "array",
           "items": {"$ref": "#/definitions/CanvasComponent"}
+        }
+      }
+    },
+    "ClaimParameters": {
+      "type": "object",
+      "title": "ClaimParameters",
+      "properties": {
+        "apiEndUser": {
+          "xml": {
+            "name": "apiEndUser",
+            "attribute": false,
+            "wrapped": false
+          },
+          "type": "string"
+        },
+        "applicationId": {
+          "xml": {
+            "name": "applicationId",
+            "attribute": false,
+            "wrapped": false
+          },
+          "type": "string"
+        },
+        "keyType": {
+          "xml": {
+            "name": "keyType",
+            "attribute": false,
+            "wrapped": false
+          },
+          "type": "string"
+        },
+        "sphereonIdentifier": {
+          "xml": {
+            "name": "sphereonIdentifier",
+            "attribute": false,
+            "wrapped": false
+          },
+          "type": "string"
+        },
+        "apiSupplierTenantId": {
+          "xml": {
+            "name": "apiSupplierTenantId",
+            "attribute": false,
+            "wrapped": false
+          },
+          "type": "string"
         }
       }
     },
@@ -1451,7 +1654,7 @@
           "items": {"type": "string"}
         },
         "formFields": {
-          "description": "A map with key-values used to fill out PDF forms. Please not that this is different from using variables. Variables are used in texts, hyperlinks and barcodes",
+          "description": "A map with key-values used to fill out PDF forms. Please note that this is different from using variables. Variables are used in texts, hyperlinks and barcodes",
           "additionalProperties": {"type": "string"},
           "type": "object"
         },
@@ -1576,6 +1779,29 @@
           "format": "float",
           "description": "The thickness of the border line, which is 1 by default",
           "type": "number"
+        }
+      }
+    },
+    "Credentials": {
+      "type": "object",
+      "title": "Credentials",
+      "properties": {
+        "credentialType": {
+          "type": "string",
+          "enum": [
+            "NoCredentials",
+            "OAuthCredentials",
+            "BearerTokenCredentials",
+            "UsernamePasswordCredentials",
+            "OAuth2ClientCredentials"
+          ]
+        },
+        "authenticationProvider": {
+          "type": "string",
+          "enum": [
+            "API_SUPPLIER",
+            "API_IMPLEMENTER"
+          ]
         }
       }
     }

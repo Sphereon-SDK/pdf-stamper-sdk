@@ -43,6 +43,14 @@
     </developers>
 
     <build>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/example/resources/</directory>
+                <targetPath>${basedir}/target/classes/</targetPath>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -125,8 +133,8 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/main/java</source>
+                                <source>src/main/java</source>
+                                <source>src/example/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -138,8 +146,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>
-                                src/test/java</source>
+                                <source>src/test/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -229,6 +236,11 @@
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
             <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version>
         </dependency>
 
         <!-- test dependencies -->

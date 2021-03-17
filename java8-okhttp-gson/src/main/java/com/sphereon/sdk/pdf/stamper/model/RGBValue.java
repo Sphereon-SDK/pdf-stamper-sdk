@@ -27,7 +27,7 @@ import java.io.IOException;
  * A Red Green Blue color value combination
  */
 @ApiModel(description = "A Red Green Blue color value combination")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class RGBValue {
   @SerializedName("b")
   private Integer b = null;

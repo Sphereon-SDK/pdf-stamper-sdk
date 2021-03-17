@@ -28,7 +28,7 @@ import java.io.IOException;
  * Input and result streamlocation pair allows to specify an optional result location for the input stream lcoation
  */
 @ApiModel(description = "Input and result streamlocation pair allows to specify an optional result location for the input stream lcoation")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2020-03-09T08:19:21.333Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-12T10:33:42.564+01:00")
 public class InputResultLocation {
   @SerializedName("result")
   private StreamLocation result = null;
