@@ -45,7 +45,7 @@ Add this dependency to your project's POM:
 <dependency>
     <groupId>com.sphereon.sdk</groupId>
     <artifactId>pdfstamper-java8-okhttp-gson</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -55,7 +55,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.sphereon.sdk:com.sphereon.sdk.pdf.stamper-java8-okhttp-gson:1.0.0-SNAPSHOT"
+compile "com.sphereon.sdk:pdfstamper-java8-okhttp-gson:1.0.2"
 ```
 
 ### Others
