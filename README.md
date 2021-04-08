@@ -21,6 +21,9 @@ SDKs for the following languages will follow soon:
  
 Do you have the need for another language? Please contact us. In many cases we can easily accommodate you.
 
+## Important
+You are currently at the root of the repository. This is a maven project that generates the supported SDKs. If you want to build/install an SDK yourself instead of using published versions, go into the respective directory and use the build system there.
+
 ## Author
 website: [https://sphereon.com](Sphereon.com)
 e-mail: [mailto://support@sphereon.com](support@sphereon.com)
