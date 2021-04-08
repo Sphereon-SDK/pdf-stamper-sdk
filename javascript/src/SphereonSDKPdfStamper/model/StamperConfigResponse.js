@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -17,18 +17,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['SphereonSDKPdfStamper/ApiClient', 'SphereonSDKPdfStamper/model/StamperConfig', 'SphereonSDKPdfStamper/model/StreamLocation'], factory);
+    define(['SphereonSDKPdfStamper/ApiClient', 'SphereonSDKPdfStamper/model/ClaimParameters', 'SphereonSDKPdfStamper/model/Credentials', 'SphereonSDKPdfStamper/model/StamperConfig', 'SphereonSDKPdfStamper/model/StreamLocation'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./StamperConfig'), require('./StreamLocation'));
+    module.exports = factory(require('../ApiClient'), require('./ClaimParameters'), require('./Credentials'), require('./StamperConfig'), require('./StreamLocation'));
   } else {
     // Browser globals (root is window)
     if (!root.PdfStamper) {
       root.PdfStamper = {};
     }
-    root.PdfStamper.StamperConfigResponse = factory(root.PdfStamper.ApiClient, root.PdfStamper.StamperConfig, root.PdfStamper.StreamLocation);
+    root.PdfStamper.StamperConfigResponse = factory(root.PdfStamper.ApiClient, root.PdfStamper.ClaimParameters, root.PdfStamper.Credentials, root.PdfStamper.StamperConfig, root.PdfStamper.StreamLocation);
   }
-}(this, function(ApiClient, StamperConfig, StreamLocation) {
+}(this, function(ApiClient, ClaimParameters, Credentials, StamperConfig, StreamLocation) {
   'use strict';
 
 
@@ -57,6 +57,8 @@
 
 
 
+
+
   };
 
   /**
@@ -70,11 +72,17 @@
     if (data) {
       obj = obj || new exports();
 
+      if (data.hasOwnProperty('claimParameters')) {
+        obj['claimParameters'] = ClaimParameters.constructFromObject(data['claimParameters']);
+      }
       if (data.hasOwnProperty('configResources')) {
         obj['configResources'] = ApiClient.convertToType(data['configResources'], [StreamLocation]);
       }
       if (data.hasOwnProperty('creationTime')) {
         obj['creationTime'] = ApiClient.convertToType(data['creationTime'], 'Date');
+      }
+      if (data.hasOwnProperty('credentials')) {
+        obj['credentials'] = Credentials.constructFromObject(data['credentials']);
       }
       if (data.hasOwnProperty('configId')) {
         obj['configId'] = ApiClient.convertToType(data['configId'], 'String');
@@ -99,6 +107,10 @@
   }
 
   /**
+   * @member {module:SphereonSDKPdfStamper/model/ClaimParameters} claimParameters
+   */
+  exports.prototype['claimParameters'] = undefined;
+  /**
    * Any registered resource used by the configuration
    * @member {Array.<module:SphereonSDKPdfStamper/model/StreamLocation>} configResources
    */
@@ -108,6 +120,10 @@
    * @member {Date} creationTime
    */
   exports.prototype['creationTime'] = undefined;
+  /**
+   * @member {module:SphereonSDKPdfStamper/model/Credentials} credentials
+   */
+  exports.prototype['credentials'] = undefined;
   /**
    * The configuration id
    * @member {String} configId

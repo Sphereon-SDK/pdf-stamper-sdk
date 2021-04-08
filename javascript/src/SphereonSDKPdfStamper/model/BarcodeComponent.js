@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -42,19 +42,18 @@
 
   /**
    * Constructs a new <code>BarcodeComponent</code>.
-   * A barcode component to stamp a barcode on a pdf
+   * A barcode component to stamp a barcode or QR code on a pdf
    * @alias module:SphereonSDKPdfStamper/model/BarcodeComponent
    * @class
    * @extends module:SphereonSDKPdfStamper/model/StampComponent
-   * @param type {String} The discriminator type for serialization of the different components
    * @param barcodeFormat {module:SphereonSDKPdfStamper/model/BarcodeComponent.BarcodeFormatEnum} The barcode format to generate
    * @param width {Number} The preferred width in pixels
    * @param content {String} The contents to encode in the barcode
    * @param height {Number} The preferred height in pixels
    */
-  var exports = function(type, barcodeFormat, width, content, height) {
+  var exports = function(barcodeFormat, width, content, height) {
     var _this = this;
-    StampComponent.call(_this, type);
+    StampComponent.call(_this);
 
     _this['barcodeFormat'] = barcodeFormat;
     _this['width'] = width;

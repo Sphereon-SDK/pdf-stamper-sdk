@@ -4,7 +4,7 @@
     <groupId>com.sphereon.sdk</groupId>
     <artifactId>pdf-stamper-sdk-generator</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>PDF Stamper API SDK Generator</name>
 
     <properties>
@@ -13,11 +13,11 @@
         <sdk-package>com.sphereon.sdk.pdf.stamper</sdk-package>
         <sdk-package-javascript>SphereonSDKPdfStamper</sdk-package-javascript>
         <sdk-package-csharp>Sphereon.SDK.Pdf.Stamper</sdk-package-csharp>
-        <sdk-package-version>1.0.1</sdk-package-version>
-        <sdk-package-version_java>v1_0_1</sdk-package-version_java>
+        <sdk-package-version>1.0.2</sdk-package-version>
+        <sdk-package-version_java>v1_0_2</sdk-package-version_java>
 
-        <swagger-coden-maven-plugin.version>2.3.1</swagger-coden-maven-plugin.version>
-        <swagger-coden-verbose>false</swagger-coden-verbose>
+        <swagger-codegen-maven-plugin.version>2.3.1</swagger-codegen-maven-plugin.version>
+        <swagger-codegen-verbose>false</swagger-codegen-verbose>
         <project.encoding>UTF-8</project.encoding>
 
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
@@ -27,11 +27,11 @@
     <distributionManagement>
         <repository>
             <id>sphereon-sdk-releases</id>
-            <url>http://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-releases</url>
+            <url>https://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-releases</url>
         </repository>
         <snapshotRepository>
             <id>sphereon-sdk-snapshots</id>
-            <url>http://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-snapshots</url>
+            <url>https://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
     <scm>
@@ -48,7 +48,7 @@
                     <plugin>
                         <groupId>io.swagger</groupId>
                         <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>${swagger-coden-maven-plugin.version}</version>
+                        <version>${swagger-codegen-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -60,7 +60,7 @@
                                     <configOptions>
                                         <dateLibrary>java8</dateLibrary>
                                     </configOptions>
-                                    <verbose>${swagger-coden-verbose}</verbose>
+                                    <verbose>${swagger-codegen-verbose}</verbose>
                                     <output>${project.basedir}/html-docs</output>
                                     <groupId>com.sphereon.sdk</groupId>
                                     <artifactId>${sdk-artifact-prefix}-html-docs</artifactId>
@@ -84,7 +84,7 @@
                     <plugin>
                         <groupId>io.swagger</groupId>
                         <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>${swagger-coden-maven-plugin.version}</version>
+                        <version>${swagger-codegen-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -97,10 +97,10 @@
                                         <dateLibrary>java8</dateLibrary>
                                     </configOptions>
                                     <library>okhttp-gson</library>
-                                    <verbose>${swagger-coden-verbose}</verbose>
+                                    <verbose>${swagger-codegen-verbose}</verbose>
                                     <output>${project.basedir}/java8-okhttp-gson</output>
                                     <groupId>com.sphereon.sdk</groupId>
-                                    <artifactId>${sdk-artifact-prefix}-java8-okhttp-gson</artifactId>
+                                    <artifactId>pdfstamper-java8-okhttp-gson</artifactId>
                                     <artifactVersion>${project.version}</artifactVersion>
                                     <addCompileSourceRoot>true</addCompileSourceRoot>
                                     <apiPackage>${sdk-package}.api</apiPackage>
@@ -120,7 +120,7 @@
                     <plugin>
                         <groupId>io.swagger</groupId>
                         <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>${swagger-coden-maven-plugin.version}</version>
+                        <version>${swagger-codegen-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -132,7 +132,7 @@
                                     <configOptions>
                                         <dateLibrary>java8</dateLibrary>
                                     </configOptions>
-                                    <verbose>${swagger-coden-verbose}</verbose>
+                                    <verbose>${swagger-codegen-verbose}</verbose>
                                     <output>${project.basedir}/javascript</output>
                                     <groupId>com.sphereon.sdk</groupId>
                                     <artifactId>${sdk-artifact-prefix}-javascript</artifactId>
@@ -156,7 +156,7 @@
                     <plugin>
                         <groupId>io.swagger</groupId>
                         <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>${swagger-coden-maven-plugin.version}</version>
+                        <version>${swagger-codegen-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -169,7 +169,7 @@
                                         <dateLibrary>java8</dateLibrary>
                                         <ngVersion>5.1.1</ngVersion>
                                     </configOptions>
-                                    <verbose>${swagger-coden-verbose}</verbose>
+                                    <verbose>${swagger-codegen-verbose}</verbose>
                                     <output>${project.basedir}/typescript-angular2/sdk</output>
                                     <groupId>com.sphereon.sdk</groupId>
                                     <artifactId>${sdk-artifact-prefix}-angular2</artifactId>
@@ -193,7 +193,7 @@
                     <plugin>
                         <groupId>io.swagger</groupId>
                         <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>${swagger-coden-maven-plugin.version}</version>
+                        <version>${swagger-codegen-maven-plugin.version}</version>
 
                         <executions>
 
@@ -216,7 +216,7 @@
                                         <packageVersion>${sdk-package-version}</packageVersion>
                                     </configOptions>
                                     <configurationFile>src/main/resources/config/csharp-net45.json</configurationFile>
-                                    <verbose>${swagger-coden-verbose}</verbose>
+                                    <verbose>${swagger-codegen-verbose}</verbose>
                                     <output>${project.basedir}/csharp-net45</output>
                                     <groupId>com.sphereon.sdk</groupId>
                                     <artifactId>${sdk-artifact-prefix}-csharp-net45</artifactId>
@@ -240,7 +240,7 @@
                     <plugin>
                         <groupId>io.swagger</groupId>
                         <artifactId>swagger-codegen-maven-plugin</artifactId>
-                        <version>${swagger-coden-maven-plugin.version}</version>
+                        <version>${swagger-codegen-maven-plugin.version}</version>
                         <executions>
                             <execution>
                                 <goals>
@@ -262,7 +262,7 @@
                                         <targetFramework>v3.5</targetFramework>
                                     </configOptions>
                                     <configurationFile>src/main/resources/config/csharp-net35.json</configurationFile>
-                                    <verbose>${swagger-coden-verbose}</verbose>
+                                    <verbose>${swagger-codegen-verbose}</verbose>
                                     <output>${project.basedir}/csharp-net35</output>
                                     <groupId>com.sphereon.sdk</groupId>
                                     <artifactId>${sdk-artifact-prefix}-csharp-net35</artifactId>

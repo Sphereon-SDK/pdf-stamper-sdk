@@ -3,8 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **String** | Use one of the common predefined colors | [optional] 
-**rgbValue** | [**RGBValue**](RGBValue.md) | Use a color that is composed out of the red, green and blue values | [optional] 
+**name** | **String** | Use one of the common predefined colors, alternatively provide an RGB value in the respective field. | [optional] 
+**rgbValue** | [**RGBValue**](RGBValue.md) | Use a color that is composed out of the red, green and blue values. Alternatively use a predefined color for the respective field. | [optional] 
 
 
 <a name="NameEnum"></a>

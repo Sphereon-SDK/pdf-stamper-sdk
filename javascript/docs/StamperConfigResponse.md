@@ -3,8 +3,10 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**claimParameters** | [**ClaimParameters**](ClaimParameters.md) |  | [optional] 
 **configResources** | [**[StreamLocation]**](StreamLocation.md) | Any registered resource used by the configuration | [optional] 
 **creationTime** | **Date** | The creation date/time of the initial configuration in ISO 8601 format | [optional] 
+**credentials** | [**Credentials**](Credentials.md) |  | [optional] 
 **configId** | **String** | The configuration id | [optional] 
 **name** | **String** | An optional configuration name | [optional] 
 **updateTime** | **Date** | The last update date/time of this configuration in ISO 8601 format | [optional] 

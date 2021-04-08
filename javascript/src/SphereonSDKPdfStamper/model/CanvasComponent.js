@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -45,11 +45,11 @@
    * A canvas space interconnecting zones on the page to stamp components
    * @alias module:SphereonSDKPdfStamper/model/CanvasComponent
    * @class
-   * @param pageSelector {module:SphereonSDKPdfStamper/model/CanvasComponent.PageSelectorEnum} Prescribes the page the component needs to be overlay-ed
+   * @param pageSelector {module:SphereonSDKPdfStamper/model/CanvasComponent.PageSelectorEnum} Prescribes the page(s) the component needs to be overlay-ed on.
    * @param pageOperation {module:SphereonSDKPdfStamper/model/CanvasComponent.PageOperationEnum} The operation that should be executed with the stamp component
-   * @param type {String} The discriminator type for serialization of the different components
+   * @param position {module:SphereonSDKPdfStamper/model/CanvasComponent.PositionEnum} The position where the stamp end up relative to existing content. Only foreground is supported for now
    */
-  var exports = function(pageSelector, pageOperation, type) {
+  var exports = function(pageSelector, pageOperation, position) {
     var _this = this;
 
 
@@ -58,7 +58,7 @@
     _this['pageSelector'] = pageSelector;
 
     _this['pageOperation'] = pageOperation;
-    _this['type'] = type;
+    _this['position'] = position;
   };
 
   /**
@@ -90,8 +90,8 @@
       if (data.hasOwnProperty('pageOperation')) {
         obj['pageOperation'] = ApiClient.convertToType(data['pageOperation'], 'String');
       }
-      if (data.hasOwnProperty('type')) {
-        obj['type'] = ApiClient.convertToType(data['type'], 'String');
+      if (data.hasOwnProperty('position')) {
+        obj['position'] = ApiClient.convertToType(data['position'], 'String');
       }
     }
     return obj;
@@ -112,7 +112,7 @@
    */
   exports.prototype['connectors'] = undefined;
   /**
-   * Prescribes the page the component needs to be overlay-ed
+   * Prescribes the page(s) the component needs to be overlay-ed on.
    * @member {module:SphereonSDKPdfStamper/model/CanvasComponent.PageSelectorEnum} pageSelector
    */
   exports.prototype['pageSelector'] = undefined;
@@ -127,10 +127,10 @@
    */
   exports.prototype['pageOperation'] = undefined;
   /**
-   * The discriminator type for serialization of the different components
-   * @member {String} type
+   * The position where the stamp end up relative to existing content. Only foreground is supported for now
+   * @member {module:SphereonSDKPdfStamper/model/CanvasComponent.PositionEnum} position
    */
-  exports.prototype['type'] = undefined;
+  exports.prototype['position'] = undefined;
 
 
   /**
@@ -181,6 +181,23 @@
      * @const
      */
     "STAMP": "STAMP"  };
+
+  /**
+   * Allowed values for the <code>position</code> property.
+   * @enum {String}
+   * @readonly
+   */
+  exports.PositionEnum = {
+    /**
+     * value: "FOREGROUND"
+     * @const
+     */
+    "FOREGROUND": "FOREGROUND",
+    /**
+     * value: "BACKGROUND"
+     * @const
+     */
+    "BACKGROUND": "BACKGROUND"  };
 
 
   return exports;

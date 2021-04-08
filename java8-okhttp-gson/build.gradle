@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 group = 'com.sphereon.sdk'
-version = '0.1.0-SNAPSHOT'
+version = '1.0.2-SNAPSHOT'
 
 buildscript {
     repositories {
@@ -83,7 +83,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'com.sphereon.sdk.pdf.stamper-java8-okhttp-gson'
+            pom.artifactId = 'pdfstamper-java8-okhttp-gson'
         }
     }
 

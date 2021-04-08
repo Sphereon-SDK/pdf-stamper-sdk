@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -59,18 +59,12 @@
     /**
      * Execute a synchronous stamp job with a content request/response.
      * Execute a synchronous stamp job using the given configId. Header parameters will be parsed for additional template variables.
-     * @param {String} configId The PDF stamper configuration id
      * @param {module:SphereonSDKPdfStamper/model/ContentRequest} contentRequest File content
      * @param {module:SphereonSDKPdfStamper/api/SynchronousApi~syncJobContentCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link module:SphereonSDKPdfStamper/model/ContentResponse}
      */
-    this.syncJobContent = function(configId, contentRequest, callback) {
+    this.syncJobContent = function(contentRequest, callback) {
       var postBody = contentRequest;
-
-      // verify the required parameter 'configId' is set
-      if (configId === undefined || configId === null) {
-        throw new Error("Missing the required parameter 'configId' when calling syncJobContent");
-      }
 
       // verify the required parameter 'contentRequest' is set
       if (contentRequest === undefined || contentRequest === null) {
@@ -79,7 +73,6 @@
 
 
       var pathParams = {
-        'configId': configId
       };
       var queryParams = {
       };

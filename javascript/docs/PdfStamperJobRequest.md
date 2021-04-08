@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **resultSettings** | [**ResultSettings**](ResultSettings.md) | The result file and lifecycle settings | [optional] 
 **configIds** | **[String]** | A list of configuration ids that have to be applied during executing the job. | 
 **inputResults** | [**[InputResultLocation]**](InputResultLocation.md) | The input(s) and optional result(s) | 
+**formFields** | **{String: String}** | A map with key-values used to input values in a PDF form. | [optional] 
 **inputSettings** | [**InputSettings**](InputSettings.md) | The input file and lifecycle settings | [optional] 
 
 

@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -44,15 +44,13 @@
    * Constructs a new <code>StampComponent</code>.
    * @alias module:SphereonSDKPdfStamper/model/StampComponent
    * @class
-   * @param type {String} The discriminator type for serialization of the different components
    */
-  var exports = function(type) {
+  var exports = function() {
     var _this = this;
 
 
 
 
-    _this['type'] = type;
   };
 
   /**
@@ -75,9 +73,6 @@
       if (data.hasOwnProperty('offset')) {
         obj['offset'] = Point.constructFromObject(data['offset']);
       }
-      if (data.hasOwnProperty('type')) {
-        obj['type'] = ApiClient.convertToType(data['type'], 'String');
-      }
     }
     return obj;
   }
@@ -97,11 +92,6 @@
    * @member {module:SphereonSDKPdfStamper/model/Point} offset
    */
   exports.prototype['offset'] = undefined;
-  /**
-   * The discriminator type for serialization of the different components
-   * @member {String} type
-   */
-  exports.prototype['type'] = undefined;
 
 
 

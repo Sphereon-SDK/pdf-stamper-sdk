@@ -4,6 +4,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **color** | [**Color**](Color.md) | The color of the border | 
-**thickness** | **Number** | The thickness of the border line | [optional] 
+**thickness** | **Number** | The thickness of the border line, which is 1 by default | [optional] 
 
 

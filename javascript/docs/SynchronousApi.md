@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 <a name="syncJobContent"></a>
 # **syncJobContent**
-> ContentResponse syncJobContent(configId, contentRequest)
+> ContentResponse syncJobContent(contentRequest)
 
 Execute a synchronous stamp job with a content request/response.
 
@@ -27,8 +27,6 @@ oauth2schema.accessToken = 'YOUR ACCESS TOKEN';
 
 var apiInstance = new PdfStamper.SynchronousApi();
 
-var configId = "configId_example"; // String | The PDF stamper configuration id
-
 var contentRequest = new PdfStamper.ContentRequest(); // ContentRequest | File content
 
 
@@ -39,14 +37,13 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-apiInstance.syncJobContent(configId, contentRequest, callback);
+apiInstance.syncJobContent(contentRequest, callback);
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **configId** | **String**| The PDF stamper configuration id | 
  **contentRequest** | [**ContentRequest**](ContentRequest.md)| File content | 
 
 ### Return type

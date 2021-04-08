@@ -3,9 +3,9 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**unit** | **String** |  | [optional] 
-**x** | **Number** |  | 
-**y** | **Number** |  | 
+**unit** | **String** | The unit (pt) | 
+**x** | **Number** | X coordinate | 
+**y** | **Number** | Y coordinate | 
 
 
 <a name="UnitEnum"></a>

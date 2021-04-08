@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -17,16 +17,16 @@
 (function(factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['SphereonSDKPdfStamper/ApiClient', 'SphereonSDKPdfStamper/model/BlockchainConfig', 'SphereonSDKPdfStamper/model/Border', 'SphereonSDKPdfStamper/model/CanvasComponent', 'SphereonSDKPdfStamper/model/Color', 'SphereonSDKPdfStamper/model/Connector', 'SphereonSDKPdfStamper/model/ContentRequest', 'SphereonSDKPdfStamper/model/ContentResponse', 'SphereonSDKPdfStamper/model/DefaultJobSettings', 'SphereonSDKPdfStamper/model/Dimension', 'SphereonSDKPdfStamper/model/Error', 'SphereonSDKPdfStamper/model/ErrorResponse', 'SphereonSDKPdfStamper/model/InputResultLocation', 'SphereonSDKPdfStamper/model/InputSettings', 'SphereonSDKPdfStamper/model/Lifecycle', 'SphereonSDKPdfStamper/model/PdfStamperJobRequest', 'SphereonSDKPdfStamper/model/PdfStamperJobResult', 'SphereonSDKPdfStamper/model/Point', 'SphereonSDKPdfStamper/model/RGBValue', 'SphereonSDKPdfStamper/model/ResultSettings', 'SphereonSDKPdfStamper/model/StampComponent', 'SphereonSDKPdfStamper/model/StamperConfig', 'SphereonSDKPdfStamper/model/StamperConfigResponse', 'SphereonSDKPdfStamper/model/StorageLocation', 'SphereonSDKPdfStamper/model/StreamLocation', 'SphereonSDKPdfStamper/model/BarcodeComponent', 'SphereonSDKPdfStamper/model/BlockchainProofComponent', 'SphereonSDKPdfStamper/model/HyperlinkComponent', 'SphereonSDKPdfStamper/model/ImageComponent', 'SphereonSDKPdfStamper/model/LineComponent', 'SphereonSDKPdfStamper/model/TextComponent', 'SphereonSDKPdfStamper/api/ConfigApi', 'SphereonSDKPdfStamper/api/JobsApi', 'SphereonSDKPdfStamper/api/SynchronousApi'], factory);
+    define(['SphereonSDKPdfStamper/ApiClient', 'SphereonSDKPdfStamper/model/BlockchainConfig', 'SphereonSDKPdfStamper/model/Border', 'SphereonSDKPdfStamper/model/CanvasComponent', 'SphereonSDKPdfStamper/model/CertificateSettings', 'SphereonSDKPdfStamper/model/ClaimParameters', 'SphereonSDKPdfStamper/model/Color', 'SphereonSDKPdfStamper/model/Connector', 'SphereonSDKPdfStamper/model/ContentRequest', 'SphereonSDKPdfStamper/model/ContentResponse', 'SphereonSDKPdfStamper/model/Credentials', 'SphereonSDKPdfStamper/model/DefaultJobSettings', 'SphereonSDKPdfStamper/model/Dimension', 'SphereonSDKPdfStamper/model/Error', 'SphereonSDKPdfStamper/model/ErrorResponse', 'SphereonSDKPdfStamper/model/InputResultLocation', 'SphereonSDKPdfStamper/model/InputSettings', 'SphereonSDKPdfStamper/model/Lifecycle', 'SphereonSDKPdfStamper/model/PdfStamperJobRequest', 'SphereonSDKPdfStamper/model/PdfStamperJobResult', 'SphereonSDKPdfStamper/model/Point', 'SphereonSDKPdfStamper/model/RGBValue', 'SphereonSDKPdfStamper/model/ResultSettings', 'SphereonSDKPdfStamper/model/StampComponent', 'SphereonSDKPdfStamper/model/StamperConfig', 'SphereonSDKPdfStamper/model/StamperConfigResponse', 'SphereonSDKPdfStamper/model/StorageLocation', 'SphereonSDKPdfStamper/model/StreamLocation', 'SphereonSDKPdfStamper/model/VisibleSignature', 'SphereonSDKPdfStamper/model/BarcodeComponent', 'SphereonSDKPdfStamper/model/BlockchainProofComponent', 'SphereonSDKPdfStamper/model/HyperlinkComponent', 'SphereonSDKPdfStamper/model/ImageComponent', 'SphereonSDKPdfStamper/model/LineComponent', 'SphereonSDKPdfStamper/model/PdfSignatureComponent', 'SphereonSDKPdfStamper/model/TextComponent', 'SphereonSDKPdfStamper/api/ConfigApi', 'SphereonSDKPdfStamper/api/JobsApi', 'SphereonSDKPdfStamper/api/SynchronousApi'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('./ApiClient'), require('./model/BlockchainConfig'), require('./model/Border'), require('./model/CanvasComponent'), require('./model/Color'), require('./model/Connector'), require('./model/ContentRequest'), require('./model/ContentResponse'), require('./model/DefaultJobSettings'), require('./model/Dimension'), require('./model/Error'), require('./model/ErrorResponse'), require('./model/InputResultLocation'), require('./model/InputSettings'), require('./model/Lifecycle'), require('./model/PdfStamperJobRequest'), require('./model/PdfStamperJobResult'), require('./model/Point'), require('./model/RGBValue'), require('./model/ResultSettings'), require('./model/StampComponent'), require('./model/StamperConfig'), require('./model/StamperConfigResponse'), require('./model/StorageLocation'), require('./model/StreamLocation'), require('./model/BarcodeComponent'), require('./model/BlockchainProofComponent'), require('./model/HyperlinkComponent'), require('./model/ImageComponent'), require('./model/LineComponent'), require('./model/TextComponent'), require('./api/ConfigApi'), require('./api/JobsApi'), require('./api/SynchronousApi'));
+    module.exports = factory(require('./ApiClient'), require('./model/BlockchainConfig'), require('./model/Border'), require('./model/CanvasComponent'), require('./model/CertificateSettings'), require('./model/ClaimParameters'), require('./model/Color'), require('./model/Connector'), require('./model/ContentRequest'), require('./model/ContentResponse'), require('./model/Credentials'), require('./model/DefaultJobSettings'), require('./model/Dimension'), require('./model/Error'), require('./model/ErrorResponse'), require('./model/InputResultLocation'), require('./model/InputSettings'), require('./model/Lifecycle'), require('./model/PdfStamperJobRequest'), require('./model/PdfStamperJobResult'), require('./model/Point'), require('./model/RGBValue'), require('./model/ResultSettings'), require('./model/StampComponent'), require('./model/StamperConfig'), require('./model/StamperConfigResponse'), require('./model/StorageLocation'), require('./model/StreamLocation'), require('./model/VisibleSignature'), require('./model/BarcodeComponent'), require('./model/BlockchainProofComponent'), require('./model/HyperlinkComponent'), require('./model/ImageComponent'), require('./model/LineComponent'), require('./model/PdfSignatureComponent'), require('./model/TextComponent'), require('./api/ConfigApi'), require('./api/JobsApi'), require('./api/SynchronousApi'));
   }
-}(function(ApiClient, BlockchainConfig, Border, CanvasComponent, Color, Connector, ContentRequest, ContentResponse, DefaultJobSettings, Dimension, Error, ErrorResponse, InputResultLocation, InputSettings, Lifecycle, PdfStamperJobRequest, PdfStamperJobResult, Point, RGBValue, ResultSettings, StampComponent, StamperConfig, StamperConfigResponse, StorageLocation, StreamLocation, BarcodeComponent, BlockchainProofComponent, HyperlinkComponent, ImageComponent, LineComponent, TextComponent, ConfigApi, JobsApi, SynchronousApi) {
+}(function(ApiClient, BlockchainConfig, Border, CanvasComponent, CertificateSettings, ClaimParameters, Color, Connector, ContentRequest, ContentResponse, Credentials, DefaultJobSettings, Dimension, Error, ErrorResponse, InputResultLocation, InputSettings, Lifecycle, PdfStamperJobRequest, PdfStamperJobResult, Point, RGBValue, ResultSettings, StampComponent, StamperConfig, StamperConfigResponse, StorageLocation, StreamLocation, VisibleSignature, BarcodeComponent, BlockchainProofComponent, HyperlinkComponent, ImageComponent, LineComponent, PdfSignatureComponent, TextComponent, ConfigApi, JobsApi, SynchronousApi) {
   'use strict';
 
   /**
-   * The_PDF_Stamper_API_enables_the_possibility_to_add_both_static_and_dynamic_stamps_on_existing_PDFs__The_stamps_can_consist_of_one_or_more_barcode_hyperlink_image_line_or_text_elements_The_flow_is_generally_as_follows1__Make_a_configuration_containing_the_stamp_information2__Create_a_job_specifying_the_desired_configuration3__Add_one_or_more_PDF_files_to_the_job4__Start_the_job_for_processing5__Retrieve_the_processed_filesFull_API_Documentation_httpsdocs_sphereon_comapipdf_stamper1_0Interactive_testing_A_web_based_test_console_is_available_in_the_Sphereon_API_Store_at_httpsstore_sphereon_com.<br>
+   * The_PDF_Stamper_API_enables_the_possibility_to_add_both_static_and_dynamic_stamps_on_existing_PDFs__The_stamps_can_consist_of_one_or_more_barcode_hyperlink_image_line_or_text_elements__The_API_also_supports_digital_signatures__blue_bar_blockchain_registrations_and_filling_out_formsThe_flow_is_generally_as_follows1__Make_a_configuration_containing_the_stamp_information2__Create_a_job_specifying_the_desired_configuration3__Add_one_or_more_PDF_files_to_the_job4__Start_the_job_for_processing5__Retrieve_the_processed_filesFull_API_Documentation_httpsdocs_sphereon_comapipdf_stamper1_0Interactive_testing_A_web_based_test_console_is_available_in_the_Sphereon_API_Store_at_httpsstore_sphereon_com.<br>
    * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
    * <p>
    * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
@@ -78,6 +78,16 @@
      */
     CanvasComponent: CanvasComponent,
     /**
+     * The CertificateSettings model constructor.
+     * @property {module:SphereonSDKPdfStamper/model/CertificateSettings}
+     */
+    CertificateSettings: CertificateSettings,
+    /**
+     * The ClaimParameters model constructor.
+     * @property {module:SphereonSDKPdfStamper/model/ClaimParameters}
+     */
+    ClaimParameters: ClaimParameters,
+    /**
      * The Color model constructor.
      * @property {module:SphereonSDKPdfStamper/model/Color}
      */
@@ -97,6 +107,11 @@
      * @property {module:SphereonSDKPdfStamper/model/ContentResponse}
      */
     ContentResponse: ContentResponse,
+    /**
+     * The Credentials model constructor.
+     * @property {module:SphereonSDKPdfStamper/model/Credentials}
+     */
+    Credentials: Credentials,
     /**
      * The DefaultJobSettings model constructor.
      * @property {module:SphereonSDKPdfStamper/model/DefaultJobSettings}
@@ -183,6 +198,11 @@
      */
     StreamLocation: StreamLocation,
     /**
+     * The VisibleSignature model constructor.
+     * @property {module:SphereonSDKPdfStamper/model/VisibleSignature}
+     */
+    VisibleSignature: VisibleSignature,
+    /**
      * The BarcodeComponent model constructor.
      * @property {module:SphereonSDKPdfStamper/model/BarcodeComponent}
      */
@@ -207,6 +227,11 @@
      * @property {module:SphereonSDKPdfStamper/model/LineComponent}
      */
     LineComponent: LineComponent,
+    /**
+     * The PdfSignatureComponent model constructor.
+     * @property {module:SphereonSDKPdfStamper/model/PdfSignatureComponent}
+     */
+    PdfSignatureComponent: PdfSignatureComponent,
     /**
      * The TextComponent model constructor.
      * @property {module:SphereonSDKPdfStamper/model/TextComponent}

@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -17,18 +17,18 @@
 (function(root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module.
-    define(['SphereonSDKPdfStamper/ApiClient', 'SphereonSDKPdfStamper/model/BlockchainConfig', 'SphereonSDKPdfStamper/model/CanvasComponent', 'SphereonSDKPdfStamper/model/DefaultJobSettings', 'SphereonSDKPdfStamper/model/StorageLocation'], factory);
+    define(['SphereonSDKPdfStamper/ApiClient', 'SphereonSDKPdfStamper/model/BlockchainConfig', 'SphereonSDKPdfStamper/model/CanvasComponent', 'SphereonSDKPdfStamper/model/DefaultJobSettings', 'SphereonSDKPdfStamper/model/PdfSignatureComponent', 'SphereonSDKPdfStamper/model/StorageLocation'], factory);
   } else if (typeof module === 'object' && module.exports) {
     // CommonJS-like environments that support module.exports, like Node.
-    module.exports = factory(require('../ApiClient'), require('./BlockchainConfig'), require('./CanvasComponent'), require('./DefaultJobSettings'), require('./StorageLocation'));
+    module.exports = factory(require('../ApiClient'), require('./BlockchainConfig'), require('./CanvasComponent'), require('./DefaultJobSettings'), require('./PdfSignatureComponent'), require('./StorageLocation'));
   } else {
     // Browser globals (root is window)
     if (!root.PdfStamper) {
       root.PdfStamper = {};
     }
-    root.PdfStamper.StamperConfig = factory(root.PdfStamper.ApiClient, root.PdfStamper.BlockchainConfig, root.PdfStamper.CanvasComponent, root.PdfStamper.DefaultJobSettings, root.PdfStamper.StorageLocation);
+    root.PdfStamper.StamperConfig = factory(root.PdfStamper.ApiClient, root.PdfStamper.BlockchainConfig, root.PdfStamper.CanvasComponent, root.PdfStamper.DefaultJobSettings, root.PdfStamper.PdfSignatureComponent, root.PdfStamper.StorageLocation);
   }
-}(this, function(ApiClient, BlockchainConfig, CanvasComponent, DefaultJobSettings, StorageLocation) {
+}(this, function(ApiClient, BlockchainConfig, CanvasComponent, DefaultJobSettings, PdfSignatureComponent, StorageLocation) {
   'use strict';
 
 
@@ -45,15 +45,16 @@
    * The PDF stamper configuration
    * @alias module:SphereonSDKPdfStamper/model/StamperConfig
    * @class
+   * @param canvasComponents {Array.<module:SphereonSDKPdfStamper/model/CanvasComponent>} The canvas components containing the information of the stamp
    */
-  var exports = function() {
+  var exports = function(canvasComponents) {
     var _this = this;
 
 
 
 
 
-
+    _this['canvasComponents'] = canvasComponents;
   };
 
   /**
@@ -67,6 +68,9 @@
     if (data) {
       obj = obj || new exports();
 
+      if (data.hasOwnProperty('signatureComponent')) {
+        obj['signatureComponent'] = PdfSignatureComponent.constructFromObject(data['signatureComponent']);
+      }
       if (data.hasOwnProperty('blockchainConfig')) {
         obj['blockchainConfig'] = BlockchainConfig.constructFromObject(data['blockchainConfig']);
       }
@@ -76,9 +80,6 @@
       if (data.hasOwnProperty('configResourcesLocation')) {
         obj['configResourcesLocation'] = StorageLocation.constructFromObject(data['configResourcesLocation']);
       }
-      if (data.hasOwnProperty('fields')) {
-        obj['fields'] = ApiClient.convertToType(data['fields'], {'String': 'String'});
-      }
       if (data.hasOwnProperty('canvasComponents')) {
         obj['canvasComponents'] = ApiClient.convertToType(data['canvasComponents'], [CanvasComponent]);
       }
@@ -86,6 +87,11 @@
     return obj;
   }
 
+  /**
+   * Optional PDF signature component. Adds a PDF signature to the PDF document. 
+   * @member {module:SphereonSDKPdfStamper/model/PdfSignatureComponent} signatureComponent
+   */
+  exports.prototype['signatureComponent'] = undefined;
   /**
    * Optional blockchain proof configuration. This is applicable to all stamps created using this configuration. 
    * @member {module:SphereonSDKPdfStamper/model/BlockchainConfig} blockchainConfig
@@ -101,11 +107,6 @@
    * @member {module:SphereonSDKPdfStamper/model/StorageLocation} configResourcesLocation
    */
   exports.prototype['configResourcesLocation'] = undefined;
-  /**
-   * The form fields that should be filled
-   * @member {Object.<String, String>} fields
-   */
-  exports.prototype['fields'] = undefined;
   /**
    * The canvas components containing the information of the stamp
    * @member {Array.<module:SphereonSDKPdfStamper/model/CanvasComponent>} canvasComponents

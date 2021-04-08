@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -46,7 +46,7 @@
    * @alias module:SphereonSDKPdfStamper/model/BlockchainConfig
    * @class
    * @param blockchainAnchors {Array.<module:SphereonSDKPdfStamper/model/BlockchainConfig.BlockchainAnchorsEnum>} The states at which to create a blockchain anchor. This can be the original file (before stamp)the stamped file, or both
-   * @param proofConfigName {String} The blockchain proof configuration name to use
+   * @param proofConfigName {String} The blockchain proof configuration name to use. The name has to be created in the blockchain-proof API
    */
   var exports = function(blockchainAnchors, proofConfigName) {
     var _this = this;
@@ -82,7 +82,7 @@
    */
   exports.prototype['blockchainAnchors'] = undefined;
   /**
-   * The blockchain proof configuration name to use
+   * The blockchain proof configuration name to use. The name has to be created in the blockchain-proof API
    * @member {String} proofConfigName
    */
   exports.prototype['proofConfigName'] = undefined;

@@ -5,7 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **storageMode** | **String** | Storage mode. Can be a configured storage location on the storage API, a job id folder in the supplied storage location or completely replacing the input files (streamlocations). | 
 **storageLocation** | [**StorageLocation**](StorageLocation.md) | Result Storage location | [optional] 
-**lifecycles** | [**[Lifecycle]**](Lifecycle.md) | The lifecycle of result files | [optional] 
+**lifecycles** | [**[Lifecycle]**](Lifecycle.md) | The lifecycles of result files | [optional] 
 
 
 <a name="StorageModeEnum"></a>

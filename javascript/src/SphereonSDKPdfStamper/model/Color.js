@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -75,12 +75,12 @@
   }
 
   /**
-   * Use one of the common predefined colors
+   * Use one of the common predefined colors, alternatively provide an RGB value in the respective field.
    * @member {module:SphereonSDKPdfStamper/model/Color.NameEnum} name
    */
   exports.prototype['name'] = undefined;
   /**
-   * Use a color that is composed out of the red, green and blue values
+   * Use a color that is composed out of the red, green and blue values. Alternatively use a predefined color for the respective field.
    * @member {module:SphereonSDKPdfStamper/model/RGBValue} rgbValue
    */
   exports.prototype['rgbValue'] = undefined;

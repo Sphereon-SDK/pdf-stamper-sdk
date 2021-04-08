@@ -6,10 +6,10 @@ Name | Type | Description | Notes
 **border** | [**Border**](Border.md) | The border of the component | [optional] 
 **specificPages** | **[Number]** |  | [optional] 
 **connectors** | [**[Connector]**](Connector.md) | Connectors containing components that can be positioned relative to this component | [optional] 
-**pageSelector** | **String** | Prescribes the page the component needs to be overlay-ed | 
+**pageSelector** | **String** | Prescribes the page(s) the component needs to be overlay-ed on. | 
 **offset** | [**Point**](Point.md) | The offset of the component relative to the parent component | [optional] 
 **pageOperation** | **String** | The operation that should be executed with the stamp component | 
-**type** | **String** | The discriminator type for serialization of the different components | 
+**position** | **String** | The position where the stamp end up relative to existing content. Only foreground is supported for now | 
 
 
 <a name="PageSelectorEnum"></a>
@@ -36,6 +36,17 @@ Name | Type | Description | Notes
 
 
 * `STAMP` (value: `"STAMP"`)
+
+
+
+
+<a name="PositionEnum"></a>
+## Enum: PositionEnum
+
+
+* `FOREGROUND` (value: `"FOREGROUND"`)
+
+* `BACKGROUND` (value: `"BACKGROUND"`)
 
 
 

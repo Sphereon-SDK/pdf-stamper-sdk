@@ -1,4 +1,4 @@
-# com.sphereon.sdk.pdf.stamper-java8-okhttp-gson
+# pdfstamper-java8-okhttp-gson
 
 ## Requirements
 
@@ -22,13 +22,30 @@ Refer to the [official documentation](https://maven.apache.org/plugins/maven-dep
 
 ### Maven users
 
+Add these repositories to your project's POM:
+
+```xml
+<repositories>
+  <!-- If you want to use released versions of the SDK -->
+  <repository>
+    <id>sphereon-sdk-releases</id>
+    <url>https://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-releases/</url>
+  </repository>
+  
+  <!-- If you want to use snapshot versions of the SDK -->
+  <repository>
+    <id>sphereon-sdk-snapshots</id>
+    <url>https://nexus.qa.sphereon.com/nexus/content/repositories/sphereon-sdk-snapshots/</url>
+   </repository>
+</repositories>
+```
 Add this dependency to your project's POM:
 
 ```xml
 <dependency>
     <groupId>com.sphereon.sdk</groupId>
-    <artifactId>com.sphereon.sdk.pdf.stamper-java8-okhttp-gson</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>pdfstamper-java8-okhttp-gson</artifactId>
+    <version>1.0.2-SNAPSHOT</version>
     <scope>compile</scope>
 </dependency>
 ```
@@ -120,10 +137,13 @@ Class | Method | HTTP request | Description
  - [BlockchainConfig](docs/BlockchainConfig.md)
  - [Border](docs/Border.md)
  - [CanvasComponent](docs/CanvasComponent.md)
+ - [CertificateSettings](docs/CertificateSettings.md)
+ - [ClaimParameters](docs/ClaimParameters.md)
  - [Color](docs/Color.md)
  - [Connector](docs/Connector.md)
  - [ContentRequest](docs/ContentRequest.md)
  - [ContentResponse](docs/ContentResponse.md)
+ - [Credentials](docs/Credentials.md)
  - [DefaultJobSettings](docs/DefaultJobSettings.md)
  - [Dimension](docs/Dimension.md)
  - [Error](docs/Error.md)
@@ -141,11 +161,13 @@ Class | Method | HTTP request | Description
  - [StamperConfigResponse](docs/StamperConfigResponse.md)
  - [StorageLocation](docs/StorageLocation.md)
  - [StreamLocation](docs/StreamLocation.md)
+ - [VisibleSignature](docs/VisibleSignature.md)
  - [BarcodeComponent](docs/BarcodeComponent.md)
  - [BlockchainProofComponent](docs/BlockchainProofComponent.md)
  - [HyperlinkComponent](docs/HyperlinkComponent.md)
  - [ImageComponent](docs/ImageComponent.md)
  - [LineComponent](docs/LineComponent.md)
+ - [PdfSignatureComponent](docs/PdfSignatureComponent.md)
  - [TextComponent](docs/TextComponent.md)
 
 

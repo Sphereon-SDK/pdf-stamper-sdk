@@ -1,6 +1,6 @@
 /**
  * PDF stamper
- * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements.    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
+ * The PDF Stamper API enables the possibility to add both static and dynamic stamps on existing PDFs. The stamps can consist of one or more barcode, hyperlink, image, line or text elements. The API also supports digital signatures (blue bar), blockchain registrations and filling out forms    The flow is generally as follows:  1. Make a configuration containing the stamp information  2. Create a job specifying the desired configuration  3. Add one or more PDF files to the job  4. Start the job for processing  5. Retrieve the processed files    Full API Documentation: https://docs.sphereon.com/api/pdf-stamper/1.0  Interactive testing: A web based test console is available in the Sphereon API Store at https://store.sphereon.com
  *
  * OpenAPI spec version: 1.0
  * Contact: dev@sphereon.com
@@ -58,6 +58,7 @@
     _this['configIds'] = configIds;
     _this['inputResults'] = inputResults;
 
+
   };
 
   /**
@@ -88,6 +89,9 @@
       }
       if (data.hasOwnProperty('inputResults')) {
         obj['inputResults'] = ApiClient.convertToType(data['inputResults'], [InputResultLocation]);
+      }
+      if (data.hasOwnProperty('formFields')) {
+        obj['formFields'] = ApiClient.convertToType(data['formFields'], {'String': 'String'});
       }
       if (data.hasOwnProperty('inputSettings')) {
         obj['inputSettings'] = InputSettings.constructFromObject(data['inputSettings']);
@@ -126,6 +130,11 @@
    * @member {Array.<module:SphereonSDKPdfStamper/model/InputResultLocation>} inputResults
    */
   exports.prototype['inputResults'] = undefined;
+  /**
+   * A map with key-values used to input values in a PDF form.
+   * @member {Object.<String, String>} formFields
+   */
+  exports.prototype['formFields'] = undefined;
   /**
    * The input file and lifecycle settings
    * @member {module:SphereonSDKPdfStamper/model/InputSettings} inputSettings
