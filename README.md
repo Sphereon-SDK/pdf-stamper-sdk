@@ -2,11 +2,13 @@
 
 ## Introduction
 
-Welcome to the PDF Stamper SDK. This SDK allows you to stamp barcodes, hyperlinks, images, lines and text on pdfs
+Welcome to the PDF Stamper SDK. This SDK allows you to stamp barcodes, hyperlinks, images, lines and text on pdfs. It also has support for blockchain registrations, digital signatures (blue bar) and filling out PDF forms.
+
+For the full documentation goto https://docs.sphereon.com/api/pdf-stamper/1.0
 
 ## Available SDKs
 
-The SDK currently supports the folowing languages:
+There are SDKs for the following languages:
  * [Java - OkHttp - Gson](java8-okhttp-gson)
  * [Javascript](javascript)
  
@@ -17,7 +19,7 @@ SDKs for the following languages will follow soon:
  * Perl
  * Android
  
-Do you have the need for another language? Please contact us. In many cases we can easily accomidate you.
+Do you have the need for another language? Please contact us. In many cases we can easily accommodate you.
 
 ## Author
 website: [https://sphereon.com](Sphereon.com)

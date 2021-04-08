@@ -59,6 +59,12 @@ public class PdfStamperApiTest {
     public void initClient() {
         ApiClient apiClient = Configuration.getDefaultApiClient();
         String accessToken = System.getenv("sphereon.access.token"); // YOUR ACCESS TOKEN
+        if (accessToken == null) {
+            accessToken = System.getProperty("sphereon.access.token"); // YOUR ACCESS TOKEN
+        }
+        if (accessToken == null) {
+            throw new IllegalArgumentException("Cannot run this test with an access-token set");
+        }
         apiClient.setAccessToken(accessToken);
         apiClient.setConnectTimeout(10000);
         configApi.setApiClient(apiClient);

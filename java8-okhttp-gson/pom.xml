@@ -35,10 +35,10 @@
 
     <developers>
         <developer>
-            <name>Swagger</name>
-            <email>apiteam@swagger.io</email>
-            <organization>Swagger</organization>
-            <organizationUrl>http://swagger.io</organizationUrl>
+            <name>Sphereon Dev team</name>
+            <email>support@sphereon.com</email>
+            <organization>Sphereon B.V.</organization>
+            <organizationUrl>https://ssphereon.com</organizationUrl>
         </developer>
     </developers>
 
