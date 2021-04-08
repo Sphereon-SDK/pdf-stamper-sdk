@@ -34,6 +34,10 @@ import java.util.Collections;
 public class StampPdf {
     // Fill your access key of the Sphereon store
     private static final String accessToken = "<YOUR ACCESS TOKEN>";
+
+    /******************************************/
+    // If you want to use the default supplied certificate you can omit this configuration
+
     // Fill your crypto keys config name
     private static final String cryptoKeysConfigName = "<YOUR CRYPTO KEYS CONFIG NAME>";
     // Fill your tenant of MS Azure
@@ -45,7 +49,9 @@ public class StampPdf {
     // Fill your subscription id of MS Azure
     private static final String azureSubscriptionId = "<YOUR AZURE SUBSCRIPTION UUID>";
 
-    private static final String cryptoKeysApiUrl = "http://gw-dev.api.cloud.sphereon.com/crypto/keys/0.9";
+    private static final String cryptoKeysApiUrl = "https://gw.api.cloud.sphereon.com/crypto/keys/0.9";
+    /******************************************/
+
     private static final ConfigApi configApi = new ConfigApi();
     private static final JobsApi jobsApi = new JobsApi();
 
@@ -58,7 +64,8 @@ public class StampPdf {
         final String configId = createStampConfiguration();
 
         // Create a crypto keys configuration for the signing of the PDF with a certificate.
-        createCryptoKeysConfiguration();
+        // If you want to use the default supplied certificate you can omit this configuration
+        // createCryptoKeysConfiguration();
 
         final File resource = new File(StampPdf.class.getResource("/logo_new.png").getFile());
         final StreamLocation logoStreamLocation = configApi.uploadResource(configId, resource);
@@ -170,6 +177,7 @@ public class StampPdf {
         return configApi.updateConfiguration(configId, config);
     }
 
+    /**
     private static void createCryptoKeysConfiguration() throws IOException {
         // Create connection.
         final URL url = new URL(cryptoKeysApiUrl + "/manage/configs");
@@ -226,6 +234,7 @@ public class StampPdf {
             }
         }
     }
+     */
 
     private static String createJob(final String configId) throws ApiException {
         // Create job request.
